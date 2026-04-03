@@ -136,10 +136,20 @@ export const storage = {
   },
 
   contacts: {
+    getAll: () => storage.get(KEYS.CONTACTS) || [],
     add: (contact) => {
       const all = storage.get(KEYS.CONTACTS) || [];
       all.push({ ...contact, id: Date.now(), date: new Date().toISOString(), status: 'unread' });
       storage.set(KEYS.CONTACTS, all);
+    }
+  },
+
+  emails: {
+    getAll: () => storage.get(KEYS.EMAILS) || [],
+    add: (email) => {
+      const all = storage.get(KEYS.EMAILS) || [];
+      all.push({ email, date: new Date().toISOString() });
+      storage.set(KEYS.EMAILS, all);
     }
   }
 };

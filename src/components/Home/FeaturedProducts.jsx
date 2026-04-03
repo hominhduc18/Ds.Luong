@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { storage } from '../../utils/storage';
 import ProductCard from '../Common/ProductCard';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const FeaturedProducts = () => {
-  const featuredProducts = storage.products.getFeatured();
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
+  useEffect(() => {
+    setFeaturedProducts(storage.products.getFeatured());
+  }, []);
 
   return (
     <section className="py-20 bg-bg" style={{padding: '80px 0', backgroundColor: 'var(--bg)'}}>
