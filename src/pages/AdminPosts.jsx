@@ -115,64 +115,121 @@ const AdminPosts = () => {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm" style={{position: 'fixed', inset: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', padding: '24px'}}>
-           <div className="bg-white w-full max-w-5xl rounded-[40px] shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
-              <div className="p-8 border-b border-gray-100 flex justify-between items-center">
-                 <h3 className="text-2xl font-bold">{editingPost ? 'Sửa Bài Viết' : 'Viết Bài Mới'}</h3>
-                 <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full"><X size={24} /></button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10 bg-black/70 backdrop-blur-md animate-in fade-in duration-300" style={{position: 'fixed', inset: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)', padding: '40px'}}>
+           <div className="bg-white w-full max-w-7xl rounded-[40px] shadow-2xl flex flex-col max-h-[92vh] overflow-hidden border border-white/20 animate-in zoom-in-95 duration-300" style={{backgroundColor: 'white', borderRadius: '40px', display: 'flex', flexDirection: 'column', maxHeight: '92vh', overflow: 'hidden'}}>
+              
+              {/* STICKY HEADER */}
+              <div className="p-8 md:px-12 border-b border-gray-100 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-10" style={{padding: '32px 48px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                 <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center" style={{width: '48px', height: '48px', backgroundColor: 'rgba(212, 163, 115, 0.1)', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                       <Edit3 size={24} />
+                    </div>
+                    <div>
+                       <h3 className="text-2xl font-bold text-secondary" style={{fontSize: '24px', fontWeight: 'bold'}}>{editingPost ? 'Cập Nhật Bài Viết' : 'Soạn Thảo Bài Viết Mới'}</h3>
+                       <p className="text-sm text-gray-400 capitalize" style={{fontSize: '14px', color: '#aaa'}}>{formData.category} • {formData.author}</p>
+                    </div>
+                 </div>
+                 <button onClick={() => setIsModalOpen(false)} className="p-3 hover:bg-red-50 hover:text-red-500 rounded-2xl transition-all" style={{padding: '12px', borderRadius: '16px'}}><X size={28} /></button>
               </div>
 
-              <form onSubmit={handleSave} className="flex-1 overflow-y-auto p-12 space-y-8">
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-2">
-                       <label className="text-sm font-bold text-gray-400 uppercase tracking-widest pl-2">Tiêu Đề Bài Viết *</label>
+              <form onSubmit={handleSave} className="flex-1 overflow-y-auto flex flex-col lg:flex-row gap-0" style={{flex: 1, overflowY: 'auto', display: 'flex'}}>
+                 
+                 {/* LEFT: MAIN CONTENT (Writing Area) */}
+                 <div className="flex-1 p-8 md:p-12 space-y-10 border-r border-gray-50" style={{flex: 2, padding: '48px', borderRight: '1px solid #f9f9f9', display: 'flex', flexDirection: 'column', gap: '40px'}}>
+                    
+                    <div className="space-y-4">
+                       <label className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2" style={{fontSize: '11px', fontWeight: 'bold', color: '#bbb', textTransform: 'uppercase', letterSpacing: '2px'}}><Check size={14} className="text-primary" /> Tiêu Đề Bài Viết</label>
                        <input 
-                         required type="text" className="w-full p-4 bg-bg border-none rounded-2xl outline-none" 
+                         required type="text" 
+                         placeholder="Nhập tiêu đề thu hút..."
+                         className="w-full text-4xl font-bold border-none outline-none focus:ring-0 p-0 text-secondary placeholder:text-gray-100" 
                          value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})}
+                         style={{width: '100%', fontSize: '36px', fontWeight: 'bold', border: 'none', outline: 'none', color: '#1a1a1a'}}
                        />
                     </div>
-                    <div className="space-y-2">
-                       <label className="text-sm font-bold text-gray-400 uppercase tracking-widest pl-2">Danh Mục</label>
+
+                    <div className="space-y-4">
+                       <label className="text-xs font-bold text-gray-400 uppercase tracking-widest" style={{fontSize: '11px', fontWeight: 'bold', color: '#bbb', textTransform: 'uppercase', letterSpacing: '2px'}}>Tóm Tắt Ngắn</label>
+                       <textarea 
+                          placeholder="Mô tả ngắn gọn nội dung bài viết này (hiển thị ở danh sách)..."
+                          className="w-full p-6 bg-bg border-none rounded-3xl outline-none text-lg text-gray-600 italic leading-relaxed" rows="2"
+                          value={formData.excerpt} onChange={(e) => setFormData({...formData, excerpt: e.target.value})}
+                          style={{width: '100%', padding: '24px', backgroundColor: '#fcf8f5', borderRadius: '24px', border: 'none', outline: 'none', fontSize: '18px', fontStyle: 'italic', lineHeight: '1.6'}}
+                       ></textarea>
+                    </div>
+
+                    <div className="space-y-4">
+                       <label className="text-xs font-bold text-gray-400 uppercase tracking-widest" style={{fontSize: '11px', fontWeight: 'bold', color: '#bbb', textTransform: 'uppercase', letterSpacing: '2px'}}>Nội Dung Bài Viết (HTML)</label>
+                       <textarea 
+                          placeholder="Bắt đầu viết nội dung tại đây... Bạn có thể dùng các thẻ HTML như <b> <i> <img> <ul> <p> để trình bày đẹp hơn."
+                          className="w-full p-8 bg-white border-2 border-dashed border-gray-100 rounded-3xl outline-none min-h-[400px] text-lg leading-loose focus:border-primary/30 transition-all shadow-inner" rows="12"
+                          value={formData.content} onChange={(e) => setFormData({...formData, content: e.target.value})}
+                          style={{width: '100%', padding: '32px', backgroundColor: 'white', border: '2px dashed #eee', borderRadius: '24px', outline: 'none', fontSize: '18px', minHeight: '400px', lineHeight: '2'}}
+                       ></textarea>
+                    </div>
+                 </div>
+
+                 {/* RIGHT: METADATA & SETTINGS */}
+                 <div className="w-full lg:w-[400px] bg-bg/50 p-8 md:p-12 space-y-10" style={{width: '400px', backgroundColor: '#fafafa', padding: '48px', display: 'flex', flexDirection: 'column', gap: '40px'}}>
+                    
+                    {/* IMAGE PREVIEW */}
+                    <div className="space-y-4">
+                       <label className="text-xs font-bold text-gray-400 uppercase tracking-widest" style={{fontSize: '11px', fontWeight: 'bold', color: '#bbb', textTransform: 'uppercase', letterSpacing: '2px'}}>Ảnh Đại Diện</label>
+                       <div className="relative group rounded-3xl overflow-hidden aspect-[4/3] bg-gray-100 border border-gray-200 shadow-lg" style={{position: 'relative', borderRadius: '24px', overflow: 'hidden', aspectRatio: '4/3', backgroundColor: '#eee', border: '1px solid #ddd'}}>
+                          {formData.image ? (
+                             <img src={formData.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Preview" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                          ) : (
+                             <div className="w-full h-full flex flex-col items-center justify-center text-gray-300 gap-2">
+                                <Plus size={48} strokeWidth={1} />
+                                <span className="text-sm font-medium">Chưa có ảnh</span>
+                             </div>
+                          )}
+                       </div>
+                       <input 
+                         required type="text" 
+                         placeholder="Dán link ảnh Unsplash hoặc Imgur..."
+                         className="w-full p-4 bg-white border border-gray-100 rounded-2xl outline-none text-sm shadow-sm focus:ring-2 focus:ring-primary/10 transition-all font-mono" 
+                         value={formData.image} onChange={(e) => setFormData({...formData, image: e.target.value})}
+                         style={{width: '100%', padding: '16px', backgroundColor: 'white', borderRadius: '16px', border: '1px solid #eee', fontSize: '14px', fontFamily: 'monospace'}}
+                       />
+                       <p className="text-[10px] text-gray-400 text-center uppercase tracking-widest" style={{fontSize: '10px', textAlign: 'center', color: '#bbb'}}>Kích thước khuyên dùng: 1200x800px</p>
+                    </div>
+
+                    <div className="space-y-4">
+                       <label className="text-xs font-bold text-gray-400 uppercase tracking-widest" style={{fontSize: '11px', fontWeight: 'bold', color: '#bbb', textTransform: 'uppercase', letterSpacing: '2px'}}>Danh Mục Bài Viết</label>
                        <select 
-                         className="w-full p-4 bg-bg border-none rounded-2xl outline-none"
+                         className="w-full p-5 bg-white border border-gray-100 rounded-2xl outline-none font-bold text-secondary shadow-sm"
                          value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})}
+                         style={{width: '100%', padding: '20px', backgroundColor: 'white', borderRadius: '16px', border: '1px solid #eee', fontWeight: 'bold', outline: 'none'}}
                        >
                           <option>Làm đẹp</option>
                           <option>Chăm sóc da</option>
                           <option>Trang điểm</option>
                           <option>Xu hướng</option>
+                          <option>Kinh nghiệm</option>
                        </select>
                     </div>
-                 </div>
 
-                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-400 uppercase tracking-widest pl-2">Ảnh Đại Diện (URL)</label>
-                    <input 
-                      required type="text" className="w-full p-4 bg-bg border-none rounded-2xl outline-none" 
-                      value={formData.image} onChange={(e) => setFormData({...formData, image: e.target.value})}
-                    />
-                 </div>
-
-                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-400 uppercase tracking-widest pl-2">Tóm Tắt Ngắn</label>
-                    <textarea 
-                       className="w-full p-4 bg-bg border-none rounded-2xl outline-none" rows="2"
-                       value={formData.excerpt} onChange={(e) => setFormData({...formData, excerpt: e.target.value})}
-                    ></textarea>
-                 </div>
-
-                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-400 uppercase tracking-widest pl-2">Nội Dung Bài Viết (Hỗ trợ HTML)</label>
-                    <textarea 
-                       className="w-full p-4 bg-bg border-none rounded-2xl outline-none" rows="8"
-                       value={formData.content} onChange={(e) => setFormData({...formData, content: e.target.value})}
-                    ></textarea>
-                 </div>
-
-                 <div className="p-8 bg-gray-50 rounded-3xl">
-                    <button type="submit" className="btn btn-primary w-full py-5 text-xl font-bold">
-                       <Check size={28} className="mr-2" /> Lưu Bài Viết
-                    </button>
+                    <div className="space-y-4">
+                       <label className="text-xs font-bold text-gray-400 uppercase tracking-widest" style={{fontSize: '11px', fontWeight: 'bold', color: '#bbb', textTransform: 'uppercase', letterSpacing: '2px'}}>Thông Tin Khác</label>
+                       <div className="p-6 bg-white rounded-3xl border border-gray-100 space-y-4 shadow-sm" style={{padding: '24px', backgroundColor: 'white', borderRadius: '24px', border: '1px solid #eee', display: 'flex', flexDirection: 'column', gap: '16px'}}>
+                          <div className="flex justify-between items-center">
+                             <span className="text-sm text-gray-400 font-medium">Người viết:</span>
+                             <span className="text-sm font-bold text-secondary">Admin</span>
+                          </div>
+                          <div className="flex justify-between items-center text-sm border-t border-gray-50 pt-4">
+                             <span className="text-gray-400 font-medium">Trạng thái:</span>
+                             <span className="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[10px] font-bold uppercase tracking-wider">Hoạt động</span>
+                          </div>
+                       </div>
+                    </div>
+                    
+                    {/* STICKY FOOTER (Inside Sidebar for Desktop, but we'll put a global one) */}
+                    <div className="mt-auto pt-10" style={{marginTop: 'auto', paddingTop: '40px'}}>
+                       <button type="submit" className="btn btn-primary w-full py-6 text-xl font-bold rounded-3xl shadow-xl shadow-primary/30 hover:scale-[1.02] transition-all flex items-center justify-center">
+                          <Check size={32} className="mr-2" /> {editingPost ? 'CẬP NHẬT' : 'XUẤT BẢN'}
+                       </button>
+                    </div>
                  </div>
               </form>
            </div>

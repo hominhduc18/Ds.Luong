@@ -8,7 +8,18 @@ const FeaturedProducts = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
 
   useEffect(() => {
-    setFeaturedProducts(storage.products.getFeatured());
+    const loadData = () => setFeaturedProducts(storage.products.getFeatured());
+    loadData(); // Đọc lần đầu
+
+    // Lắng nghe khi Admin sửa data CÙNG TAB
+    window.addEventListener('beauty_data_changed', loadData);
+    // Lắng nghe khi Admin sửa data KHÁC TAB
+    window.addEventListener('storage', loadData);
+
+    return () => {
+      window.removeEventListener('beauty_data_changed', loadData);
+      window.removeEventListener('storage', loadData);
+    };
   }, []);
 
   return (

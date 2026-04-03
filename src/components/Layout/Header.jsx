@@ -1,16 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Phone, User } from 'lucide-react';
+import { Menu, X, Phone, User } from 'lucide-react';
+import { storage } from '../../utils/storage';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [siteName, setSiteName] = useState('');
+  const [phone, setPhone] = useState('');
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+    const loadSettings = () => {
+      const s = storage.get('beauty_settings') || {};
+      setSiteName(s.siteName || 'Ds Lương');
+      setPhone(s.phone || '0901234567');
     };
+    loadSettings();
+    window.addEventListener('beauty_data_changed', loadSettings);
+    window.addEventListener('storage', loadSettings);
+    return () => {
+      window.removeEventListener('beauty_data_changed', loadSettings);
+      window.removeEventListener('storage', loadSettings);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -22,14 +38,16 @@ const Header = () => {
     { name: 'Liên Hệ', path: '/contact' },
   ];
 
+  // Format phone display: 0901234567 → 0901 234 567
+  const phoneDisplay = phone.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3');
+
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
-        }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}
     >
       <div className="container flex justify-between items-center" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px' }}>
         <Link to="/" className="text-2xl font-bold tracking-tighter" style={{ color: 'var(--primary)', fontSize: '24px' }}>
-          Ds Lương
+          {siteName}
         </Link>
 
         {/* Desktop Nav */}
@@ -46,8 +64,8 @@ const Header = () => {
             </Link>
           ))}
           <div className="flex items-center gap-4 ml-4" style={{ display: 'flex', gap: '15px', marginLeft: '20px' }}>
-            <a href="tel:0901234567" className="flex items-center gap-2 text-primary font-bold">
-              <Phone size={18} /> <span>0901 234 567</span>
+            <a href={`tel:${phone}`} className="flex items-center gap-2 text-primary font-bold">
+              <Phone size={18} /> <span>{phoneDisplay}</span>
             </a>
             <Link to="/admin/login" className="p-2 hover:bg-accent rounded-full">
               <User size={20} />

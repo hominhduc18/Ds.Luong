@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, ShoppingBag, BookOpen, MessageSquare, Mail, Settings, LogOut, Menu, Bell, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, BookOpen, MessageSquare, Mail, Settings, LogOut, Menu, Bell } from 'lucide-react';
+import { storage } from '../../utils/storage';
 
 const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAuthed, setIsAuthed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [siteName, setSiteName] = useState('ADMIN');
+
+  useEffect(() => {
+    const loadSettings = () => {
+      const s = storage.get('beauty_settings') || {};
+      setSiteName(s.siteName || 'Ds Lương');
+    };
+    loadSettings();
+    window.addEventListener('beauty_data_changed', loadSettings);
+    return () => window.removeEventListener('beauty_data_changed', loadSettings);
+  }, []);
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('beauty_is_logged_in') === 'true';
@@ -49,7 +61,7 @@ const AdminLayout = ({ children }) => {
       <aside style={{ width: '256px', minWidth: '256px', backgroundColor: '#1a1a1a', color: 'white', height: '100vh', position: 'sticky', top: 0, display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
         <div className="p-8 border-b border-gray-800" style={{ padding: '32px', borderBottom: '1px solid #333' }}>
           <Link to="/" className="text-xl font-bold tracking-tighter" style={{ color: 'var(--primary)', letterSpacing: '-0.5px' }}>
-            DS Lương ADMIN
+          {siteName} ADMIN
           </Link>
         </div>
 

@@ -45,6 +45,16 @@ const ScrollToTop = () => {
 function App() {
   useEffect(() => {
     storage.init();
+
+    // Cập nhật document title theo siteName
+    const updateTitle = () => {
+      const s = storage.get('beauty_settings') || {};
+      const name = s.siteName || 'Ds Lương';
+      document.title = s.seoTitle || `${name} - Chuyên gia làm đẹp`;
+    };
+    updateTitle();
+    window.addEventListener('beauty_data_changed', updateTitle);
+    return () => window.removeEventListener('beauty_data_changed', updateTitle);
   }, []);
 
   return (

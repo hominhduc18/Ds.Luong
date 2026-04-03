@@ -8,13 +8,24 @@ const Shop = () => {
   const queryParams = new URLSearchParams(useLocation().search);
   const initialCategory = queryParams.get('category');
 
-  const [products, setProducts] = useState(storage.products.getAll());
+  const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState(initialCategory ? [initialCategory] : []);
   const [sortBy, setSortBy] = useState('default');
   const [priceRange, setPriceRange] = useState([0, 2000000]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
+
+  useEffect(() => {
+    const loadData = () => setProducts(storage.products.getAll());
+    loadData();
+    window.addEventListener('beauty_data_changed', loadData);
+    window.addEventListener('storage', loadData);
+    return () => {
+      window.removeEventListener('beauty_data_changed', loadData);
+      window.removeEventListener('storage', loadData);
+    };
+  }, []);
 
   const categories = ['Chăm sóc da', 'Trang điểm', 'Chống nắng', 'Nước hoa'];
 

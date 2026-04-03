@@ -20,7 +20,7 @@ const Contact = () => {
 
   const contactInfo = [
     { icon: <Phone size={24} />, label: 'Điện thoại', val: '0901 234 567', sub: 'Hỗ trợ 24/7' },
-    { icon: <Mail size={24} />, label: 'Email', val: 'contact@antigravity.beauty', sub: 'Phản hồi trong 24h' },
+    { icon: <Mail size={24} />, label: 'Email', val: 'contact@dsluong.vn', sub: 'Phản hồi trong 24h' },
     { icon: <MapPin size={24} />, label: 'Địa chỉ', val: '123 Đường Sắc Đẹp, Quận 1, TP.HCM', sub: 'Thứ 2 - Chủ Nhật' },
     { icon: <Clock size={24} />, label: 'Giờ mở cửa', val: '08:00 - 21:00', sub: 'Kể cả ngày lễ' }
   ];

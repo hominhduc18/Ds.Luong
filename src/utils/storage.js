@@ -36,7 +36,7 @@ const MOCK_PRODUCTS = [
     oldPrice: 600000,
     image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=300&h=300&auto=format&fit=crop',
     gallery: [
-       'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=600&h=600&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=600&h=600&auto=format&fit=crop'
     ],
     category: 'Chăm sóc da',
     shortDesc: 'Giúp mờ thâm, sáng da và chống oxy hóa hiệu quả.',
@@ -53,7 +53,7 @@ const MOCK_PRODUCTS = [
     oldPrice: null,
     image: 'https://images.unsplash.com/photo-1586773860418-d37222d8616a?q=80&w=300&h=300&auto=format&fit=crop',
     gallery: [
-       'https://images.unsplash.com/photo-1586773860418-d37222d8616a?q=80&w=600&h=600&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1586773860418-d37222d8616a?q=80&w=600&h=600&auto=format&fit=crop'
     ],
     category: 'Trang điểm',
     shortDesc: 'Màu đỏ quyến rũ, chất son mịn mượt lâu trôi.',
@@ -80,14 +80,14 @@ const MOCK_POSTS = [
 ];
 
 const MOCK_SETTINGS = {
-  siteName: 'Antigravity Beauty',
+  siteName: 'DS Lương Beauty',
   slogan: 'Nâng niu vẻ đẹp tự nhiên của bạn',
   logo: null,
   favicon: null,
-  email: 'contact@antigravity.beauty',
+  email: 'contact@gmail.com',
   phone: '0901234567',
   address: '123 Đường Sắc Đẹp, Quận 1, TP.HCM',
-  seoTitle: 'Antigravity Beauty - Mỹ phẩm cao cấp',
+  seoTitle: 'DS Lương Beauty - Mỹ phẩm cao cấp',
   seoDesc: 'Chuyên cung cấp các dòng mỹ phẩm thiên nhiên chính hãng.',
   socialLinks: {
     facebook: '#',
@@ -100,12 +100,18 @@ const MOCK_SETTINGS = {
 // Storage Functions
 export const storage = {
   get: (key) => JSON.parse(localStorage.getItem(key)),
-  set: (key, val) => localStorage.setItem(key, JSON.stringify(val)),
+  set: (key, val) => {
+    localStorage.setItem(key, JSON.stringify(val));
+    // Thông báo cho các component trên cùng tab biết data đã thay đổi
+    window.dispatchEvent(new CustomEvent('beauty_data_changed', { detail: { key } }));
+  },
 
   init: () => {
     if (!storage.get(KEYS.PRODUCTS)) storage.set(KEYS.PRODUCTS, MOCK_PRODUCTS);
     if (!storage.get(KEYS.POSTS)) storage.set(KEYS.POSTS, MOCK_POSTS);
-    if (!storage.get(KEYS.SETTINGS)) storage.set(KEYS.SETTINGS, MOCK_SETTINGS);
+    // Merge settings: giữ settings đã lưu, bổ sung field thiếu từ MOCK
+    const existing = storage.get(KEYS.SETTINGS);
+    storage.set(KEYS.SETTINGS, { ...MOCK_SETTINGS, ...(existing || {}) });
     if (!storage.get(KEYS.REVIEWS)) storage.set(KEYS.REVIEWS, []);
     if (!storage.get(KEYS.CONTACTS)) storage.set(KEYS.CONTACTS, []);
     if (!storage.get(KEYS.EMAILS)) storage.set(KEYS.EMAILS, []);

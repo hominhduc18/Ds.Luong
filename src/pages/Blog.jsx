@@ -1,13 +1,24 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { storage } from '../utils/storage';
 import { Link } from 'react-router-dom';
 import { Search, Clock, User, ChevronRight, ChevronLeft } from 'lucide-react';
 
 const Blog = () => {
-  const [posts] = useState(storage.posts.getPublished());
+  const [posts, setPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
+
+  useEffect(() => {
+    const loadData = () => setPosts(storage.posts.getPublished());
+    loadData();
+    window.addEventListener('beauty_data_changed', loadData);
+    window.addEventListener('storage', loadData);
+    return () => {
+      window.removeEventListener('beauty_data_changed', loadData);
+      window.removeEventListener('storage', loadData);
+    };
+  }, []);
 
   const filteredPosts = useMemo(() => {
     if (!searchTerm) return posts;
