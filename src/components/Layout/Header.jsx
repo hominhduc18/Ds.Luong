@@ -23,31 +23,29 @@ const Header = () => {
   ];
 
   return (
-    <header 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
-      }`}
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
+        }`}
     >
-      <div className="container flex justify-between items-center" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px'}}>
-        <Link to="/" className="text-2xl font-bold tracking-tighter" style={{color: 'var(--primary)', fontSize: '24px'}}>
-          ANTIGRAVITY
+      <div className="container flex justify-between items-center" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px' }}>
+        <Link to="/" className="text-2xl font-bold tracking-tighter" style={{ color: 'var(--primary)', fontSize: '24px' }}>
+          Ds Lương
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-8 items-center" style={{display: 'flex', gap: '30px', alignItems: 'center'}}>
+        <nav className="hidden md:flex gap-8 items-center" style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
           {navLinks.map((link) => (
-            <Link 
-              key={link.path} 
+            <Link
+              key={link.path}
               to={link.path}
-              className={`font-medium hover:text-primary transition-colors ${
-                location.pathname === link.path ? 'text-primary' : 'text-text-main'
-              }`}
-              style={{color: location.pathname === link.path ? 'var(--primary)' : 'inherit'}}
+              className={`font-medium hover:text-primary transition-colors ${location.pathname === link.path ? 'text-primary' : 'text-text-main'
+                }`}
+              style={{ color: location.pathname === link.path ? 'var(--primary)' : 'inherit' }}
             >
               {link.name}
             </Link>
           ))}
-          <div className="flex items-center gap-4 ml-4" style={{display: 'flex', gap: '15px', marginLeft: '20px'}}>
+          <div className="flex items-center gap-4 ml-4" style={{ display: 'flex', gap: '15px', marginLeft: '20px' }}>
             <a href="tel:0901234567" className="flex items-center gap-2 text-primary font-bold">
               <Phone size={18} /> <span>0901 234 567</span>
             </a>
@@ -67,9 +65,9 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white absolute top-full left-0 w-full shadow-lg border-t py-4 px-6 flex flex-col gap-4">
           {navLinks.map((link) => (
-            <Link 
-              key={link.path} 
-              to={link.path} 
+            <Link
+              key={link.path}
+              to={link.path}
               onClick={() => setIsMenuOpen(false)}
               className="py-2 border-b font-medium"
             >
