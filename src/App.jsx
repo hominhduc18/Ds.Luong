@@ -1,0 +1,83 @@
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { storage } from './utils/storage';
+
+// Layouts
+import Header from './components/Layout/Header';
+import Footer from './components/Layout/Footer';
+import AdminLayout from './components/Admin/AdminLayout';
+
+// User Pages
+import Home from './pages/Home';
+import Shop from './pages/Shop';
+import ProductDetail from './pages/ProductDetail';
+import Blog from './pages/Blog';
+import PostDetail from './pages/PostDetail';
+import Contact from './pages/Contact';
+import About from './pages/About';
+import Policies from './pages/Policies';
+
+// Admin Pages
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminProducts from './pages/AdminProducts';
+import AdminPosts from './pages/AdminPosts';
+import AdminReviews from './pages/AdminReviews';
+import AdminContacts from './pages/AdminContacts';
+import AdminSettings from './pages/AdminSettings';
+
+const Layout = ({ children }) => (
+  <div className="flex flex-col min-h-screen">
+    <Header />
+    <main className="flex-grow">{children}</main>
+    <Footer />
+  </div>
+);
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
+function App() {
+  useEffect(() => {
+    storage.init();
+  }, []);
+
+  return (
+    <Router>
+      <ScrollToTop />
+      <Routes>
+        {/* User Routes */}
+        <Route path="/" element={<Layout><Home /></Layout>} />
+        <Route path="/shop" element={<Layout><Shop /></Layout>} />
+        <Route path="/product/:id" element={<Layout><ProductDetail /></Layout>} />
+        <Route path="/blog" element={<Layout><Blog /></Layout>} />
+        <Route path="/post/:id" element={<Layout><PostDetail /></Layout>} />
+        <Route path="/contact" element={<Layout><Contact /></Layout>} />
+        <Route path="/about" element={<Layout><About /></Layout>} />
+        <Route path="/policies" element={<Layout><Policies /></Layout>} />
+
+        {/* Admin Auth Route */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+
+        {/* Protected Admin Routes */}
+        <Route path="/admin" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
+        <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
+        <Route path="/admin/products" element={<AdminLayout><AdminProducts /></AdminLayout>} />
+        <Route path="/admin/posts" element={<AdminLayout><AdminPosts /></AdminLayout>} />
+        <Route path="/admin/reviews" element={<AdminLayout><AdminReviews /></AdminLayout>} />
+        <Route path="/admin/contacts" element={<AdminLayout><AdminContacts /></AdminLayout>} />
+        <Route path="/admin/settings" element={<AdminLayout><AdminSettings /></AdminLayout>} />
+
+        {/* Fallback */}
+        <Route path="*" element={<Layout><Home /></Layout>} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
