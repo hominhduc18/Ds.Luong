@@ -6,95 +6,79 @@ const KEYS = {
   CONTACTS: 'beauty_contacts',
   EMAILS: 'beauty_emails',
   SETTINGS: 'beauty_settings',
+  CONTENTS: 'beauty_page_contents',
+  CATEGORIES: 'beauty_categories',
   AUTH: 'beauty_is_logged_in'
 };
 
 // Initial Mock Data
 const MOCK_PRODUCTS = [
-  {
-    id: 1,
-    name: 'Sữa rửa mặt Dịu nhẹ Lavender',
-    price: 250000,
-    oldPrice: 320000,
-    image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=300&h=300&auto=format&fit=crop',
-    gallery: [
-      'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=600&h=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1556228578-8d5a106fac70?q=80&w=600&h=600&auto=format&fit=crop'
-    ],
-    category: 'Chăm sóc da',
-    shortDesc: 'Sữa rửa mặt chiết xuất oải hương giúp làm sạch sâu mà không khô da.',
-    desc: 'Làm sạch bụi bẩn và bã nhờn, đồng thời cân bằng độ ẩm tự nhiên cho da nhờ tinh chất oải hương vùng Provence.',
-    ingredients: 'Nước khoáng, Tinh dầu Lavender, Glycerin, Vitamin E.',
-    usage: 'Làm ướt mặt, lấy một lượng vừa đủ, massage nhẹ nhàng trong 60 giây rồi rửa sạch.',
-    status: 'in_stock',
-    isFeatured: true
-  },
-  {
-    id: 2,
-    name: 'Serum Vitamin C Sáng da',
-    price: 480000,
-    oldPrice: 600000,
-    image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=300&h=300&auto=format&fit=crop',
-    gallery: [
-      'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=600&h=600&auto=format&fit=crop'
-    ],
-    category: 'Chăm sóc da',
-    shortDesc: 'Giúp mờ thâm, sáng da và chống oxy hóa hiệu quả.',
-    desc: 'Serum chứa 15% Vitamin C tinh khiết giúp cải thiện sắc tố da, mang lại vẻ rạng rỡ tức thì.',
-    ingredients: 'Vitamin C, Ferulic Acid, Hyaluronic Acid.',
-    usage: 'Dùng sau bước toner, thoa 3-5 giọt lên mặt và cổ mỗi sáng.',
-    status: 'in_stock',
-    isFeatured: true
-  },
-  {
-    id: 3,
-    name: 'Son môi Nhung lụa Đỏ Ruby',
-    price: 350000,
-    oldPrice: null,
-    image: 'https://images.unsplash.com/photo-1586773860418-d37222d8616a?q=80&w=300&h=300&auto=format&fit=crop',
-    gallery: [
-      'https://images.unsplash.com/photo-1586773860418-d37222d8616a?q=80&w=600&h=600&auto=format&fit=crop'
-    ],
-    category: 'Trang điểm',
-    shortDesc: 'Màu đỏ quyến rũ, chất son mịn mượt lâu trôi.',
-    desc: 'Son thỏi với công nghệ hạt màu siêu mịn, giữ màu lên đến 8 giờ mà vẫn giữ ẩm cho môi.',
-    ingredients: 'Sáp ong, Dầu hạt Jojoba, Vitamin E.',
-    usage: 'Thoa trực tiếp lên môi hoặc dùng cọ để có đường viền sắc nét.',
-    status: 'in_stock',
-    isFeatured: true
-  }
+  { id: 1, name: "SYL 100 SUN LUX", description: "Kem chống nắng phổ rộng SPF 50+", brand: "SkinClinic", price: 2517500, originalPrice: null, badge: ["50+", "NEW"], category: "CHỐNG NẮNG", image: "https://placehold.co/400x400?text=Sun+Lux", stock: 50 },
+  { id: 2, name: "BIOCELMASK CALM EFFECT", description: "Mặt nạ phục hồi và làm dịu da", brand: "SkinClinic", price: 1141250, originalPrice: null, badge: ["BEST SELLER"], category: "MẶT NẠ", image: "https://placehold.co/400x400?text=Biocelmask", stock: 30 },
+  { id: 3, name: "HAIR MASK", description: "Mặt nạ cấp ẩm và chăm sóc tóc", brand: "SkinClinic", price: 2181250, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Hair+Mask", stock: 25 },
+  { id: 4, name: "FREQUENT USE SHAMPOO", description: "Dầu gội dịu nhẹ dùng hàng ngày", brand: "SkinClinic", price: 1141250, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Shampoo", stock: 40 },
+  { id: 5, name: "REFRESH TONER", description: "Nước cân bằng dịu nhẹ", brand: "SkinClinic", price: 1593750, originalPrice: null, badge: [], category: "LÀM SẠCH DA", image: "https://placehold.co/400x400?text=Toner", stock: 60 },
+  { id: 6, name: "BALANCE LOTION", description: "Nước dưỡng cân bằng kiểm soát dầu", brand: "SkinClinic", price: 352500, originalPrice: null, badge: ["NEW"], category: "DƯỠNG ẨM", image: "https://placehold.co/400x400?text=Lotion", stock: 100 },
+  { id: 7, name: "BUST FIRMING GEL", description: "Gel hỗ trợ cải thiện độ săn chắc vùng ngực", brand: "SkinClinic", price: 3020000, originalPrice: null, badge: [], category: "CHĂM SÓC BODY", image: "https://placehold.co/400x400?text=Bust+Gel", stock: 20 },
+  { id: 8, name: "BODY GLYCOLIC CREAM", description: "Kem dưỡng body săn chắc", brand: "SkinClinic", price: 2181250, originalPrice: 2725000, badge: ["SALE"], category: "CHĂM SÓC BODY", image: "https://placehold.co/400x400?text=Glycolic", stock: 35 },
+  { id: 9, name: "ANTI DANDRUFF SHAMPOO", description: "Dầu gội cho da gàu", brand: "SkinClinic", price: 1645000, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Anti+Dandruff", stock: 45 },
+  { id: 10, name: "ANTI HAIR LOSS SHAMPOO", description: "Dầu gội chống rụng tóc", brand: "SkinClinic", price: 1762500, originalPrice: null, badge: ["BEST SELLER"], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Anti+Hair+Loss", stock: 38 },
+  { id: 11, name: "GREASY HAIR SHAMPOO", description: "Dầu gội cho tóc nhờn", brand: "SkinClinic", price: 1645000, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Greasy+Hair", stock: 42 },
+  { id: 12, name: "ANTIAGING LIPOSOME CREAM", description: "Kem dưỡng chống lão hóa", brand: "SkinClinic", price: 3188750, originalPrice: 3985000, badge: ["SALE"], category: "CHỐNG LÃO HOÁ", image: "https://placehold.co/400x400?text=Liposome", stock: 15 }
 ];
 
 const MOCK_POSTS = [
-  {
-    id: 1,
-    title: '5 Bước chăm sóc da cơ bản cho người mới bắt đầu',
-    excerpt: 'Làm thế nào để có làn da khỏe mạnh? Hãy cùng khám phá quy trình 5 bước đơn giản này...',
-    content: '<p>Chăm sóc da không cần quá phức tạp. Chỉ cần 5 bước cơ bản này mỗi ngày...</p><h2>1. Làm sạch</h2><p>Bước quan trọng nhất là loại bỏ bụi bẩn...</p>',
-    image: 'https://images.unsplash.com/photo-1570172619380-212643a6d71b?q=80&w=800&h=500&auto=format&fit=crop',
-    category: 'Làm đẹp',
-    date: '2026-03-20',
-    author: 'Admin',
-    status: 'published'
+  { id: 1, title: "Top 5 thành phần chống lão hóa được bác sĩ khuyên dùng", summary: "Retinol, Vitamin C, Niacinamide, Peptide, Hyaluronic Acid - những thành phần vàng trong skincare", content: "<p>Nội dung chi tiết đang cập nhật...</p>", category: "CHỐNG LÃO HOÁ", image: "https://placehold.co/600x400?text=AntiAging", date: "2025-01-15", author: "Bác sĩ Nguyễn Thị A" },
+  { id: 2, title: "Cách chọn kem chống nắng cho da dầu mụn", summary: "Bí quyết chọn kem chống nắng không gây bít tắc lỗ chân lông, kiểm soát dầu hiệu quả", content: "...", category: "CHỐNG NẮNG", image: "https://placehold.co/600x400?text=Sunscreen", date: "2025-01-10", author: "Bác sĩ Trần Văn B" },
+  { id: 3, title: "Retinol có thực sự làm mỏng da? Góc nhìn khoa học", summary: "Giải đáp thắc mắc về retinol - liệu có an toàn cho làn da nhạy cảm?", content: "...", category: "CHỐNG LÃO HOÁ", image: "https://placehold.co/600x400?text=Retinol", date: "2025-01-05", author: "Bác sĩ Lê Thị C" },
+  { id: 4, title: "Quy trình chăm sóc da cơ bản cho người mới bắt đầu", summary: "4 bước đơn giản để có làn da khỏe đẹp mỗi ngày", content: "...", category: "CHĂM SÓC DA", image: "https://placehold.co/600x400?text=Skincare+Routine", date: "2024-12-28", author: "Bác sĩ Phạm Văn D" },
+  { id: 5, title: "Nám da và cách điều trị hiệu quả", summary: "Nguyên nhân và giải pháp cho làn da bị nám, tàn nhang", content: "...", category: "TRỊ NÁM", image: "https://placehold.co/600x400?text=Melasma", date: "2024-12-20", author: "Bác sĩ Hoàng Thị E" },
+  { id: 6, title: "Review sản phẩm SYL 100 SUN LUX sau 30 ngày sử dụng", summary: "Trải nghiệm thực tế từ khách hàng về kem chống nắng số 1 hiện nay", content: "...", category: "REVIEW", image: "https://placehold.co/600x400?text=Review", date: "2024-12-15", author: "Khách hàng VIP" }
+];
+
+const MOCK_PAGE_CONTENTS = {
+  home: {
+    heroTitle: "SKINCLINIC",
+    heroSubtitle: "Khoa học - An toàn - Hiệu quả",
+    introText: "SkinClinic mang đến các giải pháp chăm sóc da chuyên nghiệp, kết hợp giữa tinh hoa thiên nhiên và công nghệ tá dược hiện đại."
+  },
+  about: {
+    mission: "Mang lại làn da khỏe đẹp bền vững cho phụ nữ Việt.",
+    vision: "Trở thành dược mỹ phẩm số 1 tại Việt Nam.",
+    story: "Khởi đầu từ khát vọng mang đến những sản phẩm skincare chuẩn y khoa...",
+    team: [
+      { name: "BS Nguyễn Thị A", role: "Chuyên gia Da liễu", image: "https://placehold.co/300x400?text=BS+A" },
+      { name: "BS Trần Văn B", role: "Cố vấn chuyên môn", image: "https://placehold.co/300x400?text=BS+B" }
+    ]
+  },
+  contact: {
+    address: "123 Đường Sắc Đẹp, Quận 1, TP.HCM",
+    phone: "1900 XXXX",
+    email: "info@skinclinic.vn",
+    workingHours: "Thứ 2 - Thứ 7 (8:00 - 20:00)"
   }
+};
+
+const MOCK_CATEGORIES = [
+  { name: "TÌNH TRẠNG DA", children: ["DA LÃO HOÁ", "DA MỤN", "DA THÂM NÁM", "DA THIẾU ẨM", "DA MẪN ĐỎ", "DA SAU THẨM MỸ"] },
+  { name: "DÒNG SẢN PHẨM", children: ["ĐIỆN DI", "VIAL", "CÔNG NGHỆ MÁY"] },
+  { name: "CHĂM SÓC MẮT & MÔI", children: ["DƯỠNG MÔI", "CHĂM SÓC MẮT"] },
+  { name: "CHĂM SÓC BODY", children: ["DƯỠNG ẨM", "SĂN CHẮC"] },
+  { name: "CHĂM SÓC TÓC", children: ["DẦU GỘI", "MẶT NẠ TÓC"] },
+  { name: "THỰC PHẨM THẨM MỸ", children: ["CHỐNG LÃO HOÁ", "KIỂM SOÁT CÂN NẶNG"] }
 ];
 
 const MOCK_SETTINGS = {
-  siteName: 'DS Lương Beauty',
-  slogan: 'Nâng niu vẻ đẹp tự nhiên của bạn',
+  siteName: 'SkinClinic',
+  slogan: 'Khoa học - An toàn - Hiệu quả',
   logo: null,
   favicon: null,
-  email: 'contact@gmail.com',
-  phone: '0901234567',
+  email: 'info@skinclinic.vn',
+  phone: '1900 XXXX',
   address: '123 Đường Sắc Đẹp, Quận 1, TP.HCM',
-  seoTitle: 'DS Lương Beauty - Mỹ phẩm cao cấp',
-  seoDesc: 'Chuyên cung cấp các dòng mỹ phẩm thiên nhiên chính hãng.',
-  socialLinks: {
-    facebook: '#',
-    instagram: '#',
-    tiktok: '#',
-    zalo: '0901234567'
-  }
+  seoTitle: 'SkinClinic - Chuyên gia chăm sóc da',
+  seoDesc: 'Dược mỹ phẩm cao cấp chuẩn y khoa.',
+  socialLinks: { facebook: '#', instagram: '#', tiktok: '#', zalo: '1900 XXXX' }
 };
 
 // Storage Functions
@@ -102,41 +86,68 @@ export const storage = {
   get: (key) => JSON.parse(localStorage.getItem(key)),
   set: (key, val) => {
     localStorage.setItem(key, JSON.stringify(val));
-    // Thông báo cho các component trên cùng tab biết data đã thay đổi
     window.dispatchEvent(new CustomEvent('beauty_data_changed', { detail: { key } }));
   },
 
   init: () => {
     if (!storage.get(KEYS.PRODUCTS)) storage.set(KEYS.PRODUCTS, MOCK_PRODUCTS);
     if (!storage.get(KEYS.POSTS)) storage.set(KEYS.POSTS, MOCK_POSTS);
-    // Merge settings: giữ settings đã lưu, bổ sung field thiếu từ MOCK
-    const existing = storage.get(KEYS.SETTINGS);
-    storage.set(KEYS.SETTINGS, { ...MOCK_SETTINGS, ...(existing || {}) });
+    if (!storage.get(KEYS.CONTENTS)) storage.set(KEYS.CONTENTS, MOCK_PAGE_CONTENTS);
+    if (!storage.get(KEYS.CATEGORIES)) storage.set(KEYS.CATEGORIES, MOCK_CATEGORIES);
+    
+    const existingSettings = storage.get(KEYS.SETTINGS);
+    storage.set(KEYS.SETTINGS, { ...MOCK_SETTINGS, ...(existingSettings || {}) });
+    
     if (!storage.get(KEYS.REVIEWS)) storage.set(KEYS.REVIEWS, []);
     if (!storage.get(KEYS.CONTACTS)) storage.set(KEYS.CONTACTS, []);
     if (!storage.get(KEYS.EMAILS)) storage.set(KEYS.EMAILS, []);
   },
 
+  auth: {
+    login: (u, p) => {
+      if (u === 'admin' && p === 'admin123') {
+        storage.set(KEYS.AUTH, true);
+        return true;
+      }
+      return false;
+    },
+    logout: () => storage.set(KEYS.AUTH, false),
+    isLoggedIn: () => !!storage.get(KEYS.AUTH)
+  },
+
   products: {
     getAll: () => storage.get(KEYS.PRODUCTS) || [],
-    getFeatured: () => (storage.get(KEYS.PRODUCTS) || []).filter(p => p.isFeatured),
-    getById: (id) => (storage.get(KEYS.PRODUCTS) || []).find(p => p.id === Number(id))
+    getFeatured: () => (storage.get(KEYS.PRODUCTS) || []).filter(p => p.badge && p.badge.includes('BEST SELLER')),
+    getNew: () => (storage.get(KEYS.PRODUCTS) || []).filter(p => p.badge && p.badge.includes('NEW')),
+    getById: (id) => (storage.get(KEYS.PRODUCTS) || []).find(p => p.id === Number(id)),
+    save: (items) => storage.set(KEYS.PRODUCTS, items)
   },
 
   posts: {
     getAll: () => storage.get(KEYS.POSTS) || [],
-    getPublished: () => (storage.get(KEYS.POSTS) || []).filter(p => p.status === 'published'),
-    getById: (id) => (storage.get(KEYS.POSTS) || []).find(p => p.id === Number(id))
+    getLatest: (limit = 3) => (storage.get(KEYS.POSTS) || []).slice(0, limit),
+    getById: (id) => (storage.get(KEYS.POSTS) || []).find(p => p.id === Number(id)),
+    save: (items) => storage.set(KEYS.POSTS, items)
+  },
+
+  contents: {
+    get: () => storage.get(KEYS.CONTENTS) || MOCK_PAGE_CONTENTS,
+    save: (data) => storage.set(KEYS.CONTENTS, data)
+  },
+
+  categories: {
+    get: () => storage.get(KEYS.CATEGORIES) || MOCK_CATEGORIES,
+    save: (data) => storage.set(KEYS.CATEGORIES, data)
   },
 
   reviews: {
     getAll: (productId) => {
       const all = storage.get(KEYS.REVIEWS) || [];
-      return productId ? all.filter(r => r.productId === Number(productId) && r.status === 'approved') : all;
+      return productId ? all.filter(r => r.productId === Number(productId)) : all;
     },
     add: (review) => {
       const all = storage.get(KEYS.REVIEWS) || [];
-      all.push({ ...review, id: Date.now(), status: 'pending', date: new Date().toISOString() });
+      all.push({ ...review, id: Date.now(), date: new Date().toISOString() });
       storage.set(KEYS.REVIEWS, all);
     }
   },
@@ -145,17 +156,8 @@ export const storage = {
     getAll: () => storage.get(KEYS.CONTACTS) || [],
     add: (contact) => {
       const all = storage.get(KEYS.CONTACTS) || [];
-      all.push({ ...contact, id: Date.now(), date: new Date().toISOString(), status: 'unread' });
+      all.push({ ...contact, id: Date.now(), date: new Date().toISOString() });
       storage.set(KEYS.CONTACTS, all);
-    }
-  },
-
-  emails: {
-    getAll: () => storage.get(KEYS.EMAILS) || [],
-    add: (email) => {
-      const all = storage.get(KEYS.EMAILS) || [];
-      all.push({ email, date: new Date().toISOString() });
-      storage.set(KEYS.EMAILS, all);
     }
   }
 };

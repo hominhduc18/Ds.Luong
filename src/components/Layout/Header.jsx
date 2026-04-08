@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaSearch, FaShoppingCart, FaBars, FaTimes, FaUser, FaChevronDown } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { FaSearch, FaShoppingCart, FaBars, FaTimes, FaUser, FaChevronDown, FaTools } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { storage } from '../../utils/storage';
 
 const NavItem = ({ name, path, dropdownItems }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,17 +49,29 @@ const NavItem = ({ name, path, dropdownItems }) => {
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    const checkStatus = () => {
+      setIsLoggedIn(storage.auth.isLoggedIn());
+      // For now, mock cart count or use a key if needed
+      const cart = JSON.parse(localStorage.getItem('beauty_cart')) || [];
+      setCartCount(cart.length);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    checkStatus();
+    window.addEventListener('scroll', () => setIsScrolled(window.scrollY > 20));
+    window.addEventListener('beauty_data_changed', checkStatus);
+    return () => {
+      window.removeEventListener('scroll', () => {});
+      window.removeEventListener('beauty_data_changed', checkStatus);
+    };
   }, []);
 
   const navLinks = [
+    { name: 'TRANG CHỦ', path: '/' },
     { 
       name: 'VỀ CHÚNG TÔI', 
       path: '/about',
@@ -87,7 +100,6 @@ const Header = () => {
       ]
     },
     { name: 'LIÊN HỆ', path: '/contact' },
-    { name: 'HỆ THỐNG ĐẠI LÝ', path: '/contact' },
   ];
 
   return (
@@ -119,14 +131,18 @@ const Header = () => {
             <FaSearch size={18} />
           </button>
           
-          <div className="relative group hidden md:block">
-            <Link to="/profile" className="hover:text-[#0A4B7A] transition-colors duration-300">
+          <div className="relative group">
+            <button 
+              onClick={() => navigate(isLoggedIn ? '/admin/dashboard' : '/admin/login')}
+              className="hover:text-[#0A4B7A] transition-colors duration-300"
+            >
               <FaUser size={18} />
-            </Link>
-            <div className="absolute top-full right-0 w-48 bg-white shadow-xl py-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all translate-y-2 group-hover:translate-y-0 border-t border-[#0A4B7A]">
-               <Link to="/login" className="block px-6 py-2 text-[10px] font-bold text-gray-500 hover:text-[#0A4B7A] uppercase tracking-widest">Đăng nhập</Link>
-               <Link to="/register" className="block px-6 py-2 text-[10px] font-bold text-gray-500 hover:text-[#0A4B7A] uppercase tracking-widest">Đăng ký</Link>
-            </div>
+            </button>
+            {isLoggedIn && (
+               <div className="absolute top-full right-0 w-48 bg-white shadow-xl py-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all translate-y-2 group-hover:translate-y-0 border-t border-[#0A4B7A]">
+                  <button onClick={() => { storage.auth.logout(); navigate('/'); }} className="w-full text-left px-6 py-2 text-[10px] font-bold text-red-500 hover:bg-red-50 uppercase tracking-widest">Đăng xuất</button>
+               </div>
+            )}
           </div>
 
           <Link to="/cart" className="relative group hover:text-[#0A4B7A] transition-colors duration-300">
@@ -145,6 +161,7 @@ const Header = () => {
           </button>
         </div>
       </div>
+
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -179,6 +196,7 @@ const Header = () => {
                   )}
                 </div>
               ))}
+
             </div>
           </motion.div>
         )}

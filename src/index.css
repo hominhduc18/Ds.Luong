@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700&display=swap');
+  
+  body {
+    @apply font-sans text-gray-800 bg-white;
+  }
+}
+
 @theme {
   --color-gold-light: #FFF8E7;
   --color-gold-primary: #D4AF37;
@@ -7,22 +15,10 @@
   --color-gold-medium: #C5A028;
   --color-gold-dark: #B8860B;
 
+  --font-inter: "Inter", sans-serif;
   --font-montserrat: "Montserrat", sans-serif;
   --font-playfair: "Playfair Display", serif;
-}
-
-/* Custom CSS variables for fonts if needed by legacy code */
-:root {
-  --font-montserrat: "Montserrat", sans-serif;
-  --font-playfair: "Playfair Display", serif;
-}
-
-@layer base {
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap');
-  
-  body {
-    @apply font-montserrat text-gray-800 bg-white;
-  }
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 @layer components {

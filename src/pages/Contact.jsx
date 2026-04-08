@@ -1,29 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaFacebookF, FaInstagram, FaYoutube, FaChevronDown, FaPaperPlane, FaRegCheckCircle } from 'react-icons/fa';
+import { storage } from '../utils/storage';
 
 const Contact = () => {
-  const [form, setForm] = useState({ name: '', phone: '', email: '', subject: 'Tư vấn sản phẩm', message: '' });
+  const [data, setData] = useState(storage.contents.get().contact);
+  const [form, setForm] = useState({ name: '', phone: '', email: '', subject: 'TƯ VẤN SẢN PHẨM', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
 
+  useEffect(() => {
+    const handleDataChange = () => {
+      setData(storage.contents.get().contact);
+    };
+    window.addEventListener('beauty_data_changed', handleDataChange);
+    return () => window.removeEventListener('beauty_data_changed', handleDataChange);
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    storage.contacts.add(form);
     setSubmitted(true);
+    setForm({ name: '', phone: '', email: '', subject: 'TƯ VẤN SẢN PHẨM', message: '' });
     setTimeout(() => setSubmitted(false), 5000);
   };
 
   const contactCards = [
-    { icon: <FaMapMarkerAlt />, label: 'ĐỊA CHỈ', val: 'Số 123, Đường Lê Lợi, Quận 1, TP.HCM' },
-    { icon: <FaPhoneAlt />, label: 'HOTLINE', val: '1900 6868 (8h - 21h)' },
-    { icon: <FaEnvelope />, label: 'EMAIL', val: 'info@skinclinic.vn' },
-    { icon: <FaClock />, label: 'GIỜ LÀM VIỆC', val: 'Thứ 2 - Thứ 7: 8:00 - 20:00' }
+    { icon: <FaMapMarkerAlt />, label: 'ĐỊA CHỈ', val: data.address },
+    { icon: <FaPhoneAlt />, label: 'HOTLINE', val: data.phone },
+    { icon: <FaEnvelope />, label: 'EMAIL', val: data.email },
+    { icon: <FaClock />, label: 'GIỜ LÀM VIỆC', val: data.workingHours }
   ];
 
   const faqs = [
     { q: 'Chính sách đổi trả hàng như thế nào?', a: 'Khách hàng có thể đổi trả sản phẩm trong vòng 7 ngày nếu do lỗi của nhà sản xuất hoặc phát hiện hàng không chính hãng.' },
     { q: 'Thời gian giao hàng mất bao lâu?', a: 'Tại TP.HCM, chúng tôi giao hàng hỏa tốc trong 2h. Các tỉnh thành khác từ 2-4 ngày làm việc.' },
-    { q: 'Tôi có được tư vấn da trước khi mua không?', a: 'Chắc chắn rồi! Đội ngũ chuyên gia của DS LUONG luôn sẵn sàng soi da và tư vấn miễn phí cho bạn qua Hotline hoặc tại cửa hàng.' }
+    { q: 'Tôi có được tư vấn da trước khi mua không?', a: 'Chắc chắn rồi! Đội ngũ chuyên gia của SkinClinic luôn sẵn sàng soi da và tư vấn miễn phí cho bạn.' }
   ];
 
   return (
@@ -57,11 +69,11 @@ const Contact = () => {
               viewport={{ once: true }}
               className="p-10 bg-gray-50 rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:bg-white hover:shadow-xl transition-all duration-500"
             >
-              <div className="w-14 h-14 bg-white text-gold-primary rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm group-hover:bg-gold-primary group-hover:text-white transition-all">
+              <div className="w-14 h-14 bg-white text-gold-primary rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm group-hover:bg-[#0A4B7A] group-hover:text-white transition-all">
                 {card.icon}
               </div>
               <h4 className="text-[10px] font-bold text-gray-400 tracking-[0.3em] uppercase mb-3">{card.label}</h4>
-              <p className="text-sm font-bold text-gray-900 leading-relaxed uppercase">{card.val}</p>
+              <p className="text-xs font-bold text-gray-900 leading-relaxed uppercase">{card.val}</p>
             </motion.div>
           ))}
         </div>
@@ -94,8 +106,8 @@ const Contact = () => {
                     <FaRegCheckCircle size={40} />
                   </div>
                   <h4 className="text-xl font-bold text-gray-900 mb-2 uppercase tracking-wide">GỬI THÀNH CÔNG!</h4>
-                  <p className="text-gray-500 text-sm">Cảm ơn bạn. Chuyên viên sẽ liên hệ lại sớm nhất.</p>
-                  <button onClick={() => setSubmitted(false)} className="mt-8 text-xs font-bold text-gold-primary underline tracking-widest uppercase">Gửi tin mới</button>
+                  <p className="text-gray-500 text-sm italic">Cảm ơn bạn. Chuyên viên SkinClinic sẽ liên hệ lại sớm nhất.</p>
+                  <button onClick={() => setSubmitted(false)} className="mt-8 text-xs font-bold text-[#0A4B7A] underline tracking-widest uppercase">Gửi tin mới</button>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -103,14 +115,14 @@ const Contact = () => {
                     <div className="space-y-2">
                        <input 
                           required type="text" placeholder="HỌ TÊN *" 
-                          className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase"
+                          className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all uppercase placeholder:text-gray-300"
                           value={form.name} onChange={(e) => setForm({...form, name: e.target.value})}
                        />
                     </div>
                     <div className="space-y-2">
                        <input 
                           required type="tel" placeholder="SỐ ĐIỆN THOẠI *" 
-                          className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase"
+                          className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all uppercase placeholder:text-gray-300"
                           value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})}
                        />
                     </div>
@@ -118,13 +130,13 @@ const Contact = () => {
                   <div className="space-y-2">
                      <input 
                         type="email" placeholder="ĐỊA CHỈ EMAIL" 
-                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase"
+                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all uppercase placeholder:text-gray-300"
                         value={form.email} onChange={(e) => setForm({...form, email: e.target.value})}
                      />
                   </div>
                   <div className="space-y-2">
                      <select 
-                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase appearance-none cursor-pointer"
+                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all uppercase appearance-none cursor-pointer"
                         value={form.subject} onChange={(e) => setForm({...form, subject: e.target.value})}
                      >
                         <option>TƯ VẤN SẢN PHẨM</option>
@@ -136,11 +148,11 @@ const Contact = () => {
                   <div className="space-y-2">
                      <textarea 
                         rows="5" placeholder="NỘI DUNG TIN NHẮN..." 
-                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase"
+                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all uppercase placeholder:text-gray-300"
                         value={form.message} onChange={(e) => setForm({...form, message: e.target.value})}
                      ></textarea>
                   </div>
-                  <button type="submit" className="w-full py-5 bg-gold-primary text-white rounded-xl font-bold text-xs tracking-[0.4em] shadow-xl shadow-gold-primary/20 hover:bg-gold-dark hover:-translate-y-1 transition-all flex items-center justify-center gap-4 uppercase">
+                  <button type="submit" className="w-full py-5 bg-[#0A4B7A] text-white rounded-xl font-bold text-xs tracking-[0.4em] shadow-xl shadow-[#0A4B7A]/20 hover:bg-gray-900 hover:-translate-y-1 transition-all flex items-center justify-center gap-4 uppercase">
                      GỬI TIN NHẮN <FaPaperPlane />
                   </button>
                 </form>
@@ -148,17 +160,14 @@ const Contact = () => {
             </AnimatePresence>
           </motion.div>
 
-          {/* Right: Map */}
+          {/* Right: Map Placeholder */}
           <motion.div 
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:w-1/2 h-[400px] lg:h-auto overflow-hidden rounded-[3rem] shadow-2xl border-8 border-gray-50"
+            className="lg:w-1/2 h-[400px] lg:h-auto overflow-hidden rounded-[3rem] shadow-2xl border-8 border-gray-50 bg-gray-100 flex items-center justify-center italic text-gray-400 text-sm"
           >
-             <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4602324283526!2d106.702!3d10.776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f4400000001%3A0x69ba43f380536!2zUXXhuq1uIDEsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaA!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" 
-                width="100%" height="100%" style={{border: 0}} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+             <p className="uppercase tracking-widest">Google Maps Integration Placeholder</p>
           </motion.div>
         </div>
       </section>
@@ -178,18 +187,18 @@ const Contact = () => {
                       onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                       className="w-full p-6 flex justify-between items-center text-left hover:bg-gray-50 transition-colors"
                     >
-                       <span className="text-sm font-bold text-gray-900 uppercase tracking-wide">{faq.q}</span>
+                       <span className="text-[10px] font-bold text-gray-900 uppercase tracking-widest">{faq.q}</span>
                        <FaChevronDown className={`text-gold-primary transition-transform duration-300 ${openFaq === idx ? 'rotate-180' : ''}`} />
                     </button>
                     <AnimatePresence>
                        {openFaq === idx && (
                           <motion.div 
-                             initial={{ height: 0 }}
-                             animate={{ height: 'auto' }}
-                             exit={{ height: 0 }}
+                             initial={{ opacity: 0, height: 0 }}
+                             animate={{ opacity: 1, height: 'auto' }}
+                             exit={{ opacity: 0, height: 0 }}
                              className="overflow-hidden"
                           >
-                             <p className="p-6 pt-0 text-sm text-gray-500 leading-relaxed italic border-t border-gray-50">
+                             <p className="p-6 pt-0 text-[10px] text-gray-500 font-bold uppercase tracking-widest leading-relaxed italic border-t border-gray-50">
                                 {faq.a}
                              </p>
                           </motion.div>
@@ -197,24 +206,6 @@ const Contact = () => {
                     </AnimatePresence>
                  </div>
               ))}
-           </div>
-        </div>
-      </section>
-
-      {/* Social & Connect */}
-      <section className="py-24">
-        <div className="container mx-auto px-4 text-center">
-           <h3 className="text-xs font-bold tracking-[0.6em] text-gray-300 uppercase mb-12">KẾT NỐI VỚI CHÚNG TÔI</h3>
-           <div className="flex justify-center items-center gap-10">
-              <a href="#" className="w-14 h-14 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-gold-primary hover:text-white hover:border-gold-primary hover:-translate-y-2 transition-all shadow-sm">
-                 <FaFacebookF size={20} />
-              </a>
-              <a href="#" className="w-14 h-14 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-gold-primary hover:text-white hover:border-gold-primary hover:-translate-y-2 transition-all shadow-sm">
-                 <FaInstagram size={20} />
-              </a>
-              <a href="#" className="w-14 h-14 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-gold-primary hover:text-white hover:border-gold-primary hover:-translate-y-2 transition-all shadow-sm">
-                 <FaYoutube size={20} />
-              </a>
            </div>
         </div>
       </section>

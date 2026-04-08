@@ -57,7 +57,7 @@ const ProductCard = ({ product, onQuickView }) => {
         <p className="text-[10px] text-gray-500 italic mb-4 line-clamp-1 h-4">{product.descLine}</p>
         <div className="mt-auto pt-2">
           <span className="text-xl font-black text-[#C61A09] font-montserrat tracking-tight">
-            {product.price}
+            {typeof product.price === 'number' ? `${product.price.toLocaleString('vi-VN')}₫` : product.price}
           </span>
         </div>
       </div>

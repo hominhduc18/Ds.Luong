@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const HeroBanner = () => {
+const HeroBanner = ({ title, subtitle }) => {
   return (
-    <section className="relative min-h-[80vh] flex items-center pt-20 overflow-hidden gold-gradient-bg">
+    <section className="relative min-h-[80vh] flex items-center pt-20 overflow-hidden bg-gray-50">
       <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
         {/* Content */}
         <motion.div 
@@ -13,17 +13,18 @@ const HeroBanner = () => {
           viewport={{ once: true }}
           className="z-10"
         >
-          <h1 className="text-4xl md:text-6xl font-playfair font-bold text-gray-900 leading-tight mb-6">
-            DS Luong - MỸ PHẨM CHÂU ÂU <br />
-            <span className="text-gold-primary">CHINH PHỤC LÀN DA CHÂU Á</span>
+          <span className="text-xs font-bold text-[#0A4B7A] tracking-[0.4em] uppercase mb-6 block">SkinClinic Premium Skincare</span>
+          <h1 className="text-5xl md:text-7xl font-playfair font-bold text-gray-900 leading-[1.1] mb-8 uppercase italic tracking-tighter">
+            {title || "DS Luong - MỸ PHẨM CHÂU ÂU"}
           </h1>
-          <p className="text-gray-600 text-lg mb-8 leading-relaxed max-w-xl">
-            Hơn 30 năm không ngừng nghiên cứu khoa học chuyên sâu, kiểm nghiệm thực tế của đội ngũ chuyên môn. 
-            DS Luong luôn tự hào với sứ mệnh "lắng nghe" làn da mang đến những giải pháp phù hợp cho làn da châu Á.
+          <p className="text-gray-500 text-lg mb-10 leading-relaxed max-w-xl italic border-l-4 border-[#0A4B7A] pl-6">
+            {subtitle || "Hơn 30 năm không ngừng nghiên cứu khoa học chuyên sâu, mang đến những giải pháp phù hợp cho làn da châu Á."}
           </p>
-          <button className="btn-gold-outline text-lg">
-            XEM THÊM
-          </button>
+          <div className="flex gap-4">
+            <button className="bg-[#0A4B7A] text-white px-10 py-4 text-[10px] font-bold tracking-[0.3em] uppercase rounded shadow-xl hover:bg-gray-900 transition-all">
+              KHÁM PHÁ NGAY
+            </button>
+          </div>
         </motion.div>
 
         {/* Image / Illustration */}
@@ -34,22 +35,21 @@ const HeroBanner = () => {
           viewport={{ once: true }}
           className="relative flex justify-center"
         >
-          {/* Decorative background circle */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-gold-primary/10 rounded-full -z-0 blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[#0A4B7A]/5 rounded-full -z-0 blur-3xl"></div>
           
           <img 
             src="https://skinclinic.vn/storage/banners/banner-main-home.png" 
-            alt="DS Luong Hero" 
+            alt="SkinClinic Hero" 
             className="relative z-10 max-w-full h-auto drop-shadow-2xl"
             onError={(e) => {
-              e.target.src = "https://via.placeholder.com/600x600/F5F5F5/D4AF37?text=DS+Luong+Banner";
+              e.target.src = "https://placehold.co/600x600?text=SkinClinic+Premium";
             }}
           />
         </motion.div>
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute bottom-0 right-0 w-64 h-64 bg-gold-primary/5 rounded-full blur-3xl -mb-32 -mr-32"></div>
+      <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#0A4B7A]/5 rounded-full blur-3xl -mb-32 -mr-32"></div>
     </section>
   );
 };

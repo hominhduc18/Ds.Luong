@@ -1,128 +1,153 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, ShoppingBag, BookOpen, MessageSquare, Mail, Settings, LogOut, Menu, Bell } from 'lucide-react';
+import { 
+  LayoutDashboard, ShoppingBag, BookOpen, 
+  MessageSquare, Mail, Settings, LogOut, 
+  Menu, Bell, ChevronRight, Search, Zap
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { storage } from '../../utils/storage';
 
 const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAuthed, setIsAuthed] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [siteName, setSiteName] = useState('ADMIN');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [siteName, setSiteName] = useState('SKINCLINIC');
 
   useEffect(() => {
-    const loadSettings = () => {
-      const s = storage.get('beauty_settings') || {};
-      setSiteName(s.siteName || 'Ds Lương');
+    const checkStatus = () => {
+      const isLoggedIn = storage.auth.isLoggedIn();
+      if (!isLoggedIn) {
+        navigate('/admin/login');
+      } else {
+        setIsAuthed(true);
+      }
     };
-    loadSettings();
-    window.addEventListener('beauty_data_changed', loadSettings);
-    return () => window.removeEventListener('beauty_data_changed', loadSettings);
-  }, []);
 
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem('beauty_is_logged_in') === 'true';
-    if (!isLoggedIn) {
-      navigate('/admin/login');
-    } else {
-      setIsAuthed(true);
-    }
+    checkStatus();
+    window.addEventListener('beauty_data_changed', checkStatus);
+    return () => window.removeEventListener('beauty_data_changed', checkStatus);
   }, [navigate]);
 
-  // Không render gì khi chưa xác thực
-  if (!isAuthed) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8f9fa' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ width: '48px', height: '48px', border: '4px solid #f0f0f0', borderTop: '4px solid var(--primary)', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 16px' }}></div>
-          <p style={{ color: '#888', fontSize: '16px' }}>Đang kiểm tra đăng nhập...</p>
-        </div>
-      </div>
-    );
-  }
+  if (!isAuthed) return null;
 
   const handleLogout = () => {
-    localStorage.removeItem('beauty_is_logged_in');
+    storage.auth.logout();
     navigate('/admin/login');
   };
 
   const menuItems = [
-    { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/admin/dashboard' },
-    { name: 'Sản Phẩm', icon: <ShoppingBag size={20} />, path: '/admin/products' },
-    { name: 'Bài Viết', icon: <BookOpen size={20} />, path: '/admin/posts' },
-    { name: 'Đánh Giá', icon: <MessageSquare size={20} />, path: '/admin/reviews' },
-    { name: 'Liên Hệ', icon: <Mail size={20} />, path: '/admin/contacts' },
-    { name: 'Cài Đặt', icon: <Settings size={20} />, path: '/admin/settings' },
+    { name: 'Dashboard', icon: <LayoutDashboard size={18} />, path: '/admin/dashboard' },
+    { name: 'Sản Phẩm', icon: <ShoppingBag size={18} />, path: '/admin/products' },
+    { name: 'Bài Viết', icon: <BookOpen size={18} />, path: '/admin/posts' },
+    { name: 'Tin Nhắn', icon: <Mail size={18} />, path: '/admin/contacts' },
+    { name: 'Trang Chủ', icon: <Zap size={18} />, path: '/admin/settings' },
   ];
 
   return (
-    <div className="flex min-h-screen bg-bg" style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
+    <div className="flex h-screen bg-[#F8FAFC] overflow-hidden">
       {/* Sidebar */}
-      <aside style={{ width: '256px', minWidth: '256px', backgroundColor: '#1a1a1a', color: 'white', height: '100vh', position: 'sticky', top: 0, display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
-        <div className="p-8 border-b border-gray-800" style={{ padding: '32px', borderBottom: '1px solid #333' }}>
-          <Link to="/" className="text-xl font-bold tracking-tighter" style={{ color: 'var(--primary)', letterSpacing: '-0.5px' }}>
-          {siteName} ADMIN
+      <motion.aside 
+        initial={false}
+        animate={{ width: sidebarOpen ? 280 : 0, opacity: sidebarOpen ? 1 : 0 }}
+        className="bg-[#0A1629] text-white flex flex-col flex-shrink-0 z-50 shadow-2xl overflow-hidden"
+      >
+        {/* Logo Section */}
+        <div className="p-8 border-b border-white/5 bg-[#0D1D35]">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-[#0A4B7A] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+              <span className="font-black text-xs">SC</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm font-bold tracking-tight">{siteName}</span>
+              <span className="text-[9px] font-semibold text-gray-500 uppercase tracking-wider">Control Panel</span>
+            </div>
           </Link>
         </div>
 
-        <nav className="flex-1 py-8 px-4 space-y-2" style={{ flex: 1, paddingTop: '32px', paddingBottom: '32px', display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '16px', paddingRight: '16px' }}>
-          {menuItems.map(item => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${location.pathname === item.path ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-gray-400 hover:text-white hover:bg-gray-800'
+        {/* Navigation */}
+        <nav className="flex-1 py-8 px-4 space-y-2 overflow-y-auto">
+          {menuItems.map(item => {
+            const isActive = location.pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex items-center justify-between px-5 py-4 rounded-xl transition-all duration-300 group ${
+                  isActive 
+                    ? 'bg-[#0A4B7A] text-white shadow-xl shadow-[#0A4B7A]/20' 
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'
                 }`}
-              style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '12px 16px', borderRadius: '12px', backgroundColor: location.pathname === item.path ? 'var(--primary)' : 'transparent', color: location.pathname === item.path ? 'white' : '#888' }}
-            >
-              {item.icon}
-              <span className="font-medium" style={{ fontWeight: 500 }}>{item.name}</span>
-            </Link>
-          ))}
+              >
+                <div className="flex items-center gap-4">
+                  <div className={`${isActive ? 'text-white' : 'text-gray-500 group-hover:text-white'} transition-colors`}>
+                    {item.icon}
+                  </div>
+                  <span className="text-xs font-semibold tracking-wide uppercase">{item.name}</span>
+                </div>
+                {isActive && <motion.div layoutId="active" className="w-1.5 h-1.5 bg-white rounded-full shadow-glow" />}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="p-8 border-t border-gray-800" style={{ padding: '32px', borderTop: '1px solid #333' }}>
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-4 text-gray-400 hover:text-red-500 transition-colors w-full"
-            style={{ display: 'flex', alignItems: 'center', gap: '16px', color: '#888', outline: 'none', cursor: 'pointer', textAlign: 'left' }}
-          >
-            <LogOut size={20} />
-            <span className="font-medium" style={{ fontWeight: 500 }}>Đăng xuất</span>
-          </button>
+        {/* User Profile / Logout */}
+        <div className="p-6 border-t border-white/5 bg-[#0D1D35]">
+           <button
+             onClick={handleLogout}
+             className="flex items-center gap-4 w-full p-4 rounded-xl text-gray-400 hover:text-red-400 hover:bg-red-400/5 transition-all group"
+           >
+             <LogOut size={18} className="group-hover:translate-x-1 transition-transform" />
+             <span className="text-xs font-semibold tracking-wide uppercase">Đăng xuất</span>
+           </button>
         </div>
-      </aside>
+      </motion.aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div className="flex-1 flex flex-col relative h-full overflow-hidden">
         {/* Header */}
-        <header className="h-20 bg-white border-b border-gray-100 px-8 flex items-center justify-between sticky top-0 z-30" style={{ height: '80px', backgroundColor: 'white', borderBottom: '1px solid #eee', position: 'sticky', top: 0, zIndex: 30, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 32px' }}>
-          <div className="flex items-center gap-4" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <button className="lg:hidden p-2 hover:bg-gray-100 rounded-full"><Menu size={24} /></button>
-            <h2 className="text-xl font-bold text-secondary" style={{ fontSize: '20px', fontWeight: 'bold' }}>
-              {menuItems.find(i => i.path === location.pathname)?.name || 'Hệ Thống'}
-            </h2>
+        <header className="h-20 bg-white border-b border-gray-100 px-8 flex items-center justify-between flex-shrink-0 z-40 shadow-sm">
+          <div className="flex items-center gap-6">
+            <button 
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2.5 hover:bg-gray-50 border border-gray-100 rounded-xl transition-all text-gray-400"
+            >
+              <Menu size={20} />
+            </button>
+            <div className="hidden md:flex items-center bg-gray-50/50 border border-gray-100 rounded-xl px-4 py-2 w-80">
+               <Search size={16} className="text-gray-300" />
+               <input 
+                 type="text" 
+                 placeholder="Tìm kiếm nhanh..." 
+                 className="bg-transparent border-none text-[11px] font-medium text-gray-500 focus:ring-0 w-full" 
+               />
+            </div>
           </div>
 
-          <div className="flex items-center gap-6" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-            <div className="relative" style={{ position: 'relative' }}>
-              <Bell size={20} className="text-gray-400" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" style={{ position: 'absolute', top: '-4px', right: '-4px', width: '8px', height: '8px', backgroundColor: 'red', borderRadius: '50%' }}></span>
-            </div>
-            <div className="flex items-center gap-3 border-l pl-6" style={{ display: 'flex', alignItems: 'center', gap: '12px', borderLeft: '1px solid #eee', paddingLeft: '24px' }}>
-              <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-primary font-bold" style={{ width: '40px', height: '40px', backgroundColor: 'var(--accent)', borderRadius: '50%', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-                AD
-              </div>
-              <div className="hidden sm:block">
-                <p className="text-sm font-bold leading-tight" style={{ fontSize: '14px', fontWeight: 'bold', lineHeight: 1 }}>Administrator</p>
-                <span className="text-xs text-gray-400" style={{ fontSize: '12px', color: '#888' }}>Quản trị viên</span>
-              </div>
+          <div className="flex items-center gap-6">
+            <button className="relative p-2.5 hover:bg-gray-50 text-gray-400 rounded-xl transition-all">
+              <Bell size={20} />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            </button>
+            
+            <div className="flex items-center gap-4 pl-6 border-l border-gray-100">
+               <div className="flex flex-col items-end">
+                  <span className="text-[10px] font-black tracking-tight uppercase text-gray-900 leading-none">Administrator</span>
+                  <span className="text-[8px] font-bold text-green-500 tracking-[0.2em] uppercase mt-1">Trực tuyến</span>
+               </div>
+               <div className="w-10 h-10 bg-[#0A4B7A] rounded-xl flex items-center justify-center text-white shadow-lg overflow-hidden border-2 border-white">
+                  <img src="https://i.pravatar.cc/100?u=admin" alt="Admin" />
+               </div>
             </div>
           </div>
         </header>
 
-        {/* Page Body */}
-        <main className="p-8 lg:p-12 overflow-y-auto" style={{ padding: '32px', flex: 1, backgroundColor: '#f8f9fa' }}>
-          {children}
+        {/* Page Content Container */}
+        <main className="flex-1 overflow-y-auto bg-[#F8FAFC]">
+           <div className="p-8 lg:p-12 min-h-full">
+              {children}
+           </div>
         </main>
       </div>
     </div>
