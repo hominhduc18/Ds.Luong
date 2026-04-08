@@ -1,100 +1,124 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, User } from 'lucide-react';
-import { storage } from '../../utils/storage';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaSearch, FaShoppingCart, FaBars, FaTimes, FaUser } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [siteName, setSiteName] = useState('');
-  const [phone, setPhone] = useState('');
-  const location = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(3); // Demo value
 
   useEffect(() => {
-    const loadSettings = () => {
-      const s = storage.get('beauty_settings') || {};
-      setSiteName(s.siteName || 'Ds Lương');
-      setPhone(s.phone || '0901234567');
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
     };
-    loadSettings();
-    window.addEventListener('beauty_data_changed', loadSettings);
-    window.addEventListener('storage', loadSettings);
-    return () => {
-      window.removeEventListener('beauty_data_changed', loadSettings);
-      window.removeEventListener('storage', loadSettings);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { name: 'Trang Chủ', path: '/' },
-    { name: 'Sản Phẩm', path: '/shop' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'Liên Hệ', path: '/contact' },
+    { name: 'VỀ CHÚNG TÔI', path: '/about' },
+    { name: 'SẢN PHẨM', path: '/shop' },
+    { name: 'BLOG', path: '/blog' },
+    { name: 'LIÊN HỆ', path: '/contact' },
   ];
 
-  // Format phone display: 0901234567 → 0901 234 567
-  const phoneDisplay = phone.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3');
-
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}
+    <header 
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+        isScrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-lg py-3 border-b border-gold-primary/20' 
+          : 'bg-transparent py-6'
+      }`}
     >
-      <div className="container flex justify-between items-center" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px' }}>
-        <Link to="/" className="text-2xl font-bold tracking-tighter" style={{ color: 'var(--primary)', fontSize: '24px' }}>
-          {siteName}
+      <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="flex flex-col">
+          <span className={`text-2xl md:text-3xl font-playfair font-bold tracking-tighter leading-none transition-colors duration-300 ${isScrolled ? 'text-gray-900' : 'text-gray-900'}`}>
+            DS LUONG
+          </span>
+          <span className={`text-[10px] tracking-[0.4em] font-bold mt-1 transition-colors duration-300 ${isScrolled ? 'text-gold-primary' : 'text-gold-primary'}`}>
+            SKINCARE
+          </span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-8 items-center" style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
+        <nav className="hidden lg:flex items-center space-x-10">
           {navLinks.map((link) => (
-            <Link
-              key={link.path}
+            <Link 
+              key={link.name}
               to={link.path}
-              className={`font-medium hover:text-primary transition-colors ${location.pathname === link.path ? 'text-primary' : 'text-text-main'
-                }`}
-              style={{ color: location.pathname === link.path ? 'var(--primary)' : 'inherit' }}
+              className={`text-xs font-bold tracking-widest hover:text-gold-primary transition-colors duration-300 ${
+                isScrolled ? 'text-gray-700' : 'text-gray-900'
+              }`}
             >
               {link.name}
             </Link>
           ))}
-          <div className="flex items-center gap-4 ml-4" style={{ display: 'flex', gap: '15px', marginLeft: '20px' }}>
-            <a href={`tel:${phone}`} className="flex items-center gap-2 text-primary font-bold">
-              <Phone size={18} /> <span>{phoneDisplay}</span>
-            </a>
-            <Link to="/admin/login" className="p-2 hover:bg-accent rounded-full">
-              <User size={20} />
-            </Link>
-          </div>
         </nav>
 
-        {/* Mobile Toggle */}
-        <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        {/* Icons */}
+        <div className={`flex items-center space-x-6 ${isScrolled ? 'text-gray-800' : 'text-gray-900'}`}>
+          <button className="hover:text-gold-primary transition-colors duration-300">
+            <FaSearch size={18} />
+          </button>
+          
+          <Link to="/profile" className="hidden md:block hover:text-gold-primary transition-colors duration-300">
+            <FaUser size={18} />
+          </Link>
+
+          <Link to="/cart" className="relative group hover:text-gold-primary transition-colors duration-300">
+            <FaShoppingCart size={20} />
+            <span className="absolute -top-2 -right-2 bg-[#C61A09] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+              {cartCount}
+            </span>
+          </Link>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="lg:hidden text-gold-primary"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white absolute top-full left-0 w-full shadow-lg border-t py-4 px-6 flex flex-col gap-4">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              onClick={() => setIsMenuOpen(false)}
-              className="py-2 border-b font-medium"
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 bg-white z-[60] lg:hidden flex flex-col p-8 pt-24"
+          >
+            <button 
+              className="absolute top-8 right-8 text-gray-900"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
-              {link.name}
-            </Link>
-          ))}
-          <a href="tel:0901234567" className="text-primary font-bold py-2">Gọi ngay: 0901 234 567</a>
-        </div>
-      )}
+              <FaTimes size={32} />
+            </button>
+            <div className="flex flex-col space-y-8">
+              {navLinks.map((link) => (
+                <Link 
+                  key={link.name}
+                  to={link.path}
+                  className="text-2xl font-playfair font-bold text-gray-900 hover:text-gold-primary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              <div className="pt-8 border-t border-gray-100 flex gap-6">
+                 <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-bold text-gray-600"><FaUser /> TÀI KHOẢN</Link>
+                 <Link to="/cart" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-bold text-gray-600"><FaShoppingCart /> GIỎ HÀNG</Link>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

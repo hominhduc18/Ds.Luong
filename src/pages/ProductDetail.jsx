@@ -1,226 +1,232 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { storage } from '../utils/storage';
-import { Star, MessageCircle, Phone, Heart, Check, ChevronRight, User } from 'lucide-react';
-import ProductCard from '../components/Common/ProductCard';
+import { products } from '../data/products';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaCheckCircle, FaChevronRight, FaRegHeart, FaMinus, FaPlus, FaShoppingCart } from 'react-icons/fa';
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [activeImg, setActiveImg] = useState('');
+  const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
-  const [relatedProducts, setRelatedProducts] = useState([]);
-  const [reviews, setReviews] = useState([]);
 
-  // Form review state
-  const [reviewForm, setReviewForm] = useState({ name: '', email: '', rating: 5, content: '' });
+  // Find product or fallback to a default one (SYL 100 SUN LUX)
+  const product = products.all.find(p => p.id === parseInt(id)) || products.all[3];
 
-  useEffect(() => {
-    const p = storage.products.getById(id);
-    if (p) {
-      setProduct(p);
-      setActiveImg(p.image);
-      const related = storage.products.getAll().filter(item => item.category === p.category && item.id !== p.id).slice(0, 4);
-      setRelatedProducts(related);
-      setReviews(storage.reviews.getAll(id));
+  const highlights = [
+    { title: "Chỉ số SPF 50+ PA++++", desc: "Bảo vệ da tối ưu trước tia UVA/UVB toàn diện." },
+    { title: "Công nghệ chống nắng lai", desc: "Sự kết hợp hoàn hảo giữa Vật lý & Hóa học, mỏng nhẹ." },
+    { title: "Công thức không dầu", desc: "Không nhờn rít, không gây mụn hay bít tắc lỗ chân lông." },
+    { title: "Kháng nước & mồ hôi", desc: "Duy trì lớp bảo vệ bền bỉ ngay cả khi hoạt động ngoài trời." },
+  ];
+
+  const usageSteps = [
+    { title: "Lắc đều", desc: "Lắc kỹ sản phẩm trước khi sử dụng để các thành phần được hòa trộn tối ưu." },
+    { title: "Lấy lượng đủ", desc: "Lấy một lượng kem vừa đủ (khoảng 1 đồng xu cho toàn mặt)." },
+    { title: "Thoa trước 20 phút", desc: "Thoa đều lên da ít nhất 20 phút trước khi tiếp xúc với ánh nắng." },
+    { title: "Thoa lại", desc: "Nên thoa lại sau mỗi 2 giờ hoặc sau khi bơi lội, ra mồ hôi nhiều." },
+  ];
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'description':
+        return (
+          <motion.div key="desc" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="text-gray-600 leading-relaxed text-lg">
+            <p className="mb-6">
+              Mỹ phẩm Châu Âu đạt chuẩn GMP, {product?.name} được nghiên cứu và sản xuất tại Tây Ban Nha. 
+              Đây không chỉ là một sản phẩm chăm sóc da thông thường, mà là một bước đột phá trong công nghệ 
+              dermatology chuyên sâu.
+            </p>
+            <p>
+              Sản phẩm sử dụng các thành phần thế hệ mới, kết hợp tinh hoa giữa các hoạt chất đặc trị 
+              và màng lọc bảo vệ da, giúp cải thiện rõ rệt các vấn đề về {product?.descLine?.toLowerCase()}. 
+              Công thức đã qua kiểm nghiệm lâm sàng, đảm bảo an toàn tuyệt đối ngay cả với làn da nhạy cảm nhất.
+            </p>
+          </motion.div>
+        );
+      case 'highlights':
+        return (
+          <motion.div key="high" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {highlights.map((h, i) => (
+                <div key={i} className="flex items-start gap-4 p-6 bg-gold-primary/5 rounded-xl border border-gold-primary/10">
+                  <FaCheckCircle className="text-gold-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-bold text-gray-900 mb-2 uppercase tracking-tight">{h.title}</h4>
+                    <p className="text-gray-600 text-sm leading-relaxed">{h.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        );
+      case 'usage':
+        return (
+          <motion.div key="usage" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {usageSteps.map((step, i) => (
+                <div key={i} className="text-center group">
+                  <div className="w-16 h-16 bg-white border-2 border-gold-primary flex items-center justify-center rounded-full mx-auto mb-6 text-gold-primary font-bold text-xl group-hover:bg-gold-primary group-hover:text-white transition-all duration-300">
+                    {i + 1}
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-3 uppercase text-sm">{step.title}</h4>
+                  <p className="text-gray-500 text-xs leading-loose italic">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        );
+      case 'technical':
+        return (
+          <motion.div key="tech" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+            <div className="grid grid-cols-1 gap-4 max-w-md mx-auto">
+              {[
+                { label: "DUNG TÍCH", value: "50ml" },
+                { label: "BẢO QUẢN", value: "Nơi khô ráo, thoáng mát (dưới 30°C)" },
+                { label: "LOẠI DA", value: "Mọi loại da (Kể cả da nhạy cảm)" },
+                { label: "XUẤT XỨ", value: "Tây Ban Nha" },
+                { label: "LIÊN QUAN", value: product?.descLine },
+              ].map((item, i) => (
+                <div key={i} className="flex justify-between items-center py-3 border-b border-gray-100 italic">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{item.label}</span>
+                  <span className="text-sm font-semibold text-gray-900">{item.value}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        );
+      default:
+        return null;
     }
-    window.scrollTo(0, 0);
-  }, [id]);
-
-  if (!product) return <div className="py-40 text-center">Loading...</div>;
-
-  const handleReviewSubmit = (e) => {
-    e.preventDefault();
-    storage.reviews.add({ ...reviewForm, productId: Number(id) });
-    alert('Đánh giá của bạn đã được gửi và đang chờ duyệt!');
-    setReviewForm({ name: '', email: '', rating: 5, content: '' });
   };
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-  };
+  if (!product) {
+    return (
+      <div className="pt-40 pb-20 text-center">
+        <h2 className="text-2xl font-bold mb-4">Sản phẩm không tồn tại</h2>
+        <Link to="/shop" className="btn-gold-outline shadow-xl">QUAY LẠI CỬA HÀNG</Link>
+      </div>
+    );
+  }
 
   return (
-    <div className="pt-32 pb-20 bg-white" style={{paddingTop: '128px', paddingBottom: '80px', backgroundColor: 'white'}}>
-      <div className="container">
-        {/* Breadcrumb */}
-        <div className="text-sm text-gray-500 mb-12" style={{fontSize: '14px', color: '#888', marginBottom: '48px'}}>
-           <Link to="/" className="hover:text-primary">Trang Chủ</Link> <span className="mx-2">/</span> <Link to="/shop" className="hover:text-primary">Sản Phẩm</Link> <span className="mx-2">/</span> <span className="text-primary font-bold">{product.name}</span>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '64px', marginBottom: '96px'}}>
-          {/* Gallery */}
-          <div className="space-y-6" style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
-            <div className="aspect-square rounded-3xl overflow-hidden border border-gray-100 shadow-sm" style={{position: 'relative', overflow: 'hidden', paddingBottom: '100%', borderRadius: '24px', border: '1px solid #f0f0f0'}}>
-               <img src={activeImg} alt={product.name} className="absolute inset-0 w-full h-full object-cover" style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
-            </div>
-            <div className="flex gap-4" style={{display: 'flex', gap: '16px'}}>
-              {[product.image, ...(product.gallery || [])].map((img, i) => (
-                <button 
-                  key={i} 
-                  onClick={() => setActiveImg(img)}
-                  className={`w-24 h-24 rounded-xl overflow-hidden border-2 transition-all ${activeImg === img ? 'border-primary' : 'border-transparent hover:border-gray-200'}`}
-                  style={{width: '96px', height: '96px', borderRadius: '12px', overflow: 'hidden', border: activeImg === img ? '2px solid var(--primary)' : '2px solid transparent'}}
-                >
-                  <img src={img} className="w-full h-full object-cover" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Info */}
-          <div className="space-y-8" style={{display: 'flex', flexDirection: 'column', gap: '32px'}}>
-             <div>
-                <span className="bg-accent text-primary px-4 py-1 rounded-full text-sm font-bold block w-fit mb-4" style={{backgroundColor: 'var(--accent)', color: 'var(--primary)', padding: '4px 16px', borderRadius: '20px', fontSize: '14px', marginBottom: '16px'}}>
-                  {product.category}
-                </span>
-                <h1 className="text-4xl font-bold text-secondary mb-4 leading-tight" style={{fontSize: '36px', fontWeight: 'bold', marginBottom: '16px'}}>{product.name}</h1>
-                <div className="flex items-center gap-6" style={{display: 'flex', alignItems: 'center', gap: '24px'}}>
-                   <div className="flex text-primary gap-1" style={{display: 'flex', gap: '4px', color: 'var(--primary)'}}>
-                      <Star size={18} fill="currentColor" />
-                      <Star size={18} fill="currentColor" />
-                      <Star size={18} fill="currentColor" />
-                      <Star size={18} fill="currentColor" />
-                      <Star size={18} fill="currentColor" className="text-gray-300" />
-                   </div>
-                   <span className="text-gray-400 text-sm" style={{fontSize: '14px', color: '#888'}}>(4.5/5 từ {reviews.length} đánh giá)</span>
-                </div>
-             </div>
-
-             <div className="flex items-center gap-6" style={{display: 'flex', alignItems: 'center', gap: '24px'}}>
-                <span className="text-4xl font-bold text-primary" style={{fontSize: '36px', color: 'var(--primary)', fontWeight: 'bold'}}>{formatPrice(product.price)}</span>
-                {product.oldPrice && (
-                  <span className="text-xl text-gray-400 line-through" style={{fontSize: '20px', color: '#999', textDecoration: 'line-through'}}>{formatPrice(product.oldPrice)}</span>
-                )}
-             </div>
-
-             <p className="text-gray-600 leading-relaxed text-lg" style={{fontSize: '18px', color: '#555', lineHeight: '1.6'}}>
-                {product.shortDesc}
-             </p>
-
-             <div className="flex items-center gap-2 text-success font-medium" style={{color: 'var(--success)', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 500}}>
-                <Check size={20} /> Còn hàng trong kho
-             </div>
-
-             <div className="flex flex-col sm:flex-row gap-4 pt-6" style={{display: 'flex', gap: '16px', paddingTop: '24px'}}>
-                <a 
-                  href={`https://zalo.me/0901234567`}
-                  target="_blank"
-                  className="btn btn-primary flex-1 justify-center py-5 text-lg"
-                  style={{flex: 1, padding: '15px', justifyContent: 'center', fontSize: '18px'}}
-                >
-                  <MessageCircle size={24} /> Tư Vấn Qua Zalo
-                </a>
-                <a 
-                  href="tel:0901234567"
-                  className="btn btn-secondary px-8 py-5 text-lg"
-                  style={{padding: '15px 32px', fontSize: '18px'}}
-                >
-                  <Phone size={24} /> Gọi Ngay
-                </a>
-                <button className="p-5 border border-gray-200 rounded-xl hover:bg-accent transition-colors" style={{padding: '15px', border: '1px solid #eee', borderRadius: '12px'}}>
-                  <Heart size={24} />
-                </button>
-             </div>
+    <div className="bg-white pt-24 pb-20">
+      {/* Breadcrumbs */}
+      <div className="bg-gray-50 py-4 mb-12 border-y border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center gap-2 text-[10px] md:text-xs text-gray-400 font-bold uppercase tracking-[0.2em]">
+            <Link to="/" className="hover:text-gold-primary transition-colors">TRANG CHỦ</Link>
+            <FaChevronRight size={8} />
+            <Link to="/shop" className="hover:text-gold-primary transition-colors">SẢN PHẨM</Link>
+            <FaChevronRight size={8} />
+            <span className="text-gold-primary">{product?.name}</span>
           </div>
         </div>
+      </div>
 
-        {/* Tabs */}
-        <div className="mb-24" style={{marginBottom: '96px'}}>
-           <div className="flex border-b border-gray-100 mb-10 overflow-x-auto gap-12" style={{display: 'flex', borderBottom: '1px solid #f0f0f0', marginBottom: '40px', gap: '48px'}}>
-              {[
-                { id: 'description', label: 'Mô Tả Sản Phẩm' },
-                { id: 'ingredients', label: 'Thành Phần' },
-                { id: 'usage', label: 'Hướng Dẫn Sử Dụng' },
-                { id: 'reviews', label: `Đánh Giá (${reviews.length})` }
-              ].map(tab => (
-                <button 
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`pb-4 text-lg font-bold transition-all relative ${activeTab === tab.id ? 'text-primary' : 'text-gray-400 hover:text-secondary'}`}
-                  style={{paddingBottom: '16px', fontSize: '18px', fontWeight: 'bold', borderBottom: activeTab === tab.id ? '3px solid var(--primary)' : '3px solid transparent'}}
-                >
-                  {tab.label}
-                </button>
-              ))}
-           </div>
-
-           <div className="min-h-[300px] leading-relaxed text-gray-700 text-lg" style={{minHeight: '300px', lineHeight: '1.8', color: '#444', fontSize: '18px'}}>
-              {activeTab === 'description' && <div>{product.desc}</div>}
-              {activeTab === 'ingredients' && <div>{product.ingredients}</div>}
-              {activeTab === 'usage' && <div>{product.usage}</div>}
-              {activeTab === 'reviews' && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '64px'}}>
-                   {/* Review List */}
-                   <div className="space-y-8" style={{display: 'flex', flexDirection: 'column', gap: '32px'}}>
-                      {reviews.length > 0 ? reviews.map(r => (
-                        <div key={r.id} className="p-6 bg-accent rounded-2xl border border-gray-100" style={{padding: '24px', backgroundColor: 'var(--accent)', borderRadius: '16px', border: '1px solid #f0f0f0'}}>
-                           <div className="flex items-center justify-between mb-4" style={{display: 'flex', justifyContent: 'space-between', marginBottom: '16px'}}>
-                              <div className="flex items-center gap-3" style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                                 <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white" style={{width: '40px', height: '40px', backgroundColor: 'var(--primary)', borderRadius: '50%', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                    <User size={18} />
-                                 </div>
-                                 <span className="font-bold" style={{fontWeight: 'bold'}}>{r.name}</span>
-                              </div>
-                              <span className="text-xs text-gray-400" style={{fontSize: '12px', color: '#999'}}>{new Date(r.date).toLocaleDateString('vi-VN')}</span>
-                           </div>
-                           <div className="flex text-primary gap-1 mb-3" style={{display: 'flex', gap: '4px', color: 'var(--primary)', marginBottom: '12px'}}>
-                              {[...Array(r.rating)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
-                           </div>
-                           <p className="text-sm text-gray-600" style={{fontSize: '14px', color: '#555'}}>{r.content}</p>
-                        </div>
-                      )) : <p className="text-gray-400">Chưa có đánh giá nào cho sản phẩm này.</p>}
-                   </div>
-
-                   {/* Add Review Form */}
-                   <form onSubmit={handleReviewSubmit} className="space-y-6 p-8 bg-white border border-gray-100 rounded-3xl" style={{display: 'flex', flexDirection: 'column', gap: '24px', padding: '32px', border: '1px solid #eee', borderRadius: '24px'}}>
-                      <h4 className="text-xl font-bold" style={{fontSize: '20px', fontWeight: 'bold'}}>Gửi đánh giá của bạn</h4>
-                      <div className="grid grid-cols-2 gap-4" style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px'}}>
-                         <input 
-                            required type="text" placeholder="Họ tên" className="w-full p-3 border border-gray-100 rounded-xl"
-                            value={reviewForm.name} onChange={(e) => setReviewForm({...reviewForm, name: e.target.value})}
-                         />
-                         <input 
-                            required type="email" placeholder="Email" className="w-full p-3 border border-gray-100 rounded-xl"
-                            value={reviewForm.email} onChange={(e) => setReviewForm({...reviewForm, email: e.target.value})}
-                         />
-                      </div>
-                      <div className="flex items-center gap-4" style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
-                         <span className="text-sm font-bold" style={{fontSize: '14px', fontWeight: 'bold'}}>Đánh giá:</span>
-                         <div className="flex gap-2" style={{display: 'flex', gap: '8px'}}>
-                            {[1, 2, 3, 4, 5].map(s => (
-                              <button 
-                                key={s} type="button" onClick={() => setReviewForm({...reviewForm, rating: s})}
-                                className={`text-gray-300 transition-colors ${reviewForm.rating >= s ? 'text-primary' : ''}`}
-                                style={{color: reviewForm.rating >= s ? 'var(--primary)' : '#ddd'}}
-                              >
-                                <Star size={24} fill={reviewForm.rating >= s ? 'currentColor' : 'none'} />
-                              </button>
-                            ))}
-                         </div>
-                      </div>
-                      <textarea 
-                        required placeholder="Nội dung đánh giá..." rows="4" className="w-full p-3 border border-gray-100 rounded-xl"
-                        value={reviewForm.content} onChange={(e) => setReviewForm({...reviewForm, content: e.target.value})}
-                      ></textarea>
-                      <button className="btn btn-primary w-full py-4 text-lg">Gửi Đánh Giá</button>
-                   </form>
-                </div>
-              )}
-           </div>
-        </div>
-
-        {/* Related Products */}
-        <div style={{marginTop: '80px'}}>
-           <div className="flex justify-between items-end mb-12" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px'}}>
-              <div>
-                <h2 className="text-3xl font-bold mb-4" style={{fontSize: '32px', fontWeight: 'bold', marginBottom: '16px'}}>Sản Phẩm Tương Tự</h2>
-                <p className="text-gray-600" style={{color: '#666'}}>Có thể bạn cũng quan tâm đến những mặt hàng này.</p>
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col lg:flex-row gap-16 mb-24">
+          {/* Product Image */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="lg:w-1/2"
+          >
+            <div className="relative group rounded-3xl overflow-hidden bg-gray-50 border border-gray-100 gold-shadow p-8 flex items-center justify-center aspect-square">
+              <img 
+                src={product.image} 
+                alt={product.name} 
+                className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-105"
+                onError={(e) => {
+                  e.target.src = `https://via.placeholder.com/600x600/F5F5F5/D4AF37?text=${product.name.replace(/\s/g, '+')}`;
+                }}
+              />
+              <div className="absolute top-8 left-8 flex flex-col gap-3">
+                 {product.badge && <span className="bg-black text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-lg uppercase tracking-widest">{product.badge}</span>}
+                 {product.isNew && <span className="bg-gold-primary text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-lg uppercase tracking-widest">NEW ENTRY</span>}
               </div>
-           </div>
-           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px'}}>
-              {relatedProducts.map(p => <ProductCard key={p.id} product={p} />)}
-           </div>
+            </div>
+          </motion.div>
+
+          {/* Product Info */}
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="lg:w-1/2 flex flex-col justify-center"
+          >
+            <div className="mb-10">
+              <p className="text-[10px] font-bold text-gold-primary uppercase tracking-[0.4em] mb-6">DS LUONG DERMA COSMETICS</p>
+              <h1 className="text-4xl md:text-5xl font-playfair font-bold text-gray-900 leading-tight uppercase mb-6 tracking-tight italic">
+                {product.name} <br />
+                <span className="text-gray-400 font-light text-2xl lowercase mt-2 block">- {product.descLine}</span>
+              </h1>
+              
+              <div className="flex items-center gap-8 mb-10">
+                <span className="text-4xl font-bold text-[#C61A09] font-montserrat tracking-tight">{product.price}</span>
+                <div className="h-10 w-px bg-gray-200"></div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">TRẠNG THÁI</span>
+                  <span className="text-xs font-bold text-green-600 uppercase flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-600 rounded-full animate-pulse"></span> Còn hàng
+                  </span>
+                </div>
+              </div>
+
+              <div className="text-gray-600 leading-relaxed italic mb-10 border-l-4 border-gold-primary pl-8 text-lg max-w-xl">
+                 {product.name} là giải pháp nuôi dưỡng và phục hồi làn da chuyên sâu từ DS LUONG. 
+                 Được chế tác với công nghệ tá dược độc quyền, sản phẩm cam kết mang lại hiệu quả 
+                 tối ưu cho vấn đề {product.descLine.toLowerCase()}.
+              </div>
+
+              {/* Purchase Actions */}
+              <div className="flex flex-col sm:flex-row items-center gap-6 mb-12 pb-12 border-b border-gray-100">
+                <div className="flex items-center bg-gray-100 rounded-full h-14 px-6 shadow-inner">
+                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-gray-500 hover:text-gold-primary transition-colors p-2"><FaMinus size={14} /></button>
+                  <span className="w-16 text-center font-bold text-xl text-gray-900">{quantity}</span>
+                  <button onClick={() => setQuantity(quantity + 1)} className="text-gray-500 hover:text-gold-primary transition-colors p-2"><FaPlus size={14} /></button>
+                </div>
+                <button className="flex-grow btn-gold-solid h-14 flex items-center justify-center gap-3 w-full sm:w-auto shadow-2xl shadow-gold-primary/30 text-base">
+                  <FaShoppingCart /> THÊM VÀO GIỎ HÀNG
+                </button>
+                <button className="w-14 h-14 flex items-center justify-center border-2 border-gray-100 rounded-full text-gray-400 hover:text-red-500 hover:border-red-100 transition-all duration-300">
+                  <FaRegHeart size={20} />
+                </button>
+              </div>
+
+              {/* Metadata */}
+              <div className="grid grid-cols-2 gap-8 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                <div className="flex flex-col gap-3">
+                  <span className="text-gray-900 border-b border-gray-100 pb-1">MÃ SẢN PHẨM</span>
+                  <span>DSL-{product.id}00-PRO</span>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <span className="text-gray-900 border-b border-gray-100 pb-1">DANH MỤC</span>
+                  <span>{product.category}</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Info Tabs */}
+        <div className="mb-24">
+          <div className="flex justify-center border-b border-gray-100 mb-16 overflow-x-auto no-scrollbar scroll-smooth">
+            {['description', 'highlights', 'usage', 'technical'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`flex-shrink-0 px-10 py-6 text-xs font-bold uppercase tracking-[0.2em] transition-all relative ${activeTab === tab ? 'text-gold-primary' : 'text-gray-400 hover:text-gray-900'}`}
+              >
+                {tab === 'description' ? 'Mô tả chi tiết' : tab === 'highlights' ? 'Công dụng nổi bật' : tab === 'usage' ? 'Hướng dẫn sử dụng' : 'Thông tin bổ sung'}
+                {activeTab === tab && <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 w-full h-1 bg-gold-primary" />}
+              </button>
+            ))}
+          </div>
+
+          <div className="max-w-5xl mx-auto min-h-[400px]">
+            <AnimatePresence mode="wait">
+              {renderTabContent()}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </div>

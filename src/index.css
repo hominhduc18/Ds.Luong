@@ -1,145 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold-light: #FFF8E7;
+  --color-gold-primary: #D4AF37;
+  --color-gold-bright: #FFD700;
+  --color-gold-medium: #C5A028;
+  --color-gold-dark: #B8860B;
+
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-playfair: "Playfair Display", serif;
+}
+
+/* Custom CSS variables for fonts if needed by legacy code */
 :root {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  --primary: #d4a373; /* Muted Rose Gold */
-  --primary-hover: #bc8a5f;
-  --secondary: #1a1a1a;
-  --secondary-light: #333333;
-  --accent: #faedcd; /* Cream */
-  --bg: #fefae0; /* Very light cream */
-  --card-bg: #ffffff;
-  --text-main: #283618;
-  --text-muted: #606c38;
-  --white: #ffffff;
-  --error: #e63946;
-  --success: #2a9d8f;
-
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
-
-  color-scheme: light;
-  background-color: var(--bg);
-  color: var(--text-main);
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-playfair: "Playfair Display", serif;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap');
+  
+  body {
+    @apply font-montserrat text-gray-800 bg-white;
+  }
 }
 
-body {
-  min-height: 100vh;
-  overflow-x: hidden;
+@layer components {
+  .container-custom {
+    @apply max-w-[1200px] mx-auto px-4 w-full;
+  }
+  
+  .btn-gold-outline {
+    @apply border-2 border-gold-primary text-gold-primary px-8 py-2 font-semibold hover:bg-gold-primary hover:text-white transition-all duration-300;
+  }
+  
+  .btn-gold-solid {
+    @apply bg-gold-primary text-white px-8 py-2 font-semibold hover:bg-gold-dark transition-all duration-300;
+  }
+
+  .gold-shadow {
+    @apply shadow-[0_4px_20px_rgba(212,175,55,0.15)];
+  }
+
+  .gold-shadow-hover {
+    @apply hover:shadow-[0_10px_30px_rgba(212,175,55,0.25)] transition-all duration-300;
+  }
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.3s ease;
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #FFF8E7 0%, #ffffff 100%);
 }
 
-button {
-  cursor: pointer;
-  border: none;
-  outline: none;
-  background: none;
-  font-family: inherit;
-  transition: all 0.3s ease;
+.header-transition {
+  transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
 }
 
-ul {
-  list-style: none;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-hover);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-/* Container */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Buttons */
-.btn {
-  padding: 12px 24px;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: var(--white);
-}
-
-.btn-primary:hover {
-  background: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-secondary {
-  background: var(--secondary);
-  color: var(--white);
-}
-
-.btn-secondary:hover {
-  background: var(--secondary-light);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-outline {
-  border: 2px solid var(--primary);
-  color: var(--primary);
-}
-
-.btn-outline:hover {
-  background: var(--primary);
-  color: var(--white);
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
