@@ -75,7 +75,7 @@ const AdminProducts = () => {
         </div>
         <button 
           onClick={() => { setEditingItem(null); setIsModalOpen(true); }}
-          className="flex items-center gap-3 bg-[#0A4B7A] text-white px-8 py-4 rounded-2xl text-xs font-semibold tracking-wide hover:bg-gray-900 transition-all shadow-xl shadow-[#0A4B7A]/20 uppercase"
+          className="flex items-center gap-3 bg-gold-primary text-white px-8 py-4 rounded-2xl text-xs font-semibold tracking-wide hover:bg-gray-900 transition-all shadow-xl shadow-gold-primary/20 uppercase"
         >
           <Plus size={18} /> Cấp mới sản phẩm
         </button>
@@ -88,7 +88,7 @@ const AdminProducts = () => {
             <input 
               type="text" 
               placeholder="Tên sản phẩm, Mã vạch hoặc Thương hiệu..."
-              className="w-full bg-white border border-gray-100 rounded-[1.5rem] py-5 pl-14 pr-6 text-xs font-semibold focus:ring-4 focus:ring-[#0A4B7A]/5 focus:border-[#0A4B7A]/20 transition-all shadow-sm outline-none"
+              className="w-full bg-white border border-gray-100 rounded-[1.5rem] py-5 pl-14 pr-6 text-xs font-semibold focus:ring-4 focus:ring-gold-primary/5 focus:border-gold-primary/20 transition-all shadow-sm outline-none"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -109,7 +109,7 @@ const AdminProducts = () => {
       <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto overflow-y-visible">
           <table className="w-full text-left">
-            <thead className="bg-[#0A4B7A] text-[10px] font-semibold text-white uppercase tracking-wider">
+            <thead className="bg-gold-primary text-[10px] font-semibold text-white uppercase tracking-wider">
               <tr>
                 <th className="px-10 py-6">Hình ảnh & Tên</th>
                 <th className="px-10 py-6">Danh mục</th>
@@ -146,7 +146,7 @@ const AdminProducts = () => {
                        </div>
                     </td>
                     <td className="px-10 py-6 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{p.category}</td>
-                    <td className="px-10 py-6 text-[12px] font-bold text-[#0A4B7A]">
+                    <td className="px-10 py-6 text-[12px] font-bold text-gold-primary">
                        {p.price?.toLocaleString('vi-VN')}₫
                     </td>
                     <td className="px-10 py-6 text-[11px] font-bold text-gray-600">{p.stock || 0}</td>
@@ -161,7 +161,7 @@ const AdminProducts = () => {
                        <div className="flex justify-end gap-3 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                           <button 
                             onClick={() => { setEditingItem(p); setIsModalOpen(true); }}
-                            className="w-10 h-10 flex items-center justify-center bg-blue-50 text-[#0A4B7A] rounded-xl hover:bg-[#0A4B7A] hover:text-white transition-all shadow-sm"
+                            className="w-10 h-10 flex items-center justify-center bg-gold-light text-gold-primary rounded-xl hover:bg-gold-primary hover:text-white transition-all shadow-sm"
                           >
                              <Edit3 size={16} />
                           </button>
@@ -266,7 +266,7 @@ const AdminProducts = () => {
                       </button>
                       <button 
                         type="submit"
-                        className="px-14 py-5 bg-[#0A4B7A] text-white rounded-2xl text-[11px] font-black tracking-[0.4em] hover:bg-gray-900 transition-all shadow-2xl shadow-[#0A4B7A]/20 uppercase"
+                        className="px-14 py-5 bg-gold-primary text-white rounded-2xl text-[11px] font-black tracking-[0.4em] hover:bg-gray-900 transition-all shadow-2xl shadow-gold-primary/20 uppercase"
                       >
                          {editingItem ? 'Cập nhật' : 'Khởi tạo'}
                       </button>

@@ -113,8 +113,8 @@ const Header = () => {
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between h-8">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <span className="text-2xl font-bold font-playfair tracking-tighter text-[#0A4B7A] uppercase">
-            SKINCLINIC
+          <span className="text-2xl font-bold font-playfair tracking-tighter text-gold-primary uppercase">
+            DS LUONG
           </span>
         </Link>
 

@@ -73,7 +73,7 @@ const AdminPosts = () => {
         </div>
         <button 
           onClick={() => { setEditingItem(null); setIsModalOpen(true); }}
-          className="flex items-center gap-3 bg-emerald-600 text-white px-8 py-4 rounded-2xl text-xs font-semibold tracking-wide hover:bg-gray-900 transition-all shadow-xl shadow-emerald-500/20 uppercase"
+          className="flex items-center gap-3 bg-gold-primary text-white px-8 py-4 rounded-2xl text-xs font-semibold tracking-wide hover:bg-gray-900 transition-all shadow-xl shadow-gold-primary/20 uppercase"
         >
           <Plus size={18} /> Soạn thảo bài mới
         </button>
@@ -103,19 +103,19 @@ const AdminPosts = () => {
                  animate={{ opacity: 1, y: 0 }}
                  exit={{ opacity: 0, scale: 0.9 }}
                  transition={{ delay: idx * 0.05 }}
-                 className="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden flex flex-col group hover:shadow-2xl transition-all duration-500 border-b-4 hover:border-emerald-500"
+                 className="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden flex flex-col group hover:shadow-2xl transition-all duration-500 border-b-4 hover:border-gold-primary"
                >
                   <div className="relative aspect-[16/10] overflow-hidden">
                      <img src={p.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={p.title} />
                      <div className="absolute top-6 left-6">
-                        <span className="px-4 py-2 bg-white/90 backdrop-blur-md rounded-xl text-[9px] font-black text-emerald-600 uppercase tracking-widest shadow-lg border border-white/20">
+                        <span className="px-4 py-2 bg-white/90 backdrop-blur-md rounded-xl text-[9px] font-black text-gold-primary uppercase tracking-widest shadow-lg border border-white/20">
                            {p.category}
                         </span>
                      </div>
                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8 gap-4">
                         <button 
                           onClick={() => { setEditingItem(p); setIsModalOpen(true); }}
-                          className="flex-1 bg-white text-gray-900 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-emerald-500 hover:text-white transition-all"
+                          className="flex-1 bg-white text-gray-900 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-gold-primary hover:text-white transition-all"
                         >
                            <Edit3 size={14} /> Chỉnh sửa
                         </button>
@@ -137,7 +137,7 @@ const AdminPosts = () => {
                            <UserIcon size={12} /> {p.author || 'Admin'}
                         </div>
                      </div>
-                     <h3 className="text-sm font-bold text-gray-900 tracking-tight leading-relaxed mb-4 group-hover:text-emerald-600 transition-colors line-clamp-2">
+                     <h3 className="text-sm font-bold text-gray-900 tracking-tight leading-relaxed mb-4 group-hover:text-gold-primary transition-colors line-clamp-2">
                         {p.title}
                      </h3>
                      <p className="text-[11px] text-gray-500 font-medium leading-relaxed line-clamp-2 mb-6">
@@ -145,10 +145,10 @@ const AdminPosts = () => {
                      </p>
                      <div className="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                           <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-glow"></div>
+                           <div className="w-1.5 h-1.5 bg-gold-primary rounded-full shadow-glow"></div>
                            <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Đã xuất bản</span>
                         </div>
-                        <button onClick={() => { setEditingItem(p); setIsModalOpen(true); }} className="p-2 text-gray-400 hover:text-emerald-500 transition-all">
+                        <button onClick={() => { setEditingItem(p); setIsModalOpen(true); }} className="p-2 text-gray-400 hover:text-gold-primary transition-all">
                            <MoreVertical size={16} />
                         </button>
                      </div>
@@ -207,7 +207,7 @@ const AdminPosts = () => {
                               defaultValue={editingItem?.title} 
                               required 
                               placeholder="Kỹ thuật phục hồi da sau xâm lấn..."
-                              className="w-full bg-gray-50 border-none rounded-2xl py-6 px-8 text-lg font-bold tracking-tight outline-none focus:ring-4 focus:ring-emerald-500/5 transition-all" 
+                              className="w-full bg-gray-50 border-none rounded-2xl py-6 px-8 text-lg font-bold tracking-tight outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all" 
                             />
                          </div>
 
@@ -219,7 +219,7 @@ const AdminPosts = () => {
                               required 
                               rows="3"
                               placeholder="Mô tả ngắn gọn nội dung bài viết này..."
-                              className="w-full bg-gray-50 border-none rounded-3xl py-6 px-8 text-xs font-bold leading-relaxed outline-none focus:ring-4 focus:ring-emerald-500/5 transition-all" 
+                              className="w-full bg-gray-50 border-none rounded-3xl py-6 px-8 text-xs font-bold leading-relaxed outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all" 
                             />
                          </div>
 
@@ -231,7 +231,7 @@ const AdminPosts = () => {
                               required 
                               rows="12"
                               placeholder="<p>Bắt đầu bài viết tại đây...</p>"
-                              className="w-full bg-gray-50 border-none rounded-[2.5rem] py-8 px-10 text-xs font-medium leading-loose outline-none focus:ring-4 focus:ring-emerald-500/5 transition-all font-mono" 
+                              className="w-full bg-gray-50 border-none rounded-[2.5rem] py-8 px-10 text-xs font-medium leading-loose outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all font-mono" 
                             />
                          </div>
                       </div>
@@ -249,7 +249,7 @@ const AdminPosts = () => {
                             <input 
                                name="image" 
                                defaultValue={editingItem?.image} 
-                               className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-[10px] font-bold outline-none focus:ring-4 focus:ring-emerald-500/5 transition-all flex items-center gap-3 lowercase"
+                               className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-[10px] font-bold outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all flex items-center gap-3 lowercase"
                             />
                          </div>
 
@@ -258,7 +258,7 @@ const AdminPosts = () => {
                             <select 
                                name="category" 
                                defaultValue={editingItem?.category} 
-                               className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black outline-none focus:ring-4 focus:ring-emerald-500/5 transition-all uppercase tracking-widest text-emerald-600"
+                               className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all uppercase tracking-widest text-gold-primary"
                             >
                                <option>CHĂM SÓC DA</option>
                                <option>CHỐNG LÃO HOÁ</option>
@@ -273,12 +273,12 @@ const AdminPosts = () => {
                             <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Tác giả</label>
                             <input 
                                name="author" 
-                               defaultValue={editingItem?.author || 'SkinClinic Doctor'} 
-                               className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black outline-none focus:ring-4 focus:ring-emerald-500/5 transition-all text-gray-900" 
+                               defaultValue={editingItem?.author || 'DS LUONG Admin'} 
+                               className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all text-gray-900" 
                             />
                          </div>
 
-                         <div className="p-8 bg-emerald-50/50 rounded-3xl border border-emerald-50 space-y-4">
+                         <div className="p-8 bg-gold-light/50 rounded-3xl border border-gold-light space-y-4">
                             <div className="flex items-center justify-between">
                                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Trạng thái</span>
                                <span className="text-[9px] font-black text-emerald-600 uppercase tracking-widest">Sẵn sàng xuất bản</span>
@@ -301,7 +301,7 @@ const AdminPosts = () => {
                       </button>
                       <button 
                         type="submit"
-                        className="px-16 py-5 bg-emerald-600 text-white rounded-[2rem] text-[11px] font-black tracking-[0.4em] hover:bg-gray-900 transition-all shadow-2xl shadow-emerald-500/20 uppercase flex items-center gap-3"
+                        className="px-16 py-5 bg-gold-primary text-white rounded-[2rem] text-[11px] font-black tracking-[0.4em] hover:bg-gray-900 transition-all shadow-2xl shadow-gold-primary/20 uppercase flex items-center gap-3"
                       >
                          <Check size={18} /> {editingItem ? 'Lưu thay đổi' : 'Xuất bản ngay'}
                       </button>
@@ -321,7 +321,7 @@ const AdminPosts = () => {
             exit={{ opacity: 0, scale: 0.9 }}
             className="fixed bottom-12 right-12 bg-gray-900 text-white px-10 py-6 rounded-full shadow-2xl z-[300] border border-white/10 flex items-center gap-4"
           >
-             <CheckCircle size={22} className="text-emerald-400 shadow-glow" />
+             <CheckCircle size={22} className="text-gold-primary shadow-glow" />
              <span className="text-[11px] font-black tracking-[0.3em] uppercase">{toast}</span>
           </motion.div>
         )}

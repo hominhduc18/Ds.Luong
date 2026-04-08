@@ -15,9 +15,9 @@ const AdminDashboard = () => {
   const reviews = storage.reviews.getAll();
 
   const stats = [
-    { label: 'TỔNG SẢN PHẨM', val: products.length, icon: <ShoppingBag size={22} />, color: 'bg-blue-500', trend: '+12%', path: '/admin/products' },
-    { label: 'BÀI VIẾT BLOG', val: posts.length, icon: <BookOpen size={22} />, color: 'bg-emerald-500', trend: '+3%', path: '/admin/posts' },
-    { label: 'YÊU CẦU LIÊN HỆ', val: contacts.length, icon: <Mail size={22} />, color: 'bg-indigo-500', trend: '+5', path: '/admin/contacts' },
+    { label: 'TỔNG SẢN PHẨM', val: products.length, icon: <ShoppingBag size={22} />, color: 'bg-gold-primary', trend: '+12%', path: '/admin/products' },
+    { label: 'BÀI VIẾT BLOG', val: posts.length, icon: <BookOpen size={22} />, color: 'bg-gold-medium', trend: '+3%', path: '/admin/posts' },
+    { label: 'YÊU CẦU LIÊN HỆ', val: contacts.length, icon: <Mail size={22} />, color: 'bg-gold-dark', trend: '+5', path: '/admin/contacts' },
     { label: 'ĐÁNH GIÁ KHÁCH', val: reviews.length, icon: <MessageSquare size={22} />, color: 'bg-amber-500', trend: '+8', path: '/admin/dashboard' },
   ];
 
@@ -53,7 +53,7 @@ const AdminDashboard = () => {
         </div>
         <div className="flex items-center gap-3">
            <div className="px-5 py-3 bg-white border border-gray-100 rounded-2xl shadow-sm flex items-center gap-3">
-              <Clock size={16} className="text-[#0A4B7A]" />
+              <Clock size={16} className="text-gold-primary" />
               <span className="text-[11px] font-semibold text-gray-900">
                 {new Date().toLocaleDateString('vi-VN', { weekday: 'long', day: 'numeric', month: 'long' })}
               </span>
@@ -80,7 +80,7 @@ const AdminDashboard = () => {
                     <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">{stat.label}</span>
                     <p className="text-4xl font-bold text-gray-900 mt-1 tracking-tight">{stat.val}</p>
                   </div>
-                  <Link to={stat.path} className="mt-6 flex items-center gap-2 text-[11px] font-semibold text-[#0A4B7A] uppercase hover:gap-3 transition-all">
+                  <Link to={stat.path} className="mt-6 flex items-center gap-2 text-[11px] font-semibold text-gold-primary uppercase hover:gap-3 transition-all">
                     Chi tiết <ArrowUpRight size={14} />
                   </Link>
                </div>
@@ -104,7 +104,7 @@ const AdminDashboard = () => {
             
             <div className="overflow-x-auto">
                <table className="w-full text-left">
-                  <thead className="bg-[#0A4B7A]/5 text-[9px] font-black text-gray-500 uppercase tracking-[0.2em]">
+                  <thead className="bg-gold-light/50 text-[9px] font-black text-gray-500 uppercase tracking-[0.2em]">
                      <tr>
                         <th className="px-10 py-5">Người gửi</th>
                         <th className="px-10 py-5">Vấn đề</th>

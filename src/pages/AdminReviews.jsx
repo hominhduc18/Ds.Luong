@@ -66,7 +66,7 @@ const AdminReviews = () => {
       <div className="bg-white rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-[#0A1629] text-[10px] font-semibold text-white uppercase tracking-wider">
+            <thead className="bg-gold-primary text-[10px] font-semibold text-white uppercase tracking-wider">
               <tr>
                 <th className="px-10 py-6">Khách hàng / Metadata</th>
                 <th className="px-10 py-6">Xếp hạng</th>
@@ -84,11 +84,11 @@ const AdminReviews = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ delay: idx * 0.05 }}
-                    className="hover:bg-amber-50/10 transition-all group"
+                    className="hover:bg-gold-light/20 transition-all group"
                   >
                     <td className="px-10 py-6">
                        <div className="flex items-center gap-5">
-                          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-black italic shadow-inner border border-amber-100">
+                          <div className="w-12 h-12 rounded-2xl bg-gold-light text-gold-primary flex items-center justify-center font-black italic shadow-inner border border-gold-light">
                              {r.name?.charAt(0).toUpperCase()}
                           </div>
                           <div className="flex flex-col gap-0.5">
@@ -98,13 +98,13 @@ const AdminReviews = () => {
                        </div>
                     </td>
                     <td className="px-10 py-6">
-                       <div className="flex text-amber-500 gap-1 bg-amber-50/50 w-fit px-3 py-1.5 rounded-xl border border-amber-100/50 shadow-sm">
+                       <div className="flex text-gold-primary gap-1 bg-gold-light/50 w-fit px-3 py-1.5 rounded-xl border border-gold-light/50 shadow-sm">
                           {[...Array(5)].map((_, i) => (
                              <Star 
                                key={i} 
                                size={12} 
                                fill={i < r.rating ? 'currentColor' : 'none'} 
-                               className={i < r.rating ? 'text-amber-500 shadow-glow' : 'text-gray-200'} 
+                               className={i < r.rating ? 'text-gold-primary shadow-glow' : 'text-gray-200'} 
                              />
                           ))}
                        </div>
@@ -122,8 +122,8 @@ const AdminReviews = () => {
                     <td className="px-10 py-6">
                        <span className={`text-[8px] font-black px-4 py-2 rounded-full uppercase tracking-widest shadow-sm ${
                          r.status === 'approved' 
-                           ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' 
-                           : 'bg-amber-100 text-amber-700 border border-amber-200 animate-pulse'
+                           ? 'bg-gold-light text-gold-primary border border-gold-primary/20' 
+                           : 'bg-gold-primary text-white border border-gold-primary animate-pulse'
                        }`}>
                           {r.status === 'approved' ? 'Đã công khai' : 'Chờ phê duyệt'}
                        </span>
@@ -177,7 +177,7 @@ const AdminReviews = () => {
             exit={{ opacity: 0, scale: 0.9 }}
             className="fixed bottom-12 right-12 bg-[#0A1629] text-white px-10 py-6 rounded-full shadow-2xl z-[300] border border-white/10 flex items-center gap-4"
           >
-             <ThumbsUp size={22} className="text-amber-400 shadow-glow" />
+             <ThumbsUp size={22} className="text-gold-primary shadow-glow" />
              <span className="text-[11px] font-black tracking-[0.3em] uppercase">{toast}</span>
           </motion.div>
         )}

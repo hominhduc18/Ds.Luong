@@ -13,7 +13,7 @@ const AdminLayout = ({ children }) => {
   const location = useLocation();
   const [isAuthed, setIsAuthed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [siteName, setSiteName] = useState('SKINCLINIC');
+  const [siteName, setSiteName] = useState('DS LUONG');
 
   useEffect(() => {
     const checkStatus = () => {
@@ -56,8 +56,8 @@ const AdminLayout = ({ children }) => {
         {/* Logo Section */}
         <div className="p-8 border-b border-white/5 bg-[#0D1D35]">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-[#0A4B7A] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-              <span className="font-black text-xs">SC</span>
+            <div className="w-10 h-10 bg-gold-primary rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+              <span className="font-black text-xs text-white">DL</span>
             </div>
             <div className="flex flex-col">
               <span className="text-sm font-bold tracking-tight">{siteName}</span>
@@ -76,7 +76,7 @@ const AdminLayout = ({ children }) => {
                 to={item.path}
                 className={`flex items-center justify-between px-5 py-4 rounded-xl transition-all duration-300 group ${
                   isActive 
-                    ? 'bg-[#0A4B7A] text-white shadow-xl shadow-[#0A4B7A]/20' 
+                    ? 'bg-gold-primary text-white shadow-xl shadow-gold-primary/20' 
                     : 'text-gray-400 hover:text-white hover:bg-white/5'
                 }`}
               >

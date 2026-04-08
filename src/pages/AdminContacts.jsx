@@ -100,7 +100,7 @@ const AdminContacts = () => {
                              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-lg transition-all duration-500 ${
                                c.status === 'unread' 
                                  ? 'bg-red-500 text-white shadow-lg shadow-red-500/20 rotate-3' 
-                                 : 'bg-gray-100 text-gray-400 group-hover:bg-[#0A4B7A] group-hover:text-white'
+                                 : 'bg-gray-100 text-gray-400 group-hover:bg-gold-primary group-hover:text-white'
                              }`}>
                                 {c.name.charAt(0).toUpperCase()}
                              </div>

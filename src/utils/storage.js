@@ -13,7 +13,7 @@ const KEYS = {
 
 // Initial Mock Data
 const MOCK_PRODUCTS = [
-  { id: 1, name: "SYL 100 SUN LUX", description: "Kem chống nắng phổ rộng SPF 50+", brand: "SkinClinic", price: 2517500, originalPrice: null, badge: ["50+", "NEW"], category: "CHỐNG NẮNG", image: "https://placehold.co/400x400?text=Sun+Lux", stock: 50 },
+  { id: 1, name: "SYL 100 SUN LUX", description: "Kem chống nắng phổ rộng SPF 50+", brand: "DS Luong", price: 2517500, originalPrice: null, badge: ["50+", "NEW"], category: "CHỐNG NẮNG", image: "https://placehold.co/400x400?text=Sun+Lux", stock: 50 },
   { id: 2, name: "BIOCELMASK CALM EFFECT", description: "Mặt nạ phục hồi và làm dịu da", brand: "SkinClinic", price: 1141250, originalPrice: null, badge: ["BEST SELLER"], category: "MẶT NẠ", image: "https://placehold.co/400x400?text=Biocelmask", stock: 30 },
   { id: 3, name: "HAIR MASK", description: "Mặt nạ cấp ẩm và chăm sóc tóc", brand: "SkinClinic", price: 2181250, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Hair+Mask", stock: 25 },
   { id: 4, name: "FREQUENT USE SHAMPOO", description: "Dầu gội dịu nhẹ dùng hàng ngày", brand: "SkinClinic", price: 1141250, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Shampoo", stock: 40 },
@@ -38,7 +38,7 @@ const MOCK_POSTS = [
 
 const MOCK_PAGE_CONTENTS = {
   home: {
-    heroTitle: "SKINCLINIC",
+    heroTitle: "DS LUONG",
     heroSubtitle: "Khoa học - An toàn - Hiệu quả",
     introText: "SkinClinic mang đến các giải pháp chăm sóc da chuyên nghiệp, kết hợp giữa tinh hoa thiên nhiên và công nghệ tá dược hiện đại."
   },
@@ -54,7 +54,7 @@ const MOCK_PAGE_CONTENTS = {
   contact: {
     address: "123 Đường Sắc Đẹp, Quận 1, TP.HCM",
     phone: "1900 XXXX",
-    email: "info@skinclinic.vn",
+    email: "info@dsluong.vn",
     workingHours: "Thứ 2 - Thứ 7 (8:00 - 20:00)"
   }
 };
@@ -69,14 +69,14 @@ const MOCK_CATEGORIES = [
 ];
 
 const MOCK_SETTINGS = {
-  siteName: 'SkinClinic',
+  siteName: 'DS Luong',
   slogan: 'Khoa học - An toàn - Hiệu quả',
   logo: null,
   favicon: null,
   email: 'info@skinclinic.vn',
   phone: '1900 XXXX',
   address: '123 Đường Sắc Đẹp, Quận 1, TP.HCM',
-  seoTitle: 'SkinClinic - Chuyên gia chăm sóc da',
+  seoTitle: 'DS Luong - Chuyên gia chăm sóc da',
   seoDesc: 'Dược mỹ phẩm cao cấp chuẩn y khoa.',
   socialLinks: { facebook: '#', instagram: '#', tiktok: '#', zalo: '1900 XXXX' }
 };

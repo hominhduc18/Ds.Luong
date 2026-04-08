@@ -40,7 +40,7 @@ const AdminSettings = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `skinclinic_backup_${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `ds_luong_backup_${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     showToast('Đã xuất file sao lưu thành công');
   };

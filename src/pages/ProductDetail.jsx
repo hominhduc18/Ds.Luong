@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { products } from '../data/products';
+import { storage } from '../utils/storage';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaCheckCircle, FaChevronRight, FaRegHeart, FaMinus, FaPlus, FaShoppingCart } from 'react-icons/fa';
 
@@ -9,8 +9,8 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
 
-  // Find product or fallback to a default one (SYL 100 SUN LUX)
-  const product = products.all.find(p => p.id === parseInt(id)) || products.all[3];
+  // Find product from dynamic storage
+  const product = storage.products.getById(id);
 
   const highlights = [
     { title: "Chỉ số SPF 50+ PA++++", desc: "Bảo vệ da tối ưu trước tia UVA/UVB toàn diện." },
@@ -161,7 +161,9 @@ const ProductDetail = () => {
               </h1>
               
               <div className="flex items-center gap-8 mb-10">
-                <span className="text-4xl font-bold text-[#C61A09] font-montserrat tracking-tight">{product.price}</span>
+                <span className="text-4xl font-bold text-[#C61A09] font-montserrat tracking-tight">
+                  {product.price?.toLocaleString('vi-VN')}đ
+                </span>
                 <div className="h-10 w-px bg-gray-200"></div>
                 <div className="flex flex-col">
                   <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">TRẠNG THÁI</span>
@@ -174,7 +176,7 @@ const ProductDetail = () => {
               <div className="text-gray-600 leading-relaxed italic mb-10 border-l-4 border-gold-primary pl-8 text-lg max-w-xl">
                  {product.name} là giải pháp nuôi dưỡng và phục hồi làn da chuyên sâu từ DS LUONG. 
                  Được chế tác với công nghệ tá dược độc quyền, sản phẩm cam kết mang lại hiệu quả 
-                 tối ưu cho vấn đề {product.descLine.toLowerCase()}.
+                 tối ưu cho vấn đề {product.category?.toLowerCase()}.
               </div>
 
               {/* Purchase Actions */}
