@@ -44,8 +44,8 @@ const AdminReviews = () => {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-black text-gray-900 tracking-tighter uppercase italic">Quản Lý Review</h1>
-          <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-[0.3em] pl-1">Phản hồi & Trải nghiệm thực tế từ người dùng</p>
+          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Quản Lý Review</h1>
+          <p className="text-[11px] font-semibold text-gray-400 mt-1 uppercase tracking-wide">Phản hồi & Trải nghiệm thực tế từ người dùng</p>
         </div>
         <div className="flex items-center gap-4 bg-white px-6 py-3 rounded-2xl border border-gray-100 shadow-sm">
            <div className="text-center border-r border-gray-50 pr-6 uppercase tracking-widest font-black">
@@ -66,7 +66,7 @@ const AdminReviews = () => {
       <div className="bg-white rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-[#0A1629] text-[9px] font-black text-white uppercase tracking-[0.2em]">
+            <thead className="bg-[#0A1629] text-[10px] font-semibold text-white uppercase tracking-wider">
               <tr>
                 <th className="px-10 py-6">Khách hàng / Metadata</th>
                 <th className="px-10 py-6">Xếp hạng</th>

@@ -15,7 +15,7 @@ const NavItem = ({ name, path, dropdownItems }) => {
     >
       <Link 
         to={path}
-        className="text-[11px] font-bold tracking-[0.2em] text-gray-900 group-hover:text-[#0A4B7A] transition-all duration-300 flex items-center gap-2 uppercase"
+        className="text-[11px] font-semibold tracking-wider text-gray-900 group-hover:text-[#0A4B7A] transition-all duration-300 flex items-center gap-2 uppercase"
       >
         {name} {dropdownItems && <FaChevronDown size={8} className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />}
       </Link>
@@ -33,7 +33,7 @@ const NavItem = ({ name, path, dropdownItems }) => {
                 <Link 
                   key={idx}
                   to={item.path}
-                  className="block px-8 py-3 text-[10px] font-bold text-gray-500 hover:text-[#0A4B7A] hover:bg-gray-50 transition-all uppercase tracking-widest"
+                  className="block px-8 py-3 text-[10px] font-semibold text-gray-500 hover:text-[#0A4B7A] hover:bg-gray-50 transition-all uppercase tracking-wide"
                 >
                   {item.label}
                 </Link>
@@ -113,7 +113,7 @@ const Header = () => {
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between h-8">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <span className="text-2xl font-black font-playfair tracking-tight text-[#0A4B7A] uppercase">
+          <span className="text-2xl font-bold font-playfair tracking-tighter text-[#0A4B7A] uppercase">
             SKINCLINIC
           </span>
         </Link>
