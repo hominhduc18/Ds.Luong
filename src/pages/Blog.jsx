@@ -1,168 +1,170 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { storage } from '../utils/storage';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { blogPosts } from '../data/blogData';
 import { Link } from 'react-router-dom';
-import { Search, Clock, User, ChevronRight, ChevronLeft } from 'lucide-react';
+import { FaSearch, FaRegClock, FaUserCircle, FaChevronRight, FaArrowRight, FaHashtag, FaEnvelope } from 'react-icons/fa';
 
 const Blog = () => {
-  const [posts, setPosts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 6;
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTag, setSelectedTag] = useState('ALL');
 
-  useEffect(() => {
-    const loadData = () => setPosts(storage.posts.getPublished());
-    loadData();
-    window.addEventListener('beauty_data_changed', loadData);
-    window.addEventListener('storage', loadData);
-    return () => {
-      window.removeEventListener('beauty_data_changed', loadData);
-      window.removeEventListener('storage', loadData);
-    };
-  }, []);
+  const categories = ['Chăm sóc da', 'Chống nắng', 'Trị mụn', 'Chống lão hóa', 'Thành phần mỹ phẩm'];
+  const tags = ['Skincare', 'Retinol', 'Sunscreen', 'VitaminC', 'Phục hồi', 'Mụn'];
 
-  const filteredPosts = useMemo(() => {
-    if (!searchTerm) return posts;
-    return posts.filter(post => 
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [posts, searchTerm]);
-
-  const currentPosts = useMemo(() => {
-    const start = (currentPage - 1) * postsPerPage;
-    return filteredPosts.slice(start, start + postsPerPage);
-  }, [filteredPosts, currentPage]);
-
-  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-
-  const categories = ['Làm đẹp', 'Chăm sóc da', 'Trang điểm', 'Xu hướng', 'Lifestyle'];
-  const recentPosts = posts.slice(0, 5);
+  const featuredPost = blogPosts.find(p => p.featured) || blogPosts[0];
+  const gridPosts = blogPosts.filter(p => p.id !== featuredPost.id);
 
   return (
-    <div className="pt-32 pb-20 bg-bg min-h-screen" style={{paddingTop: '128px', paddingBottom: '80px', backgroundColor: 'var(--bg)', minHeight: '100vh'}}>
-      <div className="container">
-        {/* Breadcrumb */}
-        <div className="text-sm text-gray-500 mb-12" style={{fontSize: '14px', color: '#888', marginBottom: '48px'}}>
-           <Link to="/" className="hover:text-primary">Trang Chủ</Link> <span className="mx-2">/</span> <span className="text-primary font-bold">Blog Làm Đẹp</span>
+    <div className="bg-white pt-24 pb-20">
+      {/* Magazine Header */}
+      <section className="py-16 md:py-24 border-b border-gray-100 mb-16">
+        <div className="container mx-auto px-4 text-center">
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-6xl md:text-9xl font-playfair font-bold text-gray-900 mb-6 uppercase italic tracking-tighter"
+          >
+            BEAUTY <span className="text-gold-primary">MAG</span>
+          </motion.h1>
+          <p className="text-gray-400 font-bold tracking-[0.5em] uppercase text-xs md:text-sm">
+            Kiến thức làm đẹp từ chuyên gia da liễu
+          </p>
+        </div>
+      </section>
+
+      <div className="container mx-auto px-4 md:px-8">
+        {/* Featured Post */}
+        <div className="mb-24">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col lg:flex-row bg-gray-50 rounded-[3rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-700"
+          >
+            <div className="lg:w-3/5 relative h-[400px] lg:h-auto overflow-hidden">
+              <img src={featuredPost.image} className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-1000" alt={featuredPost.title} />
+              <div className="absolute top-8 left-8">
+                 <span className="bg-gold-primary text-white text-[10px] font-bold px-4 py-2 rounded-full tracking-widest uppercase">NỔI BẬT</span>
+              </div>
+            </div>
+            <div className="lg:w-2/5 p-12 md:p-16 flex flex-col justify-center">
+              <div className="flex items-center gap-4 text-[10px] font-bold text-gold-primary uppercase tracking-[0.3em] mb-6">
+                 <span>{featuredPost.category}</span>
+                 <span className="w-8 h-px bg-gold-primary/30"></span>
+                 <span>{featuredPost.date}</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-playfair font-bold text-gray-900 mb-6 leading-tight uppercase italic transition-colors hover:text-gold-primary">
+                <Link to={`/post/${featuredPost.id}`}>{featuredPost.title}</Link>
+              </h2>
+              <p className="text-gray-500 mb-10 leading-relaxed italic border-l-2 border-gold-primary pl-6">
+                "{featuredPost.excerpt}"
+              </p>
+              <Link to={`/post/${featuredPost.id}`} className="group flex items-center gap-4 text-xs font-bold tracking-[0.3em] uppercase text-gray-900">
+                 ĐỌC TIẾP <FaArrowRight className="group-hover:translate-x-2 transition-transform text-gold-primary" />
+              </Link>
+            </div>
+          </motion.div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-12" style={{display: 'flex', gap: '48px'}}>
-          {/* Main Content */}
-          <main className="flex-1" style={{flex: 1}}>
-             {currentPosts.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px'}}>
-                   {currentPosts.map(post => (
-                      <Link to={`/post/${post.id}`} key={post.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all" style={{backgroundColor: 'white', borderRadius: '16px', overflow: 'hidden', display: 'block'}}>
-                         <div className="relative h-64 overflow-hidden" style={{position: 'relative', height: '256px', overflow: 'hidden'}}>
-                            <img src={post.image} alt={post.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
+        <div className="flex flex-col lg:flex-row gap-16">
+          {/* Main Content (Grid) */}
+          <div className="lg:w-2/3">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-16">
+                {gridPosts.map((post, idx) => (
+                   <motion.div 
+                      key={post.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="group"
+                   >
+                      <div className="relative aspect-video overflow-hidden rounded-[2rem] mb-6">
+                         <img src={post.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={post.title} />
+                         <div className="absolute top-4 left-4">
+                            <span className="bg-white/90 backdrop-blur-md text-gray-900 text-[9px] font-bold px-3 py-1.5 rounded-lg shadow-sm uppercase tracking-widest">{post.category}</span>
                          </div>
-                         <div className="p-8" style={{padding: '32px'}}>
-                            <div className="flex items-center gap-4 text-xs text-gray-400 mb-4" style={{display: 'flex', alignItems: 'center', gap: '16px', fontSize: '12px', color: '#999', marginBottom: '16px'}}>
-                               <span className="flex items-center gap-1"><Clock size={14} /> {post.date}</span>
-                               <span className="flex items-center gap-1"><User size={14} /> {post.author}</span>
-                            </div>
-                            <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors leading-tight" style={{fontSize: '24px', fontWeight: 'bold', marginBottom: '16px'}}>{post.title}</h3>
-                            <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed" style={{fontSize: '16px', color: '#666', lineHeight: 1.6, marginBottom: '24px'}}>{post.excerpt}</p>
-                            <span className="text-primary font-bold flex items-center gap-2 group-hover:gap-4 transition-all" style={{color: 'var(--primary)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                               Đọc thêm <ChevronRight size={18} />
-                            </span>
-                         </div>
+                      </div>
+                      <div className="flex items-center gap-4 text-[10px] font-bold text-gray-400 mb-4 uppercase tracking-widest">
+                         <span className="flex items-center gap-1"><FaRegClock /> {post.date}</span>
+                         <span className="w-4 h-px bg-gray-100"></span>
+                         <span className="flex items-center gap-1 hover:text-gold-primary cursor-pointer"><FaUserCircle /> {post.author}</span>
+                      </div>
+                      <h3 className="text-xl font-playfair font-bold text-gray-900 mb-4 leading-snug group-hover:text-gold-primary transition-colors uppercase italic line-clamp-2">
+                        <Link to={`/post/${post.id}`}>{post.title}</Link>
+                      </h3>
+                      <p className="text-gray-500 text-sm mb-6 line-clamp-2 leading-relaxed">{post.excerpt}</p>
+                      <Link to={`/post/${post.id}`} className="text-[10px] font-bold tracking-[0.2em] text-gray-400 group-hover:text-gold-primary transition-all flex items-center gap-2 uppercase">
+                        XEM CHI TIẾT <FaChevronRight size={8} />
                       </Link>
-                   ))}
-                </div>
-             ) : (
-                <div className="text-center py-40 bg-white rounded-3xl" style={{padding: '160px 0', backgroundColor: 'white', borderRadius: '24px', textAlign: 'center'}}>
-                   <p className="text-gray-400">Không tìm thấy bài viết nào.</p>
-                </div>
-             )}
+                   </motion.div>
+                ))}
+             </div>
 
              {/* Pagination */}
-             {totalPages > 1 && (
-                <div className="flex justify-center items-center gap-4 mt-16" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', marginTop: '64px'}}>
-                   <button 
-                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                      disabled={currentPage === 1}
-                      className="p-3 rounded-full border border-gray-200 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed"
-                      style={{padding: '12px', borderRadius: '50%', border: '1px solid #ddd'}}
-                   >
-                      <ChevronLeft size={20} />
-                   </button>
-                   {[...Array(totalPages)].map((_, i) => (
-                      <button 
-                         key={i} 
-                         onClick={() => setCurrentPage(i + 1)}
-                         className={`w-12 h-12 rounded-full font-bold flex items-center justify-center transition-all ${currentPage === i + 1 ? 'bg-primary text-white shadow-lg' : 'bg-white hover:bg-accent'}`}
-                         style={{ 
-                            width: '48px', height: '48px', borderRadius: '50%', fontWeight: 'bold', 
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            backgroundColor: currentPage === i + 1 ? 'var(--primary)' : 'white'
-                         }}
-                      >
-                         {i + 1}
-                      </button>
-                   ))}
-                   <button 
-                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                      disabled={currentPage === totalPages}
-                      className="p-3 rounded-full border border-gray-200 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed"
-                      style={{padding: '12px', borderRadius: '50%', border: '1px solid #ddd'}}
-                   >
-                      <ChevronRight size={20} />
-                   </button>
-                </div>
-             )}
-          </main>
+             <div className="mt-20 flex items-center justify-center gap-4">
+                <button className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:border-gold-primary hover:text-gold-primary transition-all">1</button>
+                <div className="w-8 h-px bg-gray-100"></div>
+                <button className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:border-gold-primary hover:text-gold-primary transition-all italic font-serif">2</button>
+             </div>
+          </div>
 
           {/* Sidebar */}
-          <aside className="w-full lg:w-96 space-y-10" style={{flexShrink: 0, width: '360px', display: 'flex', flexDirection: 'column', gap: '40px'}}>
+          <aside className="lg:w-1/3 space-y-16">
              {/* Search */}
-             <div className="p-8 bg-white rounded-3xl shadow-sm border border-gray-50" style={{padding: '32px', backgroundColor: 'white', borderRadius: '24px', border: '1px solid #f9f9f9'}}>
-                <h4 className="text-xl font-bold mb-6" style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '24px'}}>Tìm Kiếm</h4>
-                <div className="relative" style={{position: 'relative'}}>
+             <div className="bg-gray-50 p-8 rounded-[2rem] border border-gray-100">
+                <h4 className="text-xs font-bold tracking-[0.4em] text-gray-400 uppercase mb-6">TÌM KIẾM</h4>
+                <div className="relative">
                    <input 
                       type="text" 
                       placeholder="Nhập từ khóa..."
-                      className="w-full px-4 py-3 pr-12 rounded-xl bg-bg border-none outline-none focus:ring-2 focus:ring-primary/20"
-                      value={searchTerm}
-                      onChange={(e) => {setSearchTerm(e.target.value); setCurrentPage(1);}}
-                      style={{width: '100%', padding: '12px 48px 12px 16px', borderRadius: '12px', backgroundColor: 'var(--bg)', border: 'none', outline: 'none'}}
+                      className="w-full bg-white border-none py-4 px-6 rounded-xl text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all pl-12 shadow-inner"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
                    />
-                   <Search size={20} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" style={{position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', color: '#aaa'}} />
+                   <FaSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300" size={14} />
                 </div>
              </div>
 
              {/* Categories */}
-             <div className="p-8 bg-white rounded-3xl shadow-sm border border-gray-50" style={{padding: '32px', backgroundColor: 'white', borderRadius: '24px', border: '1px solid #f9f9f9'}}>
-                <h4 className="text-xl font-bold mb-6" style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '24px'}}>Danh Mục</h4>
-                <div className="flex flex-col gap-3" style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+             <div>
+                <h4 className="text-xs font-bold tracking-[0.4em] text-gray-400 uppercase mb-8 border-b border-gray-100 pb-2">CHUYÊN MỤC</h4>
+                <div className="flex flex-col gap-4">
                    {categories.map(cat => (
-                      <Link 
-                         key={cat} to="/blog" 
-                         className="flex items-center justify-between text-gray-600 hover:text-primary transition-colors py-2 border-b border-gray-50 last:border-0"
-                         style={{display: 'flex', justifyContent: 'space-between', color: '#666', padding: '8px 0', borderBottom: '1px solid #f0f0f0'}}
-                      >
+                      <button key={cat} className="flex items-center justify-between text-[11px] font-bold text-gray-600 hover:text-gold-primary transition-colors tracking-widest uppercase">
                          <span>{cat}</span>
-                         <ChevronRight size={16} />
-                      </Link>
+                         <span className="text-[9px] text-gray-300 font-serif italic">#15</span>
+                      </button>
                    ))}
                 </div>
              </div>
 
-             {/* Recent Posts */}
-             <div className="p-8 bg-white rounded-3xl shadow-sm border border-gray-50" style={{padding: '32px', backgroundColor: 'white', borderRadius: '24px', border: '1px solid #f9f9f9'}}>
-                <h4 className="text-xl font-bold mb-6" style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '24px'}}>Bài Viết Mới Nhất</h4>
-                <div className="flex flex-col gap-6" style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
-                   {recentPosts.map(post => (
-                      <Link key={post.id} to={`/post/${post.id}`} className="group flex gap-4" style={{display: 'flex', gap: '16px'}}>
-                         <div className="w-20 h-20 shrink-0 rounded-xl overflow-hidden" style={{width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0}}>
-                            <img src={post.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-                         </div>
-                         <div className="flex flex-col justify-center">
-                            <h5 className="font-bold text-sm line-clamp-2 group-hover:text-primary transition-colors" style={{fontSize: '14px', fontWeight: 'bold', lineHeight: 1.4}}>{post.title}</h5>
-                            <span className="text-xs text-gray-400 mt-1" style={{fontSize: '12px', color: '#aaa'}}>{post.date}</span>
-                         </div>
-                      </Link>
+             {/* Tags */}
+             <div>
+                <h4 className="text-xs font-bold tracking-[0.4em] text-gray-400 uppercase mb-8 border-b border-gray-100 pb-2">TAGS PHỔ BIẾN</h4>
+                <div className="flex flex-wrap gap-3">
+                   {tags.map(tag => (
+                      <button 
+                        key={tag}
+                        className="px-4 py-2 bg-gray-50 text-[10px] font-bold text-gray-400 rounded-lg hover:bg-gold-primary hover:text-white transition-all flex items-center gap-1 uppercase"
+                      >
+                         <FaHashtag size={8} /> {tag}
+                      </button>
                    ))}
+                </div>
+             </div>
+
+             {/* Newsletter */}
+             <div className="bg-gray-900 p-10 rounded-[3rem] relative overflow-hidden group">
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-gold-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
+                <div className="relative z-10">
+                   <FaEnvelope className="text-gold-primary text-3xl mb-6" />
+                   <h4 className="text-xl font-playfair font-bold text-white mb-4 uppercase italic">BẢN TIN BEAUTY</h4>
+                   <p className="text-white/50 text-xs mb-8 leading-relaxed">Nhận kiến thức làm đẹp mới nhất từ chuyên gia mỗi tuần.</p>
+                   <input 
+                      type="email" 
+                      placeholder="Email của bạn..."
+                      className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-white text-xs mb-4 focus:outline-none focus:border-gold-primary transition-all"
+                   />
+                   <button className="w-full py-4 bg-gold-primary text-white text-[10px] font-bold tracking-widest uppercase rounded-xl hover:bg-gold-dark transition-all">ĐĂNG KÝ NGAY</button>
                 </div>
              </div>
           </aside>

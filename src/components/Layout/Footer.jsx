@@ -1,103 +1,107 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaFacebookF, FaInstagram, FaYoutube, FaPaperPlane, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaYoutube, FaPaperPlane, FaPhoneAlt, FaEnvelope, FaClock, FaCheckCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 border-t-2 border-gold-primary pt-20 pb-10 text-white overflow-hidden relative">
+    <footer className="bg-white border-t border-gray-100 pt-24 pb-12 text-gray-900 overflow-hidden relative">
       <div className="container mx-auto px-4 md:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-          {/* Column 1: Brand Info */}
-          <div>
-            <div className="flex flex-col mb-8">
-              <span className="text-2xl font-playfair font-bold text-gold-primary tracking-tighter">DS LUONG</span>
-              <span className="text-[10px] tracking-[0.4em] font-bold text-gray-400 mt-1 uppercase">DERMA COSMETICS</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+          
+          {/* Column 1: VỀ SKINCLINIC */}
+          <div className="space-y-8">
+            <div className="flex flex-col">
+              <span className="text-3xl font-black font-playfair text-[#0A4B7A] tracking-tighter uppercase">SKINCLINIC</span>
             </div>
-            <p className="text-gray-400 text-sm leading-loose italic mb-8">
-              "Khát vọng mang lại làn da khỏe mạnh và rạng ngời cho người Việt thông qua những liệu trình chuẩn Y khoa từ Châu Âu."
+            <p className="text-gray-500 text-xs leading-loose italic">
+              "Thương hiệu mỹ phẩm dược liệu hàng đầu Việt Nam, ứng dụng công nghệ Đức và Hàn Quốc để mang lại vẻ đẹp bền vững cho mọi làn da."
             </p>
-            <div className="flex items-center gap-4 text-xs font-bold text-gold-primary hover:text-white transition-colors">
-               <span className="w-10 h-px bg-gold-primary"></span> CÂU CHUYỆN THƯƠNG HIỆU
-            </div>
-          </div>
-
-          {/* Column 2: Support */}
-          <div>
-            <h4 className="text-lg font-bold font-playfair text-white mb-8 tracking-widest border-b border-white/10 pb-4">HỖ TRỢ</h4>
-            <ul className="space-y-4 text-xs font-bold tracking-widest text-gray-400">
-              <li><Link to="/policies/return" className="hover:text-gold-primary transition-colors">CHÍNH SÁCH ĐỔI TRẢ</Link></li>
-              <li><Link to="/policies/shipping" className="hover:text-gold-primary transition-colors">CHÍNH SÁCH VẬN CHUYỂN</Link></li>
-              <li><Link to="/policies/payment" className="hover:text-gold-primary transition-colors">HÌNH THỨC THANH TOÁN</Link></li>
-              <li><Link to="/policies/privacy" className="hover:text-gold-primary transition-colors">CHÍNH SÁCH BẢO MẬT</Link></li>
-              <li><Link to="/contact" className="hover:text-gold-primary transition-colors">LIÊN HỆ</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 3: Social */}
-          <div>
-            <h4 className="text-lg font-bold font-playfair text-white mb-8 tracking-widest border-b border-white/10 pb-4">THEO DÕI CHÚNG TÔI</h4>
-            <div className="flex space-x-4 mb-8">
+            <div className="flex items-center gap-4">
               {[
-                { icon: <FaFacebookF />, color: 'bg-[#1877F2]' },
-                { icon: <FaInstagram />, color: 'bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]' },
-                { icon: <FaYoutube />, color: 'bg-[#FF0000]' }
+                { icon: <FaFacebookF />, path: '#' },
+                { icon: <FaInstagram />, path: '#' },
+                { icon: <FaYoutube />, path: '#' },
+                { icon: <span className="text-[10px] font-bold">Zalo</span>, path: '#' }
               ].map((social, idx) => (
                 <motion.a
                   key={idx}
-                  whileHover={{ y: -5, scale: 1.1 }}
-                  href="#"
-                  className={`w-10 h-10 ${social.color} rounded-full flex items-center justify-center text-white shadow-lg overflow-hidden relative`}
+                  whileHover={{ y: -3, scale: 1.1 }}
+                  href={social.path}
+                  className="w-10 h-10 border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-[#0A4B7A] hover:border-[#0A4B7A] transition-all"
                 >
                   {social.icon}
                 </motion.a>
               ))}
             </div>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 text-xs text-gray-400">
-                <FaPhoneAlt className="text-gold-primary" /> 1900 6000
+          </div>
+
+          {/* Column 2: HỖ TRỢ */}
+          <div className="space-y-8">
+            <h4 className="text-sm font-black text-gray-900 tracking-widest uppercase border-b border-gray-100 pb-4">HỖ TRỢ</h4>
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <FaPhoneAlt className="text-[#0A4B7A] mt-1" />
+                <div>
+                   <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Hotline</span>
+                   <span className="text-sm font-bold">1900 XXXX</span>
+                </div>
               </div>
-              <div className="flex items-center gap-3 text-xs text-gray-400">
-                <FaEnvelope className="text-gold-primary" /> info@dsluong.vn
+              <div className="flex items-start gap-4">
+                <FaEnvelope className="text-[#0A4B7A] mt-1" />
+                <div>
+                   <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email</span>
+                   <span className="text-sm font-bold">info@skinclinic.vn</span>
+                </div>
               </div>
-              <div className="flex items-center gap-3 text-xs text-gray-400">
-                <FaMapMarkerAlt className="text-gold-primary" /> 123 Sky Garden, Q7, TP.HCM
+              <div className="flex items-start gap-4">
+                <FaClock className="text-[#0A4B7A] mt-1" />
+                <div>
+                   <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Giờ làm việc</span>
+                   <span className="text-sm font-bold uppercase">Thứ 2 - Thứ 7 (8:00 - 20:00)</span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Column 4: Newsletter */}
-          <div>
-            <h4 className="text-lg font-bold font-playfair text-white mb-8 tracking-widest border-b border-white/10 pb-4">ĐĂNG KÝ NHẬN TIN</h4>
-            <p className="text-gray-400 text-xs mb-6 leading-relaxed">
-              Cập nhật những kiến thức chăm sóc da mới nhất và nhận ưu đãi độc quyền từ chuyên gia.
-            </p>
+          {/* Column 3: CHÍNH SÁCH */}
+          <div className="space-y-8">
+            <h4 className="text-sm font-black text-gray-900 tracking-widest uppercase border-b border-gray-100 pb-4">CHÍNH SÁCH</h4>
+            <ul className="space-y-4 text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase">
+              <li><Link to="#" className="hover:text-[#0A4B7A] transition-colors">Chính sách đổi trả</Link></li>
+              <li><Link to="#" className="hover:text-[#0A4B7A] transition-colors">Chính sách vận chuyển</Link></li>
+              <li><Link to="#" className="hover:text-[#0A4B7A] transition-colors">Phương thức thanh toán</Link></li>
+              <li><Link to="#" className="hover:text-[#0A4B7A] transition-colors">Chính sách bảo mật</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 4: ĐĂNG KÝ NHẬN TIN */}
+          <div className="space-y-8">
+            <h4 className="text-sm font-black text-gray-900 tracking-widest uppercase border-b border-gray-100 pb-4">ĐĂNG KÝ NHẬN TIN</h4>
             <div className="relative group">
               <input 
                 type="email" 
                 placeholder="Nhập email của bạn..." 
-                className="w-full bg-white/5 border border-white/10 rounded-full py-3 px-6 text-sm focus:outline-none focus:border-gold-primary transition-all pr-12 group-hover:bg-white/10"
+                className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all pr-12"
               />
-              <button className="absolute right-2 top-1.5 bg-gold-primary hover:bg-gold-dark text-black w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-lg active:scale-95">
+              <button className="absolute right-2 top-1.5 bg-[#0A4B7A] hover:bg-gray-900 text-white w-9 h-9 rounded-lg flex items-center justify-center transition-all shadow-lg active:scale-95">
                 <FaPaperPlane size={14} />
               </button>
+            </div>
+            <div className="flex items-center gap-3 text-gray-400">
+               <FaCheckCircle className="text-green-500" size={12} />
+               <span className="text-[10px] font-bold uppercase tracking-widest">Nhận ưu đãi và kiến thức làm đẹp mỗi tuần</span>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-500 font-bold tracking-widest gap-6 uppercase">
-          <p>© 2026 DS LUONG SKINCARE. ALL RIGHTS RESERVED.</p>
-          <div className="flex space-x-8">
-            <Link to="/terms" className="hover:text-white transition-colors">ĐIỀU KHOẢN SỬ DỤNG</Link>
-            <Link to="/privacy" className="hover:text-white transition-colors">CHÍNH SÁCH BẢO MẬT</Link>
-          </div>
+        <div className="pt-12 border-t border-gray-50 text-center">
+          <p className="text-[9px] text-gray-400 font-bold tracking-[0.5em] uppercase">
+            © 2025 SKINCLINIC - ĐỒNG HÀNH CÙNG LÀN DA KHỎE ĐẸP
+          </p>
         </div>
       </div>
-
-      {/* Decorative Blur */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-gold-primary/5 rounded-full blur-[120px]"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-gold-primary/5 rounded-full blur-[150px]"></div>
     </footer>
   );
 };

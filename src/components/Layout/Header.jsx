@@ -1,12 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaSearch, FaShoppingCart, FaBars, FaTimes, FaUser } from 'react-icons/fa';
+import { FaSearch, FaShoppingCart, FaBars, FaTimes, FaUser, FaChevronDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+
+const NavItem = ({ name, path, dropdownItems }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div 
+      className="relative group h-full flex items-center"
+      onMouseEnter={() => dropdownItems && setIsOpen(true)}
+      onMouseLeave={() => dropdownItems && setIsOpen(false)}
+    >
+      <Link 
+        to={path}
+        className="text-[11px] font-bold tracking-[0.2em] text-gray-900 group-hover:text-[#0A4B7A] transition-all duration-300 flex items-center gap-2 uppercase"
+      >
+        {name} {dropdownItems && <FaChevronDown size={8} className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />}
+      </Link>
+
+      {dropdownItems && (
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="absolute top-full left-0 w-64 bg-white shadow-2xl border-t border-[#0A4B7A] py-6 z-[100]"
+            >
+              {dropdownItems.map((item, idx) => (
+                <Link 
+                  key={idx}
+                  to={item.path}
+                  className="block px-8 py-3 text-[10px] font-bold text-gray-500 hover:text-[#0A4B7A] hover:bg-gray-50 transition-all uppercase tracking-widest"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
+    </div>
+  );
+};
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(3); // Demo value
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,66 +59,86 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { name: 'VỀ CHÚNG TÔI', path: '/about' },
-    { name: 'SẢN PHẨM', path: '/shop' },
-    { name: 'BLOG', path: '/blog' },
+    { 
+      name: 'VỀ CHÚNG TÔI', 
+      path: '/about',
+      dropdown: [
+        { label: 'CÂU CHUYỆN THƯƠNG HIỆU', path: '/about' },
+        { label: 'ĐÁNH GIÁ BÁC SĨ', path: '/about#doctors' },
+        { label: 'CHỨNG NHẬN LÂM SÀNG', path: '/about#certs' }
+      ]
+    },
+    { 
+      name: 'SẢN PHẨM', 
+      path: '/shop',
+      dropdown: [
+        { label: 'TẤT CẢ SẢN PHẨM', path: '/shop' },
+        { label: 'THEO TÌNH TRẠNG DA', path: '/shop#skintype' },
+        { label: 'THEO DÒNG SẢN PHẨM', path: '/shop#productline' }
+      ]
+    },
+    { 
+      name: 'BLOG', 
+      path: '/blog',
+      dropdown: [
+        { label: 'TIN TỨC LÀM ĐẸP', path: '/blog' },
+        { label: 'THƯ VIỆN THÀNH PHẦN', path: '/blog' },
+        { label: 'REVIEW SẢN PHẨM', path: '/blog' }
+      ]
+    },
     { name: 'LIÊN HỆ', path: '/contact' },
+    { name: 'HỆ THỐNG ĐẠI LÝ', path: '/contact' },
   ];
 
   return (
     <header 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
         isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg py-3 border-b border-gold-primary/20' 
-          : 'bg-transparent py-6'
+          ? 'bg-white shadow-lg py-4 border-b border-gray-100' 
+          : 'bg-white py-6'
       }`}
     >
-      <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
+      <div className="container mx-auto px-4 md:px-8 flex items-center justify-between h-8">
         {/* Logo */}
-        <Link to="/" className="flex flex-col">
-          <span className={`text-2xl md:text-3xl font-playfair font-bold tracking-tighter leading-none transition-colors duration-300 ${isScrolled ? 'text-gray-900' : 'text-gray-900'}`}>
-            DS LUONG
-          </span>
-          <span className={`text-[10px] tracking-[0.4em] font-bold mt-1 transition-colors duration-300 ${isScrolled ? 'text-gold-primary' : 'text-gold-primary'}`}>
-            SKINCARE
+        <Link to="/" className="flex items-center">
+          <span className="text-2xl font-black font-playfair tracking-tight text-[#0A4B7A] uppercase">
+            SKINCLINIC
           </span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center space-x-10">
+        <nav className="hidden lg:flex items-center space-x-10 h-full">
           {navLinks.map((link) => (
-            <Link 
-              key={link.name}
-              to={link.path}
-              className={`text-xs font-bold tracking-widest hover:text-gold-primary transition-colors duration-300 ${
-                isScrolled ? 'text-gray-700' : 'text-gray-900'
-              }`}
-            >
-              {link.name}
-            </Link>
+            <NavItem key={link.name} name={link.name} path={link.path} dropdownItems={link.dropdown} />
           ))}
         </nav>
 
         {/* Icons */}
-        <div className={`flex items-center space-x-6 ${isScrolled ? 'text-gray-800' : 'text-gray-900'}`}>
-          <button className="hover:text-gold-primary transition-colors duration-300">
+        <div className="flex items-center space-x-6 text-gray-900">
+          <button className="hover:text-[#0A4B7A] transition-colors duration-300">
             <FaSearch size={18} />
           </button>
           
-          <Link to="/profile" className="hidden md:block hover:text-gold-primary transition-colors duration-300">
-            <FaUser size={18} />
-          </Link>
+          <div className="relative group hidden md:block">
+            <Link to="/profile" className="hover:text-[#0A4B7A] transition-colors duration-300">
+              <FaUser size={18} />
+            </Link>
+            <div className="absolute top-full right-0 w-48 bg-white shadow-xl py-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all translate-y-2 group-hover:translate-y-0 border-t border-[#0A4B7A]">
+               <Link to="/login" className="block px-6 py-2 text-[10px] font-bold text-gray-500 hover:text-[#0A4B7A] uppercase tracking-widest">Đăng nhập</Link>
+               <Link to="/register" className="block px-6 py-2 text-[10px] font-bold text-gray-500 hover:text-[#0A4B7A] uppercase tracking-widest">Đăng ký</Link>
+            </div>
+          </div>
 
-          <Link to="/cart" className="relative group hover:text-gold-primary transition-colors duration-300">
+          <Link to="/cart" className="relative group hover:text-[#0A4B7A] transition-colors duration-300">
             <FaShoppingCart size={20} />
-            <span className="absolute -top-2 -right-2 bg-[#C61A09] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+            <span className="absolute -top-2 -right-2 bg-[#C61A09] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-md">
               {cartCount}
             </span>
           </Link>
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="lg:hidden text-gold-primary"
+            className="lg:hidden text-[#0A4B7A]"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
@@ -84,37 +146,39 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-white z-[60] lg:hidden flex flex-col p-8 pt-24"
+            className="fixed inset-0 bg-white z-[110] lg:hidden flex flex-col p-8 pt-24"
           >
-            <button 
-              className="absolute top-8 right-8 text-gray-900"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
+            <button className="absolute top-8 right-8 text-gray-900" onClick={() => setIsMobileMenuOpen(false)}>
               <FaTimes size={32} />
             </button>
-            <div className="flex flex-col space-y-8">
+            <div className="flex flex-col space-y-6 overflow-y-auto">
               {navLinks.map((link) => (
-                <Link 
-                  key={link.name}
-                  to={link.path}
-                  className="text-2xl font-playfair font-bold text-gray-900 hover:text-gold-primary transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
+                <div key={link.name} className="space-y-4">
+                  <Link 
+                    to={link.path}
+                    className="text-xl font-bold text-gray-900 uppercase tracking-widest"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                  {link.dropdown && (
+                    <div className="pl-4 flex flex-col space-y-3">
+                      {link.dropdown.map((item, id) => (
+                        <Link key={id} to={item.path} className="text-xs text-gray-400 font-bold uppercase tracking-widest" onClick={() => setIsMobileMenuOpen(false)}>
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
-              <div className="pt-8 border-t border-gray-100 flex gap-6">
-                 <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-bold text-gray-600"><FaUser /> TÀI KHOẢN</Link>
-                 <Link to="/cart" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-bold text-gray-600"><FaShoppingCart /> GIỎ HÀNG</Link>
-              </div>
             </div>
           </motion.div>
         )}

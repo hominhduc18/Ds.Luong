@@ -1,130 +1,223 @@
 import React, { useState } from 'react';
-import { storage } from '../utils/storage';
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaFacebookF, FaInstagram, FaYoutube, FaChevronDown, FaPaperPlane, FaRegCheckCircle } from 'react-icons/fa';
 
 const Contact = () => {
   const [form, setForm] = useState({ name: '', phone: '', email: '', subject: 'Tư vấn sản phẩm', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.name || !form.phone) {
-       alert('Vui lòng điền đầy đủ Họ tên và Số điện thoại!');
-       return;
-    }
-    storage.contacts.add(form);
     setSubmitted(true);
-    setForm({ name: '', phone: '', email: '', subject: 'Tư vấn sản phẩm', message: '' });
     setTimeout(() => setSubmitted(false), 5000);
   };
 
-  const contactInfo = [
-    { icon: <Phone size={24} />, label: 'Điện thoại', val: '0901 234 567', sub: 'Hỗ trợ 24/7' },
-    { icon: <Mail size={24} />, label: 'Email', val: 'contact@dsluong.vn', sub: 'Phản hồi trong 24h' },
-    { icon: <MapPin size={24} />, label: 'Địa chỉ', val: '123 Đường Sắc Đẹp, Quận 1, TP.HCM', sub: 'Thứ 2 - Chủ Nhật' },
-    { icon: <Clock size={24} />, label: 'Giờ mở cửa', val: '08:00 - 21:00', sub: 'Kể cả ngày lễ' }
+  const contactCards = [
+    { icon: <FaMapMarkerAlt />, label: 'ĐỊA CHỈ', val: 'Số 123, Đường Lê Lợi, Quận 1, TP.HCM' },
+    { icon: <FaPhoneAlt />, label: 'HOTLINE', val: '1900 6868 (8h - 21h)' },
+    { icon: <FaEnvelope />, label: 'EMAIL', val: 'info@skinclinic.vn' },
+    { icon: <FaClock />, label: 'GIỜ LÀM VIỆC', val: 'Thứ 2 - Thứ 7: 8:00 - 20:00' }
+  ];
+
+  const faqs = [
+    { q: 'Chính sách đổi trả hàng như thế nào?', a: 'Khách hàng có thể đổi trả sản phẩm trong vòng 7 ngày nếu do lỗi của nhà sản xuất hoặc phát hiện hàng không chính hãng.' },
+    { q: 'Thời gian giao hàng mất bao lâu?', a: 'Tại TP.HCM, chúng tôi giao hàng hỏa tốc trong 2h. Các tỉnh thành khác từ 2-4 ngày làm việc.' },
+    { q: 'Tôi có được tư vấn da trước khi mua không?', a: 'Chắc chắn rồi! Đội ngũ chuyên gia của DS LUONG luôn sẵn sàng soi da và tư vấn miễn phí cho bạn qua Hotline hoặc tại cửa hàng.' }
   ];
 
   return (
-    <div className="pt-32 pb-20 bg-white" style={{paddingTop: '128px', paddingBottom: '80px', backgroundColor: 'white'}}>
-      <div className="container">
-        <div className="max-w-4xl mx-auto text-center mb-16" style={{maxWidth: '800px', margin: '0 auto', textAlign: 'center', marginBottom: '64px'}}>
-           <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{fontSize: '48px', fontWeight: 'bold', marginBottom: '24px'}}>Liên Hệ Với Chúng Tôi</h1>
-           <p className="text-gray-500 text-lg" style={{fontSize: '18px', color: '#666'}}>Đừng ngần ngại để lại lời nhắn, đội ngũ chuyên gia của chúng tôi sẽ liên hệ tư vấn cho bạn sớm nhất có thể.</p>
-        </div>
+    <div className="bg-white pt-24 pb-20 overflow-hidden">
+      {/* Hero Section */}
+      <section className="py-20 md:py-32 flex flex-col items-center text-center">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="container mx-auto px-4"
+        >
+          <h1 className="text-4xl md:text-6xl font-playfair font-bold text-gray-900 mb-6 uppercase italic tracking-tighter">
+            LIÊN HỆ VỚI <span className="text-gold-primary">CHÚNG TÔI</span>
+          </h1>
+          <div className="w-20 h-1 bg-gold-primary mx-auto mb-8"></div>
+          <p className="text-gray-400 font-bold tracking-[0.4em] uppercase text-[10px] md:text-xs max-w-lg mx-auto leading-relaxed">
+            Chúng tôi luôn sẵn sàng lắng nghe và đồng hành cùng bạn trên hành trình chăm sóc làn da hoàn mỹ.
+          </p>
+        </motion.div>
+      </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '48px', marginBottom: '80px'}}>
-           {contactInfo.map((item, i) => (
-              <div key={i} className="p-8 bg-accent rounded-3xl border border-gray-50 flex flex-col items-center text-center hover:shadow-md transition-all group" style={{padding: '32px', backgroundColor: 'var(--accent)', borderRadius: '24px', border: '1px solid #f9f9f9', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
-                 <div className="mb-6 p-4 bg-white text-primary rounded-full group-hover:bg-primary group-hover:text-white transition-all shadow-sm" style={{marginBottom: '24px', padding: '16px', backgroundColor: 'white', color: 'var(--primary)', borderRadius: '50%'}}>
-                    {item.icon}
-                 </div>
-                 <h4 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2" style={{fontSize: '12px', color: '#aaa', textTransform: 'uppercase', marginBottom: '8px'}}>{item.label}</h4>
-                 <p className="text-xl font-bold text-secondary mb-1" style={{fontSize: '20px', fontWeight: 'bold'}}>{item.val}</p>
-                 <span className="text-sm text-gray-400 font-medium" style={{fontSize: '14px', color: '#888'}}>{item.sub}</span>
+      {/* Info Cards */}
+      <section className="container mx-auto px-4 md:px-8 mb-24">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {contactCards.map((card, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: idx * 0.1 }}
+              viewport={{ once: true }}
+              className="p-10 bg-gray-50 rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:bg-white hover:shadow-xl transition-all duration-500"
+            >
+              <div className="w-14 h-14 bg-white text-gold-primary rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm group-hover:bg-gold-primary group-hover:text-white transition-all">
+                {card.icon}
               </div>
-           ))}
+              <h4 className="text-[10px] font-bold text-gray-400 tracking-[0.3em] uppercase mb-3">{card.label}</h4>
+              <p className="text-sm font-bold text-gray-900 leading-relaxed uppercase">{card.val}</p>
+            </motion.div>
+          ))}
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '64px'}}>
-           {/* Map */}
-           <div className="h-[500px] rounded-3xl overflow-hidden shadow-lg border border-gray-100" style={{height: '500px', borderRadius: '24px', overflow: 'hidden', border: '1px solid #f0f0f0', boxShadow: '0 4px 20px rgba(0,0,0,0.05)'}}>
-              <iframe 
+      {/* Form & Map */}
+      <section className="container mx-auto px-4 md:px-8 mb-32">
+        <div className="flex flex-col lg:flex-row gap-16">
+          {/* Left: Form */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:w-1/2 p-8 md:p-12 bg-white rounded-[3rem] border border-gray-100 shadow-2xl relative"
+          >
+            <div className="mb-10">
+               <h3 className="text-2xl font-playfair font-bold text-gray-900 mb-2 uppercase italic">GỬI LỜI NHẮN</h3>
+               <p className="text-xs text-gray-400 font-bold tracking-widest uppercase">Phản hồi trong 24 giờ làm việc</p>
+            </div>
+
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="py-20 text-center"
+                >
+                  <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <FaRegCheckCircle size={40} />
+                  </div>
+                  <h4 className="text-xl font-bold text-gray-900 mb-2 uppercase tracking-wide">GỬI THÀNH CÔNG!</h4>
+                  <p className="text-gray-500 text-sm">Cảm ơn bạn. Chuyên viên sẽ liên hệ lại sớm nhất.</p>
+                  <button onClick={() => setSubmitted(false)} className="mt-8 text-xs font-bold text-gold-primary underline tracking-widest uppercase">Gửi tin mới</button>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                       <input 
+                          required type="text" placeholder="HỌ TÊN *" 
+                          className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase"
+                          value={form.name} onChange={(e) => setForm({...form, name: e.target.value})}
+                       />
+                    </div>
+                    <div className="space-y-2">
+                       <input 
+                          required type="tel" placeholder="SỐ ĐIỆN THOẠI *" 
+                          className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase"
+                          value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})}
+                       />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                     <input 
+                        type="email" placeholder="ĐỊA CHỈ EMAIL" 
+                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase"
+                        value={form.email} onChange={(e) => setForm({...form, email: e.target.value})}
+                     />
+                  </div>
+                  <div className="space-y-2">
+                     <select 
+                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase appearance-none cursor-pointer"
+                        value={form.subject} onChange={(e) => setForm({...form, subject: e.target.value})}
+                     >
+                        <option>TƯ VẤN SẢN PHẨM</option>
+                        <option>TÌNH TRẠNG DA</option>
+                        <option>CHĂM SÓC SAU LIỆU TRÌNH</option>
+                        <option>HỢP TÁC KINH DOANH</option>
+                     </select>
+                  </div>
+                  <div className="space-y-2">
+                     <textarea 
+                        rows="5" placeholder="NỘI DUNG TIN NHẮN..." 
+                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase"
+                        value={form.message} onChange={(e) => setForm({...form, message: e.target.value})}
+                     ></textarea>
+                  </div>
+                  <button type="submit" className="w-full py-5 bg-gold-primary text-white rounded-xl font-bold text-xs tracking-[0.4em] shadow-xl shadow-gold-primary/20 hover:bg-gold-dark hover:-translate-y-1 transition-all flex items-center justify-center gap-4 uppercase">
+                     GỬI TIN NHẮN <FaPaperPlane />
+                  </button>
+                </form>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Right: Map */}
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:w-1/2 h-[400px] lg:h-auto overflow-hidden rounded-[3rem] shadow-2xl border-8 border-gray-50"
+          >
+             <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4602324283526!2d106.702!3d10.776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f4400000001%3A0x69ba43f380536!2zUXXhuq1uIDEsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaA!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" 
                 width="100%" height="100%" style={{border: 0}} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ Accordion */}
+      <section className="py-24 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-8 max-w-4xl">
+           <div className="text-center mb-16">
+              <h3 className="text-3xl font-playfair font-bold text-gray-900 mb-4 uppercase italic">CÁC CÂU HỎI THƯỜNG GẶP</h3>
+              <div className="w-16 h-1 bg-gold-primary mx-auto"></div>
            </div>
 
-           {/* Form */}
-           <div className="bg-white p-10 rounded-3xl border border-gray-100 shadow-xl" style={{backgroundColor: 'white', padding: '40px', borderRadius: '24px', border: '1px solid #f0f0f0', boxShadow: '0 10px 40px rgba(0,0,0,0.08)'}}>
-              {submitted ? (
-                <div className="text-center py-20 animate-in fade-in zoom-in duration-500" style={{textAlign: 'center', padding: '80px 0'}}>
-                   <CheckCircle2 size={80} className="mx-auto text-success mb-6" style={{color: 'var(--success)', marginBottom: '24px'}} />
-                   <h3 className="text-2xl font-bold mb-4" style={{fontSize: '24px', fontWeight: 'bold', marginBottom: '16px'}}>Gửi Thành Công!</h3>
-                   <p className="text-gray-500">Cảm ơn bạn đã liên hệ. Chúng tôi sẽ trả lời bạn sớm nhất có thể qua SĐT hoặc Email.</p>
-                   <button onClick={() => setSubmitted(false)} className="mt-8 text-primary font-bold hover:underline" style={{marginTop: '32px', color: 'var(--primary)', fontWeight: 'bold'}}>Gửi một lời nhắn khác</button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6" style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px'}}>
-                      <div className="space-y-2">
-                         <label className="text-sm font-bold text-gray-500" style={{fontSize: '14px', fontWeight: 'bold', color: '#888'}}>Họ Tên *</label>
-                         <input 
-                            required type="text" placeholder="Nguyễn Văn A" 
-                            className="w-full p-4 bg-bg border-none rounded-xl focus:ring-2 focus:ring-primary/20 outline-none"
-                            value={form.name} onChange={(e) => setForm({...form, name: e.target.value})}
-                            style={{width: '100%', padding: '16px', backgroundColor: 'var(--bg)', borderRadius: '12px', border: 'none', outline: 'none'}}
-                         />
-                      </div>
-                      <div className="space-y-2">
-                         <label className="text-sm font-bold text-gray-500" style={{fontSize: '14px', fontWeight: 'bold', color: '#888'}}>Số Điện Thoại *</label>
-                         <input 
-                            required type="tel" placeholder="090 123 4567" 
-                            className="w-full p-4 bg-bg border-none rounded-xl focus:ring-2 focus:ring-primary/20 outline-none"
-                            value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})}
-                            style={{width: '100%', padding: '16px', backgroundColor: 'var(--bg)', borderRadius: '12px', border: 'none', outline: 'none'}}
-                         />
-                      </div>
-                   </div>
-                   <div className="space-y-2">
-                      <label className="text-sm font-bold text-gray-500" style={{fontSize: '14px', fontWeight: 'bold', color: '#888'}}>Địa chỉ Email</label>
-                      <input 
-                        type="email" placeholder="email@example.com" 
-                        className="w-full p-4 bg-bg border-none rounded-xl focus:ring-2 focus:ring-primary/20 outline-none"
-                        value={form.email} onChange={(e) => setForm({...form, email: e.target.value})}
-                        style={{width: '100%', padding: '16px', backgroundColor: 'var(--bg)', borderRadius: '12px', border: 'none', outline: 'none'}}
-                      />
-                   </div>
-                   <div className="space-y-2">
-                      <label className="text-sm font-bold text-gray-500" style={{fontSize: '14px', fontWeight: 'bold', color: '#888'}}>Sản phẩm quan tâm</label>
-                      <select 
-                        className="w-full p-4 bg-bg border-none rounded-xl focus:ring-2 focus:ring-primary/20 outline-none appearance-none"
-                        value={form.subject} onChange={(e) => setForm({...form, subject: e.target.value})}
-                        style={{width: '100%', padding: '16px', backgroundColor: 'var(--bg)', borderRadius: '12px', border: 'none', outline: 'none'}}
-                      >
-                         <option>Tư vấn sản phẩm</option>
-                         <option>Chăm sóc sắc đẹp</option>
-                         <option>Hợp tác kinh doanh</option>
-                         <option>Góp ý dịch vụ</option>
-                      </select>
-                   </div>
-                   <div className="space-y-2">
-                      <label className="text-sm font-bold text-gray-500" style={{fontSize: '14px', fontWeight: 'bold', color: '#888'}}>Nội Dung</label>
-                      <textarea 
-                        rows="5" placeholder="Bạn có thắc mắc gì cho chúng tôi?" 
-                        className="w-full p-4 bg-bg border-none rounded-xl focus:ring-2 focus:ring-primary/20 outline-none"
-                        value={form.message} onChange={(e) => setForm({...form, message: e.target.value})}
-                        style={{width: '100%', padding: '16px', backgroundColor: 'var(--bg)', borderRadius: '12px', border: 'none', outline: 'none'}}
-                      ></textarea>
-                   </div>
-                   <button type="submit" className="btn btn-primary w-full py-5 text-xl">
-                      Gửi Lời Nhắn <Send size={24} className="ml-2" />
-                   </button>
-                </form>
-              )}
+           <div className="space-y-4">
+              {faqs.map((faq, idx) => (
+                 <div key={idx} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                    <button 
+                      onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                      className="w-full p-6 flex justify-between items-center text-left hover:bg-gray-50 transition-colors"
+                    >
+                       <span className="text-sm font-bold text-gray-900 uppercase tracking-wide">{faq.q}</span>
+                       <FaChevronDown className={`text-gold-primary transition-transform duration-300 ${openFaq === idx ? 'rotate-180' : ''}`} />
+                    </button>
+                    <AnimatePresence>
+                       {openFaq === idx && (
+                          <motion.div 
+                             initial={{ height: 0 }}
+                             animate={{ height: 'auto' }}
+                             exit={{ height: 0 }}
+                             className="overflow-hidden"
+                          >
+                             <p className="p-6 pt-0 text-sm text-gray-500 leading-relaxed italic border-t border-gray-50">
+                                {faq.a}
+                             </p>
+                          </motion.div>
+                       )}
+                    </AnimatePresence>
+                 </div>
+              ))}
            </div>
         </div>
-      </div>
+      </section>
+
+      {/* Social & Connect */}
+      <section className="py-24">
+        <div className="container mx-auto px-4 text-center">
+           <h3 className="text-xs font-bold tracking-[0.6em] text-gray-300 uppercase mb-12">KẾT NỐI VỚI CHÚNG TÔI</h3>
+           <div className="flex justify-center items-center gap-10">
+              <a href="#" className="w-14 h-14 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-gold-primary hover:text-white hover:border-gold-primary hover:-translate-y-2 transition-all shadow-sm">
+                 <FaFacebookF size={20} />
+              </a>
+              <a href="#" className="w-14 h-14 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-gold-primary hover:text-white hover:border-gold-primary hover:-translate-y-2 transition-all shadow-sm">
+                 <FaInstagram size={20} />
+              </a>
+              <a href="#" className="w-14 h-14 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-gold-primary hover:text-white hover:border-gold-primary hover:-translate-y-2 transition-all shadow-sm">
+                 <FaYoutube size={20} />
+              </a>
+           </div>
+        </div>
+      </section>
     </div>
   );
 };
