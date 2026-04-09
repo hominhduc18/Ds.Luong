@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { storage } from './utils/storage';
 
 // Layouts
@@ -88,6 +89,7 @@ function App() {
         {/* Fallback */}
         <Route path="*" element={<Layout><Home /></Layout>} />
       </Routes>
+      <SpeedInsights />
     </Router>
   );
 }
