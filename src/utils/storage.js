@@ -77,7 +77,7 @@ const MOCK_SETTINGS = {
   phone: '1900 XXXX',
   address: '123 Đường Sắc Đẹp, Quận 1, TP.HCM',
   seoTitle: 'Ds Lương - phân phối dược mỹ phẩm',
-  seoDesc: 'Dược mỹ phẩm cao cấp chuẩn y khoa - DS LUONG.',
+  seoDesc: 'Ds Lương - Chuyên phân phối dược mỹ phẩm cao cấp, chính hãng.',
   socialLinks: { facebook: '#', instagram: '#', tiktok: '#', zalo: '1900 XXXX' }
 };
 
