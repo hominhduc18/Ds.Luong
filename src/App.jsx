@@ -52,7 +52,7 @@ function App() {
     const updateTitle = () => {
       const s = storage.get('beauty_settings') || {};
       const name = s.siteName || 'DS LUONG';
-      document.title = s.seoTitle || `DS LUONG - Chuyên Gia Dược Mỹ Phẩm Cao Cấp`;
+      document.title = s.seoTitle || `DS LUONG - Trong Ngành Beauty`;
     };
     updateTitle();
     window.addEventListener('beauty_data_changed', updateTitle);
