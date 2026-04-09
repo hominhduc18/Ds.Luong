@@ -16,6 +16,7 @@ import PostDetail from './pages/PostDetail';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Policies from './pages/Policies';
+import ZaloButton from './components/ZaloButton';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -31,6 +32,7 @@ const Layout = ({ children }) => (
     <Header />
     <main className="flex-grow">{children}</main>
     <Footer />
+    <ZaloButton />
   </div>
 );
 
@@ -49,8 +51,8 @@ function App() {
     // Cập nhật document title theo siteName
     const updateTitle = () => {
       const s = storage.get('beauty_settings') || {};
-      const name = s.siteName || 'Ds Lương';
-      document.title = s.seoTitle || `${name} - Chuyên gia làm đẹp`;
+      const name = s.siteName || 'DS LUONG';
+      document.title = s.seoTitle || `DS LUONG - Chuyên Gia Dược Mỹ Phẩm Cao Cấp`;
     };
     updateTitle();
     window.addEventListener('beauty_data_changed', updateTitle);

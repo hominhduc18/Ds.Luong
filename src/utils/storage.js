@@ -76,8 +76,8 @@ const MOCK_SETTINGS = {
   email: 'info@dsluong.vn',
   phone: '1900 XXXX',
   address: '123 Đường Sắc Đẹp, Quận 1, TP.HCM',
-  seoTitle: 'DS Luong - Chuyên gia chăm sóc da',
-  seoDesc: 'Dược mỹ phẩm cao cấp chuẩn y khoa.',
+  seoTitle: 'DS LUONG - Chuyên Gia Dược Mỹ Phẩm Cao Cấp',
+  seoDesc: 'Dược mỹ phẩm cao cấp chuẩn y khoa - DS LUONG.',
   socialLinks: { facebook: '#', instagram: '#', tiktok: '#', zalo: '1900 XXXX' }
 };
 
@@ -108,12 +108,12 @@ export const storage = {
     }
 
     const settings = storage.get(KEYS.SETTINGS);
-    if (settings && (settings.siteName === 'SkinClinic' || settings.email?.includes('skinclinic'))) {
+    if (settings && (settings.siteName === 'SkinClinic' || settings.siteName?.includes('Antigravity') || settings.email?.includes('skinclinic'))) {
       storage.set(KEYS.SETTINGS, { ...settings, ...MOCK_SETTINGS });
     }
 
     const products = storage.get(KEYS.PRODUCTS);
-    if (products && JSON.stringify(products).includes('SkinClinic')) {
+    if (products && (JSON.stringify(products).includes('SkinClinic') || JSON.stringify(products).includes('Antigravity'))) {
       storage.set(KEYS.PRODUCTS, MOCK_PRODUCTS);
     }
   },
