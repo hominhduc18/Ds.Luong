@@ -94,10 +94,10 @@ export const storage = {
     if (!storage.get(KEYS.POSTS)) storage.set(KEYS.POSTS, MOCK_POSTS);
     if (!storage.get(KEYS.CONTENTS)) storage.set(KEYS.CONTENTS, MOCK_PAGE_CONTENTS);
     if (!storage.get(KEYS.CATEGORIES)) storage.set(KEYS.CATEGORIES, MOCK_CATEGORIES);
-    
+
     const existingSettings = storage.get(KEYS.SETTINGS);
     storage.set(KEYS.SETTINGS, { ...MOCK_SETTINGS, ...(existingSettings || {}) });
-    
+
     if (!storage.get(KEYS.REVIEWS)) storage.set(KEYS.REVIEWS, []);
     if (!storage.get(KEYS.CONTACTS)) storage.set(KEYS.CONTACTS, []);
     if (!storage.get(KEYS.EMAILS)) storage.set(KEYS.EMAILS, []);
@@ -138,7 +138,6 @@ export const storage = {
     getBySlug: (slug) => (storage.get(KEYS.PRODUCTS) || []).find(p => p.slug === slug),
     save: (items) => storage.set(KEYS.PRODUCTS, items)
   },
-
   posts: {
     getAll: () => storage.get(KEYS.POSTS) || [],
     getLatest: (limit = 3) => (storage.get(KEYS.POSTS) || []).slice(0, limit),
