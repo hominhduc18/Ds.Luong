@@ -11,7 +11,7 @@ export const siteConfig = {
   defaultDescription: "Ds Lương chuyên phân phối dược mỹ phẩm cao cấp chuẩn y khoa từ Tây Ban Nha. Giải pháp trị nám, trị mụn và trẻ hóa da chuyên sâu.",
   defaultKeywords: "ds luong, dược mỹ phẩm, trị nám, trị mụn, chống lão hóa, dược mỹ phẩm tây ban nha, skinclinic, dược sĩ lương",
   defaultImage: "/og-image.jpg", // Create this or use a high-res logo
-  
+
   author: {
     name: "Dược sĩ Lương",
     role: "Chuyên gia Dược mỹ phẩm",
@@ -19,7 +19,7 @@ export const siteConfig = {
   },
 
   social: {
-    facebook: "https://www.facebook.com/manucian1806/",
+    facebook: "https://www.facebook.com/",
     instagram: "#",
     youtube: "#",
     zalo: "0335046737"
