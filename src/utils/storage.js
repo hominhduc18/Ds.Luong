@@ -69,14 +69,14 @@ const MOCK_CATEGORIES = [
 ];
 
 const MOCK_SETTINGS = {
-  siteName: 'DS Luong',
+  siteName: 'Ds Lương',
   slogan: 'Khoa học - An toàn - Hiệu quả',
   logo: null,
   favicon: null,
   email: 'info@dsluong.vn',
   phone: '1900 XXXX',
   address: '123 Đường Sắc Đẹp, Quận 1, TP.HCM',
-  seoTitle: 'DS LUONG - Chuyên Gia Dược Mỹ Phẩm Cao Cấp',
+  seoTitle: 'Ds Lương - phân phối dược mỹ phẩm',
   seoDesc: 'Dược mỹ phẩm cao cấp chuẩn y khoa - DS LUONG.',
   socialLinks: { facebook: '#', instagram: '#', tiktok: '#', zalo: '1900 XXXX' }
 };

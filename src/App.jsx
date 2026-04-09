@@ -51,8 +51,8 @@ function App() {
     // Cập nhật document title theo siteName
     const updateTitle = () => {
       const s = storage.get('beauty_settings') || {};
-      const name = s.siteName || 'DS LUONG';
-      document.title = s.seoTitle || `DS LUONG - Trong Ngành Beauty`;
+      const name = s.siteName || 'Ds Lương';
+      document.title = s.seoTitle || `Ds Lương - phân phối dược mỹ phẩm`;
     };
     updateTitle();
     window.addEventListener('beauty_data_changed', updateTitle);
