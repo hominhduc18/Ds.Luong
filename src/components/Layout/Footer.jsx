@@ -9,13 +9,13 @@ const Footer = () => {
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
           
-          {/* Column 1: VỀ SKINCLINIC */}
+          {/* Column 1: VỀ DS LUONG */}
           <div className="space-y-8">
             <div className="flex flex-col">
-              <span className="text-3xl font-black font-playfair text-[#0A4B7A] tracking-tighter uppercase">SKINCLINIC</span>
+              <span className="text-3xl font-black font-playfair text-gold-primary tracking-tighter uppercase">DS LUONG</span>
             </div>
             <p className="text-gray-500 text-xs leading-loose italic">
-              "Thương hiệu mỹ phẩm dược liệu hàng đầu Việt Nam, ứng dụng công nghệ Đức và Hàn Quốc để mang lại vẻ đẹp bền vững cho mọi làn da."
+              "Thương hiệu dược mỹ phẩm uy tín, mang đến giải pháp chăm sóc da chuyên sâu và hiệu quả bền vững với tiêu chuẩn Châu Âu."
             </p>
             <div className="flex items-center gap-4">
               {[
@@ -28,7 +28,7 @@ const Footer = () => {
                   key={idx}
                   whileHover={{ y: -3, scale: 1.1 }}
                   href={social.path}
-                  className="w-10 h-10 border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-[#0A4B7A] hover:border-[#0A4B7A] transition-all"
+                  className="w-10 h-10 border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-gold-primary hover:border-gold-primary transition-all"
                 >
                   {social.icon}
                 </motion.a>
@@ -41,21 +41,21 @@ const Footer = () => {
             <h4 className="text-sm font-black text-gray-900 tracking-widest uppercase border-b border-gray-100 pb-4">HỖ TRỢ</h4>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <FaPhoneAlt className="text-[#0A4B7A] mt-1" />
+                <FaPhoneAlt className="text-gold-primary mt-1" />
                 <div>
                    <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Hotline</span>
                    <span className="text-sm font-bold">1900 XXXX</span>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <FaEnvelope className="text-[#0A4B7A] mt-1" />
+                <FaEnvelope className="text-gold-primary mt-1" />
                 <div>
                    <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email</span>
-                   <span className="text-sm font-bold">info@skinclinic.vn</span>
+                   <span className="text-sm font-bold">contact@dsluong.vn</span>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <FaClock className="text-[#0A4B7A] mt-1" />
+                <FaClock className="text-gold-primary mt-1" />
                 <div>
                    <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Giờ làm việc</span>
                    <span className="text-sm font-bold uppercase">Thứ 2 - Thứ 7 (8:00 - 20:00)</span>
@@ -68,10 +68,10 @@ const Footer = () => {
           <div className="space-y-8">
             <h4 className="text-sm font-black text-gray-900 tracking-widest uppercase border-b border-gray-100 pb-4">CHÍNH SÁCH</h4>
             <ul className="space-y-4 text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase">
-              <li><Link to="#" className="hover:text-[#0A4B7A] transition-colors">Chính sách đổi trả</Link></li>
-              <li><Link to="#" className="hover:text-[#0A4B7A] transition-colors">Chính sách vận chuyển</Link></li>
-              <li><Link to="#" className="hover:text-[#0A4B7A] transition-colors">Phương thức thanh toán</Link></li>
-              <li><Link to="#" className="hover:text-[#0A4B7A] transition-colors">Chính sách bảo mật</Link></li>
+              <li><Link to="/policies" className="hover:text-gold-primary transition-colors">Chính sách đổi trả</Link></li>
+              <li><Link to="/policies" className="hover:text-gold-primary transition-colors">Chính sách vận chuyển</Link></li>
+              <li><Link to="/policies" className="hover:text-gold-primary transition-colors">Phương thức thanh toán</Link></li>
+              <li><Link to="/policies" className="hover:text-gold-primary transition-colors">Chính sách bảo mật</Link></li>
             </ul>
           </div>
 
@@ -82,9 +82,9 @@ const Footer = () => {
               <input 
                 type="email" 
                 placeholder="Nhập email của bạn..." 
-                className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all pr-12"
+                className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all pr-12"
               />
-              <button className="absolute right-2 top-1.5 bg-[#0A4B7A] hover:bg-gray-900 text-white w-9 h-9 rounded-lg flex items-center justify-center transition-all shadow-lg active:scale-95">
+              <button className="absolute right-2 top-1.5 bg-gold-primary hover:bg-gray-900 text-white w-9 h-9 rounded-lg flex items-center justify-center transition-all shadow-lg active:scale-95">
                 <FaPaperPlane size={14} />
               </button>
             </div>
@@ -98,7 +98,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-12 border-t border-gray-50 text-center">
           <p className="text-[9px] text-gray-400 font-bold tracking-[0.5em] uppercase">
-            © 2025 SKINCLINIC - ĐỒNG HÀNH CÙNG LÀN DA KHỎE ĐẸP
+            © 2025 DS LUONG - ĐỒNG HÀNH CÙNG LÀN DA KHỎE ĐẸP
           </p>
         </div>
       </div>

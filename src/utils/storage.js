@@ -13,18 +13,18 @@ const KEYS = {
 
 // Initial Mock Data
 const MOCK_PRODUCTS = [
-  { id: 1, name: "SYL 100 SUN LUX", description: "Kem chống nắng phổ rộng SPF 50+", brand: "DS Luong", price: 2517500, originalPrice: null, badge: ["50+", "NEW"], category: "CHỐNG NẮNG", image: "https://placehold.co/400x400?text=Sun+Lux", stock: 50 },
-  { id: 2, name: "BIOCELMASK CALM EFFECT", description: "Mặt nạ phục hồi và làm dịu da", brand: "SkinClinic", price: 1141250, originalPrice: null, badge: ["BEST SELLER"], category: "MẶT NẠ", image: "https://placehold.co/400x400?text=Biocelmask", stock: 30 },
-  { id: 3, name: "HAIR MASK", description: "Mặt nạ cấp ẩm và chăm sóc tóc", brand: "SkinClinic", price: 2181250, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Hair+Mask", stock: 25 },
-  { id: 4, name: "FREQUENT USE SHAMPOO", description: "Dầu gội dịu nhẹ dùng hàng ngày", brand: "SkinClinic", price: 1141250, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Shampoo", stock: 40 },
-  { id: 5, name: "REFRESH TONER", description: "Nước cân bằng dịu nhẹ", brand: "SkinClinic", price: 1593750, originalPrice: null, badge: [], category: "LÀM SẠCH DA", image: "https://placehold.co/400x400?text=Toner", stock: 60 },
-  { id: 6, name: "BALANCE LOTION", description: "Nước dưỡng cân bằng kiểm soát dầu", brand: "SkinClinic", price: 352500, originalPrice: null, badge: ["NEW"], category: "DƯỠNG ẨM", image: "https://placehold.co/400x400?text=Lotion", stock: 100 },
-  { id: 7, name: "BUST FIRMING GEL", description: "Gel hỗ trợ cải thiện độ săn chắc vùng ngực", brand: "SkinClinic", price: 3020000, originalPrice: null, badge: [], category: "CHĂM SÓC BODY", image: "https://placehold.co/400x400?text=Bust+Gel", stock: 20 },
-  { id: 8, name: "BODY GLYCOLIC CREAM", description: "Kem dưỡng body săn chắc", brand: "SkinClinic", price: 2181250, originalPrice: 2725000, badge: ["SALE"], category: "CHĂM SÓC BODY", image: "https://placehold.co/400x400?text=Glycolic", stock: 35 },
-  { id: 9, name: "ANTI DANDRUFF SHAMPOO", description: "Dầu gội cho da gàu", brand: "SkinClinic", price: 1645000, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Anti+Dandruff", stock: 45 },
-  { id: 10, name: "ANTI HAIR LOSS SHAMPOO", description: "Dầu gội chống rụng tóc", brand: "SkinClinic", price: 1762500, originalPrice: null, badge: ["BEST SELLER"], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Anti+Hair+Loss", stock: 38 },
-  { id: 11, name: "GREASY HAIR SHAMPOO", description: "Dầu gội cho tóc nhờn", brand: "SkinClinic", price: 1645000, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://placehold.co/400x400?text=Greasy+Hair", stock: 42 },
-  { id: 12, name: "ANTIAGING LIPOSOME CREAM", description: "Kem dưỡng chống lão hóa", brand: "SkinClinic", price: 3188750, originalPrice: 3985000, badge: ["SALE"], category: "CHỐNG LÃO HOÁ", image: "https://placehold.co/400x400?text=Liposome", stock: 15 }
+  { id: 1, name: "SYL 100 SUN LUX", description: "Kem chống nắng phổ rộng SPF 50+", descLine: "BẢO VỆ DA TỐI ƯU", brand: "DS LUONG", price: 2517500, originalPrice: null, badge: ["50+", "NEW"], category: "CHỐNG NẮNG", image: "https://skinclinic.vn/storage/products/syl-100-sun-lux-1.png", stock: 50 },
+  { id: 2, name: "BIOCELMASK CALM EFFECT", description: "Mặt nạ phục hồi và làm dịu da", descLine: "PHỤC HỒI CHUYÊN SÂU", brand: "DS LUONG", price: 1141250, originalPrice: null, badge: ["BEST SELLER"], category: "MẶT NẠ", image: "https://skinclinic.vn/storage/products/biocelmask-calm-effect-1.png", stock: 30 },
+  { id: 3, name: "HAIR MASK", description: "Mặt nạ cấp ẩm và chăm sóc tóc", descLine: "DƯỠNG TÓC MỀM MƯỢT", brand: "DS LUONG", price: 2181250, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://skinclinic.vn/storage/products/hair-mask-1.png", stock: 25 },
+  { id: 4, name: "FREQUENT USE SHAMPOO", description: "Dầu gội dịu nhẹ dùng hàng ngày", descLine: "LÀM SẠCH DỊU NHẸ", brand: "DS LUONG", price: 1141250, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://skinclinic.vn/storage/products/frequent-use-shampoo-1.png", stock: 40 },
+  { id: 5, name: "REFRESH TONER", description: "Nước cân bằng dịu nhẹ", descLine: "CÂN BẰNG PH", brand: "DS LUONG", price: 1593750, originalPrice: null, badge: [], category: "LÀM SẠCH DA", image: "https://skinclinic.vn/storage/products/refresh-toner-1.png", stock: 60 },
+  { id: 6, name: "BALANCE LOTION", description: "Nước dưỡng cân bằng kiểm soát dầu", descLine: "KIỂM SOÁT BÃ NHỜN", brand: "DS LUONG", price: 352500, originalPrice: null, badge: ["NEW"], category: "DƯỠNG ẨM", image: "https://skinclinic.vn/storage/products/balance-lotion-1.png", stock: 100 },
+  { id: 7, name: "BUST FIRMING GEL", description: "Gel hỗ trợ cải thiện độ săn chắc vùng ngực", descLine: "SĂN CHẮC CƠ THỂ", brand: "DS LUONG", price: 3020000, originalPrice: null, badge: [], category: "CHĂM SÓC BODY", image: "https://skinclinic.vn/storage/products/bust-firming-gel-1.png", stock: 20 },
+  { id: 8, name: "BODY GLYCOLIC CREAM", description: "Kem dưỡng body săn chắc", descLine: "TÁI TẠO DA BODY", brand: "DS LUONG", price: 2181250, originalPrice: 2725000, badge: ["SALE"], category: "CHĂM SÓC BODY", image: "https://skinclinic.vn/storage/products/body-glycolic-cream-1.png", stock: 35 },
+  { id: 9, name: "ANTI DANDRUFF SHAMPOO", description: "Dầu gội cho da gàu", descLine: "LOẠI BỎ GÀU", brand: "DS LUONG", price: 1645000, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://skinclinic.vn/storage/products/anti-dandruff-shampoo-1.png", stock: 45 },
+  { id: 10, name: "ANTI HAIR LOSS SHAMPOO", description: "Dầu gội chống rụng tóc", descLine: "GIẢM RỤNG TÓC", brand: "DS LUONG", price: 1762500, originalPrice: null, badge: ["BEST SELLER"], category: "CHĂM SÓC TÓC", image: "https://skinclinic.vn/storage/products/anti-hair-loss-shampoo-1.png", stock: 38 },
+  { id: 11, name: "GREASY HAIR SHAMPOO", description: "Dầu gội cho tóc nhờn", descLine: "KIỂM SOÁT DẦU TÓC", brand: "DS LUONG", price: 1645000, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://skinclinic.vn/storage/products/greasy-hair-shampoo-1.png", stock: 42 },
+  { id: 12, name: "ANTIAGING LIPOSOME CREAM", description: "Kem dưỡng chống lão hóa", descLine: "CHỐNG LÃO HÓA SÂU", brand: "DS LUONG", price: 3188750, originalPrice: 3985000, badge: ["SALE"], category: "CHỐNG LÃO HOÁ", image: "https://skinclinic.vn/storage/products/antiaging-liposome-cream-1.png", stock: 15 }
 ];
 
 const MOCK_POSTS = [
@@ -40,7 +40,7 @@ const MOCK_PAGE_CONTENTS = {
   home: {
     heroTitle: "DS LUONG",
     heroSubtitle: "Khoa học - An toàn - Hiệu quả",
-    introText: "SkinClinic mang đến các giải pháp chăm sóc da chuyên nghiệp, kết hợp giữa tinh hoa thiên nhiên và công nghệ tá dược hiện đại."
+    introText: "DS LUONG mang đến các giải pháp chăm sóc da chuyên nghiệp, kết hợp giữa tinh hoa thiên nhiên và công nghệ tá dược hiện đại."
   },
   about: {
     mission: "Mang lại làn da khỏe đẹp bền vững cho phụ nữ Việt.",
@@ -73,7 +73,7 @@ const MOCK_SETTINGS = {
   slogan: 'Khoa học - An toàn - Hiệu quả',
   logo: null,
   favicon: null,
-  email: 'info@skinclinic.vn',
+  email: 'info@dsluong.vn',
   phone: '1900 XXXX',
   address: '123 Đường Sắc Đẹp, Quận 1, TP.HCM',
   seoTitle: 'DS Luong - Chuyên gia chăm sóc da',
@@ -101,6 +101,21 @@ export const storage = {
     if (!storage.get(KEYS.REVIEWS)) storage.set(KEYS.REVIEWS, []);
     if (!storage.get(KEYS.CONTACTS)) storage.set(KEYS.CONTACTS, []);
     if (!storage.get(KEYS.EMAILS)) storage.set(KEYS.EMAILS, []);
+    // Force update branding if old name exists in storage
+    const contents = storage.get(KEYS.CONTENTS);
+    if (contents && JSON.stringify(contents).includes('SkinClinic')) {
+      storage.set(KEYS.CONTENTS, MOCK_PAGE_CONTENTS);
+    }
+
+    const settings = storage.get(KEYS.SETTINGS);
+    if (settings && (settings.siteName === 'SkinClinic' || settings.email?.includes('skinclinic'))) {
+      storage.set(KEYS.SETTINGS, { ...settings, ...MOCK_SETTINGS });
+    }
+
+    const products = storage.get(KEYS.PRODUCTS);
+    if (products && JSON.stringify(products).includes('SkinClinic')) {
+      storage.set(KEYS.PRODUCTS, MOCK_PRODUCTS);
+    }
   },
 
   auth: {

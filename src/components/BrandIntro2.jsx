@@ -17,12 +17,9 @@ const BrandIntro2 = () => {
             <div className="relative">
               <div className="absolute -top-4 -left-4 w-full h-full border-2 border-gold-primary rounded-lg z-0"></div>
               <img 
-                src="https://skinclinic.vn/storage/banners/intro2-img.jpg" 
-                alt="Brand Origin" 
+                src="/images/rebranding/skincare_production_standards_gold_1775697722506.png" 
+                alt="Production Standards Gold" 
                 className="relative z-10 w-full h-auto rounded-lg shadow-xl"
-                onError={(e) => {
-                  e.target.src = "https://via.placeholder.com/600x400/F5F5F5/D4AF37?text=Production+Standards";
-                }}
               />
             </div>
           </motion.div>

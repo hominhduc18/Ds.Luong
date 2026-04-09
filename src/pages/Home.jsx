@@ -7,8 +7,10 @@ import ProductSection from '../components/ProductSection';
 import TestimonialSection from '../components/TestimonialSection';
 import BadgeStrip from '../components/BadgeStrip';
 import BlogSection from '../components/BlogSection';
+import QuickViewModal from '../components/QuickViewModal';
 import { storage } from '../utils/storage';
 import { testimonials } from '../data/testimonials';
+import { AnimatePresence } from 'framer-motion';
 
 const Home = () => {
   const [pageData, setPageData] = useState({
@@ -17,6 +19,8 @@ const Home = () => {
     newProducts: storage.products.getNew(),
     latestPosts: storage.posts.getLatest(3)
   });
+
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
 
   useEffect(() => {
     const handleDataChange = () => {
@@ -44,16 +48,18 @@ const Home = () => {
       
       <ProductSection 
         title="SẢN PHẨM NỔI BẬT" 
-        subtitle="Khám phá ngay những sản phẩm bán chạy nhất của SkinClinic và cảm nhận hiệu quả đáp ứng nhu cầu cho từng vấn đề của làn da!"
+        subtitle="Khám phá ngay những sản phẩm bán chạy nhất của DS LUONG và cảm nhận hiệu quả đáp ứng nhu cầu cho từng vấn đề của làn da!"
         products={pageData.bestSellers}
+        onQuickView={setQuickViewProduct}
       />
       
       <TestimonialSection testimonials={testimonials} />
       
       <ProductSection 
         title="SẢN PHẨM MỚI" 
-        subtitle="Trải nghiệm ngay các sản phẩm mới nhất của SkinClinic, mỗi sản phẩm đều được bào chế theo công thức tá dược vừa đủ giúp đạt hiệu quả tốt nhất!"
+        subtitle="Trải nghiệm ngay các sản phẩm mới nhất của DS LUONG, mỗi sản phẩm đều được bào chế theo công thức tá dược vừa đủ giúp đạt hiệu quả tốt nhất!"
         products={pageData.newProducts}
+        onQuickView={setQuickViewProduct}
       />
       
       <BadgeStrip />
@@ -63,6 +69,15 @@ const Home = () => {
         subtitle="Cập nhật tất cả các thông tin mới nhất liên quan đến truyền thông sự kiện, chia sẻ tin tức và kiến thức làm đẹp chuẩn Y khoa!"
         posts={pageData.latestPosts}
       />
+
+      <AnimatePresence>
+        {quickViewProduct && (
+          <QuickViewModal 
+            product={quickViewProduct} 
+            onClose={() => setQuickViewProduct(null)} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

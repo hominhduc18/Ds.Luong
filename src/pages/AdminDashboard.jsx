@@ -99,7 +99,7 @@ const AdminDashboard = () => {
                   </div>
                   <h4 className="text-sm font-bold text-gray-900 uppercase tracking-wide">Yêu cầu liên hệ mới</h4>
                </div>
-               <Link to="/admin/contacts" className="text-[10px] font-bold text-[#0A4B7A] tracking-widest uppercase hover:underline">Tất cả bài viết</Link>
+               <Link to="/admin/contacts" className="text-[10px] font-bold text-gold-primary tracking-widest uppercase hover:underline">Tất cả bài viết</Link>
             </div>
             
             <div className="overflow-x-auto">
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
                               {new Date(c.date || Date.now()).toLocaleDateString('vi-VN')}
                            </td>
                            <td className="px-10 py-6 text-right">
-                              <button className="p-2.5 bg-gray-50 text-[#0A4B7A] rounded-xl hover:bg-[#0A4B7A] hover:text-white transition-all shadow-sm">
+                              <button className="p-2.5 bg-gray-50 text-gold-primary rounded-xl hover:bg-gold-primary hover:text-white transition-all shadow-sm">
                                 <ArrowUpRight size={14} />
                               </button>
                            </td>
@@ -143,7 +143,7 @@ const AdminDashboard = () => {
 
          {/* System Overview */}
          <motion.div variants={item} className="space-y-8">
-            <div className="bg-[#0A1629] p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+            <div className="bg-gray-900 p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
                <div className="relative z-10 flex flex-col justify-between h-full min-h-[300px]">
                   <div>
                      <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-white mb-6 backdrop-blur-md border border-white/5">
@@ -176,7 +176,7 @@ const AdminDashboard = () => {
                <h4 className="text-[11px] font-bold text-gray-900 uppercase tracking-widest mb-6">Quick Actions</h4>
                <div className="grid grid-cols-2 gap-4">
                   <Link to="/admin/products" className="p-6 bg-blue-50/50 hover:bg-[#0A4B7A] hover:text-white transition-all rounded-[1.5rem] group flex flex-col items-center text-center gap-4">
-                     <Package size={20} className="text-[#0A4B7A] group-hover:text-white transition-colors" />
+                     <Package size={20} className="text-gold-primary group-hover:text-white transition-colors" />
                      <span className="text-[10px] font-bold uppercase tracking-wide">Sản phẩm</span>
                   </Link>
                   <Link to="/admin/posts" className="p-6 bg-emerald-50/50 hover:bg-emerald-500 hover:text-white transition-all rounded-[1.5rem] group flex flex-col items-center text-center gap-4">

@@ -186,7 +186,7 @@ const AdminSettings = () => {
                <div className="space-y-3">
                   <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">SEO Title (Trang chủ)</label>
                   <input 
-                     className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-amber-500/5 transition-all text-[#0A4B7A] tracking-tight uppercase"
+                     className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-amber-500/5 transition-all text-gold-primary tracking-tight uppercase"
                      value={settings.seoTitle || ''}
                      onChange={(e) => setSettings({...settings, seoTitle: e.target.value})}
                   />
@@ -253,12 +253,12 @@ const AdminSettings = () => {
             </div>
 
             <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm flex flex-col items-center text-center gap-4">
-               <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center text-[#0A4B7A]">
+               <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center text-gold-primary">
                   <Zap size={28} />
                </div>
                <div>
                  <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Phiên bản hiện tại</span>
-                 <p className="text-sm font-black text-gray-900 tracking-tighter mt-1 italic uppercase underline decoration-[#0A4B7A] decoration-2 underline-offset-4">SkinClinic Digital v3.0.0</p>
+                 <p className="text-sm font-black text-gray-900 tracking-tighter mt-1 italic uppercase underline decoration-gold-primary decoration-2 underline-offset-4">DS LUONG Digital v3.0.0</p>
                </div>
             </div>
          </div>

@@ -27,20 +27,33 @@
   }
   
   .btn-gold-outline {
-    @apply border-2 border-gold-primary text-gold-primary px-8 py-2 font-semibold hover:bg-gold-primary hover:text-white transition-all duration-300;
+    @apply border-2 border-gold-primary text-gold-primary px-8 py-3 font-bold hover:bg-gold-primary hover:text-white transition-all duration-300 uppercase tracking-widest text-xs;
   }
   
   .btn-gold-solid {
-    @apply bg-gold-primary text-white px-8 py-2 font-semibold hover:bg-gold-dark transition-all duration-300;
+    @apply bg-gold-primary text-white px-10 py-4 font-black hover:bg-gold-dark transition-all duration-300 uppercase tracking-[0.3em] text-xs shadow-xl shadow-gold-primary/20;
+  }
+
+  .luxury-text {
+    @apply font-playfair italic tracking-tight;
   }
 
   .gold-shadow {
-    @apply shadow-[0_4px_20px_rgba(212,175,55,0.15)];
+    @apply shadow-[0_4px_30px_rgba(212,175,55,0.15)];
   }
 
   .gold-shadow-hover {
-    @apply hover:shadow-[0_10px_30px_rgba(212,175,55,0.25)] transition-all duration-300;
+    @apply hover:shadow-[0_15px_45px_rgba(212,175,55,0.3)] transition-all duration-500 hover:-translate-y-1;
   }
+}
+
+/* Typography Refinements for Legibility */
+h1, h2, h3, h4 {
+  @apply tracking-tighter leading-tight;
+}
+
+.tracking-luxury {
+  @apply tracking-[0.4em] uppercase font-black;
 }
 
 .gold-gradient-bg {
@@ -48,7 +61,9 @@
 }
 
 .header-transition {
-  transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -58,3 +73,4 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+

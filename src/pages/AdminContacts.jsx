@@ -62,7 +62,7 @@ const AdminContacts = () => {
            </div>
            <div className="text-center uppercase tracking-widest font-black pl-2">
               <span className="text-[8px] text-gray-400 block">Tổng số</span>
-              <span className="text-lg text-[#0A4B7A]">{contacts.length}</span>
+              <span className="text-lg text-gold-primary">{contacts.length}</span>
            </div>
         </div>
       </div>
@@ -71,7 +71,7 @@ const AdminContacts = () => {
         {/* Contact List */}
         <div className="lg:col-span-2 space-y-8">
            <div className="relative group">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-[#0A4B7A] transition-colors" size={20} />
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-gold-primary transition-colors" size={20} />
               <input 
                 type="text" 
                 placeholder="Tìm kiếm theo tên khách hàng, email hoặc chủ đề..."
@@ -148,10 +148,10 @@ const AdminContacts = () => {
                    initial={{ opacity: 0, scale: 0.9, y: 30 }}
                    animate={{ opacity: 1, scale: 1, y: 0 }}
                    exit={{ opacity: 0, scale: 0.95, y: -30 }}
-                   className="bg-[#0A1629] text-white rounded-[3rem] shadow-2xl p-10 lg:p-12 space-y-12 relative overflow-hidden"
+                   className="bg-gray-950 text-white rounded-[3rem] shadow-2xl p-10 lg:p-12 space-y-12 relative overflow-hidden"
                  >
                     {/* Background Accent */}
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#0A4B7A]/40 rounded-full blur-[100px] -mr-32 -mt-32"></div>
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-gold-primary/20 rounded-full blur-[100px] -mr-32 -mt-32"></div>
 
                     <div className="relative z-10 flex flex-col items-center text-center pb-12 border-b border-white/5">
                        <div className="w-24 h-24 bg-white/10 backdrop-blur-md rounded-3xl flex items-center justify-center text-4xl font-black italic border border-white/10 mb-8 shadow-2xl rotate-3">
@@ -196,7 +196,7 @@ const AdminContacts = () => {
                        </button>
                        <a 
                          href={`tel:${activeContact.phone}`} 
-                         className="py-5 rounded-2xl bg-[#0A4B7A] text-white text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white hover:text-[#0A1629] transition-all shadow-xl shadow-[#0A4B7A]/20 flex items-center justify-center gap-2"
+                         className="py-5 rounded-2xl bg-gold-primary text-white text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white hover:text-gray-950 transition-all shadow-xl shadow-gold-primary/20 flex items-center justify-center gap-2"
                        >
                          Phản hồi ngay <ArrowUpRight size={14} />
                        </a>

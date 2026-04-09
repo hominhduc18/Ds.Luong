@@ -12,7 +12,7 @@ const CategoryNode = ({ node, level = 0, selectedCategory, onSelect }) => {
   return (
     <div className="mb-1">
       <div 
-        className={`flex items-center group cursor-pointer py-1.5 transition-all ${selectedCategory === node.name ? 'text-[#0A4B7A]' : 'text-gray-600 hover:text-[#0A4B7A]'}`}
+        className={`flex items-center group cursor-pointer py-1.5 transition-all ${selectedCategory === node.name ? 'text-gold-primary' : 'text-gray-600 hover:text-gold-primary'}`}
         onClick={() => {
           if (hasChildren) setIsOpen(!isOpen);
           onSelect(node.name);
@@ -21,7 +21,7 @@ const CategoryNode = ({ node, level = 0, selectedCategory, onSelect }) => {
         <span className="mr-2 text-gray-300">
            {hasChildren ? (isOpen ? <FaChevronDown size={8} /> : <FaChevronRight size={8} />) : '•'}
         </span>
-        <span className={`text-[11px] font-bold uppercase tracking-wider ${selectedCategory === node.name ? 'font-black underline' : ''}`}>
+        <span className={`text-[13px] font-bold uppercase tracking-widest ${selectedCategory === node.name ? 'font-black underline scale-105' : ''}`}>
           {node.name}
         </span>
       </div>
@@ -84,14 +84,14 @@ const Shop = () => {
           {/* Sidebar - 25% Width */}
           <aside className="lg:w-1/4 hidden lg:block">
             <div className="sticky top-32">
-              <h3 className="text-sm font-black text-gray-900 border-b-2 border-gray-900 pb-3 mb-6 tracking-widest uppercase">
+              <h3 className="text-base font-black text-gray-900 border-b-2 border-gray-900 pb-4 mb-8 tracking-[0.2em] uppercase">
                 DANH MỤC
               </h3>
               
               <div className="mb-12">
                 <button 
                   onClick={() => setSelectedCategory('ALL')}
-                  className={`text-[11px] font-bold uppercase tracking-wider mb-3 block ${selectedCategory === 'ALL' ? 'text-[#0A4B7A] font-black underline' : 'text-gray-600'}`}
+                  className={`text-[13px] font-bold uppercase tracking-widest mb-4 block ${selectedCategory === 'ALL' ? 'text-gold-primary font-black underline scale-105' : 'text-gray-600'}`}
                 >
                   Tất cả sản phẩm
                 </button>
@@ -107,23 +107,23 @@ const Shop = () => {
 
               {/* Price Filter */}
               <div className="mb-12 pt-8 border-t border-gray-100">
-                <h3 className="text-xs font-black text-gray-900 mb-6 tracking-widest uppercase">GIÁ</h3>
+                <h3 className="text-sm font-black text-gray-900 mb-6 tracking-[0.2em] uppercase">MỨC GIÁ</h3>
                 <input 
                   type="range" min="0" max="8000000" step="100000"
                   value={maxPrice} onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-                  className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#0A4B7A] mb-4"
+                  className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-gold-primary mb-4"
                 />
-                <div className="flex justify-between text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                  <span>0₫</span>
-                  <span>{maxPrice.toLocaleString('vi-VN')}₫</span>
+                <div className="flex justify-between text-[11px] font-bold text-gray-400 uppercase tracking-widest">
+                  <span>Khoảng giá:</span>
+                  <span className="text-gray-900">{maxPrice.toLocaleString('vi-VN')}₫</span>
                 </div>
               </div>
 
               <button 
                 onClick={() => { setSelectedCategory('ALL'); setMaxPrice(8000000); }}
-                className="w-full py-3 bg-gray-100 text-gray-500 font-bold text-[10px] tracking-widest hover:bg-gray-200 transition-all uppercase rounded"
+                className="w-full py-4 bg-gray-50 text-gray-500 font-bold text-[11px] tracking-[0.2em] hover:bg-gray-100 transition-all uppercase rounded-xl border border-gray-100"
               >
-                <FaUndo className="inline mr-2" /> Xóa hết lựa chọn
+                <FaUndo className="inline mr-2" /> Xóa bộ lọc
               </button>
             </div>
           </aside>
@@ -132,19 +132,19 @@ const Shop = () => {
           <main className="lg:w-3/4 flex-grow">
             <div className="flex flex-col sm:flex-row justify-between items-end gap-6 mb-12 border-b border-gray-100 pb-6">
               <div>
-                <h1 className="text-3xl font-black text-[#1A2C3E] uppercase tracking-tighter">TẤT CẢ SẢN PHẨM</h1>
-                <p className="text-[10px] font-bold text-gray-400 tracking-[0.2em] mt-2 uppercase">KẾT QUẢ: {filteredProducts.length} SẢN PHẨM</p>
+                <h1 className="text-5xl font-black text-gold-primary uppercase tracking-tighter leading-none mb-3">TẤT CẢ SẢN PHẨM</h1>
+                <p className="text-xs font-bold text-gray-400 tracking-[0.3em] uppercase">KẾT QUẢ: {filteredProducts.length} SẢN PHẨM</p>
               </div>
               
               <div className="flex items-center gap-4">
-                <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Sắp xếp theo:</span>
+                <span className="text-xs font-bold text-gray-300 uppercase tracking-widest">Sắp xếp:</span>
                 <select 
                   value={sortBy} onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-transparent border-none text-[10px] font-bold text-gray-900 uppercase tracking-widest focus:outline-none cursor-pointer hover:text-[#0A4B7A]"
+                  className="bg-transparent border-none text-xs font-bold text-gray-900 uppercase tracking-widest focus:outline-none cursor-pointer hover:text-gold-primary transition-colors"
                 >
-                  <option value="featured">Nổi bật</option>
-                  <option value="price-asc">Giá tăng dần</option>
-                  <option value="price-desc">Giá giảm dần</option>
+                  <option value="featured">Mặc định</option>
+                  <option value="price-asc">Giá thấp đến cao</option>
+                  <option value="price-desc">Giá cao đến thấp</option>
                   <option value="newest">Mới nhất</option>
                 </select>
               </div>
@@ -159,7 +159,7 @@ const Shop = () => {
             {/* Pagination Placeholder */}
             {filteredProducts.length > 9 && (
               <div className="mt-24 flex justify-center gap-4">
-                 <button className="w-10 h-10 bg-gray-900 text-white font-bold text-xs flex items-center justify-center">1</button>
+                 <button className="w-10 h-10 bg-gold-primary text-white font-bold text-xs flex items-center justify-center shadow-lg shadow-gold-primary/20">1</button>
               </div>
             )}
           </main>

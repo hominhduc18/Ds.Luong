@@ -57,7 +57,7 @@ const AdminReviews = () => {
            </div>
            <div className="text-center uppercase tracking-widest font-black pl-2">
               <span className="text-[8px] text-gray-400 block italic">Tổng số</span>
-              <span className="text-lg text-[#0A4B7A]">{reviews.length}</span>
+              <span className="text-lg text-gold-primary">{reviews.length}</span>
            </div>
         </div>
       </div>
@@ -175,7 +175,7 @@ const AdminReviews = () => {
             initial={{ opacity: 0, scale: 0.9, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="fixed bottom-12 right-12 bg-[#0A1629] text-white px-10 py-6 rounded-full shadow-2xl z-[300] border border-white/10 flex items-center gap-4"
+            className="fixed bottom-12 right-12 bg-gray-950 text-white px-10 py-6 rounded-full shadow-2xl z-[300] border border-white/10 flex items-center gap-4"
           >
              <ThumbsUp size={22} className="text-gold-primary shadow-glow" />
              <span className="text-[11px] font-black tracking-[0.3em] uppercase">{toast}</span>

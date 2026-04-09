@@ -41,15 +41,23 @@ const About = () => {
   return (
     <div className="bg-white overflow-hidden">
       {/* Hero Section */}
-      <section className="relative h-[50vh] flex items-center justify-center overflow-hidden pt-20">
-        <div className="absolute inset-0 bg-[#0A4B7A]"></div>
+      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden pt-20 bg-amber-50">
+        <div className="absolute inset-0">
+          <img 
+            src="/images/rebranding/about_hero_gold_luxury_skincare_1775697270311.png" 
+            alt="Luxury Gold Skincare" 
+            className="w-full h-full object-cover scale-105 opacity-80"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-500/40 to-gold-primary/30 mix-blend-multiply"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent"></div>
+        </div>
         <div className="relative z-10 text-center px-4 max-w-4xl">
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-7xl font-playfair font-bold text-white mb-6 uppercase italic tracking-tighter"
           >
-            VỀ <span className="text-gold-primary">CHÚNG TÔI</span>
+            VỀ <span className="text-gold-primary drop-shadow-2xl">CHÚNG TÔI</span>
           </motion.h1>
           <p className="text-white/80 text-xs md:text-sm font-bold tracking-[0.4em] uppercase">
             Hành trình kiến tạo làn da khỏe đẹp từ khoa học và tâm huyết
@@ -67,8 +75,8 @@ const About = () => {
               className="relative"
             >
               <img 
-                src="https://images.unsplash.com/photo-1579154212610-7c672bc13d80?q=80&w=800&h=1000&auto=format&fit=crop" 
-                alt="Research" 
+                src="/images/rebranding/brand_story_gold_serum_lifestyle_1775697449178.png" 
+                alt="Brand Story Luxury Gold" 
                 className="rounded-3xl shadow-2xl relative z-10"
               />
             </motion.div>
@@ -100,7 +108,7 @@ const About = () => {
               </div>
 
               <div className="pt-6">
-                <Link to="/shop" className="bg-[#0A4B7A] text-white px-10 py-4 flex items-center gap-3 w-fit text-[10px] font-bold tracking-widest uppercase rounded shadow-lg hover:bg-gray-900 transition-all">
+                <Link to="/shop" className="bg-gold-primary text-white px-10 py-4 flex items-center gap-3 w-fit text-[10px] font-bold tracking-widest uppercase rounded shadow-lg hover:bg-gray-900 transition-all">
                   KHÁM PHÁ SẢN PHẨM <FaChevronRight size={10} />
                 </Link>
               </div>

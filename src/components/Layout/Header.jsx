@@ -15,9 +15,9 @@ const NavItem = ({ name, path, dropdownItems }) => {
     >
       <Link 
         to={path}
-        className="text-[11px] font-semibold tracking-wider text-gray-900 group-hover:text-[#0A4B7A] transition-all duration-300 flex items-center gap-2 uppercase"
+        className="text-[13px] font-bold tracking-[0.15em] text-gray-950 group-hover:text-gold-primary transition-all duration-300 flex items-center gap-3 uppercase"
       >
-        {name} {dropdownItems && <FaChevronDown size={8} className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />}
+        {name} {dropdownItems && <FaChevronDown size={10} className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />}
       </Link>
 
       {dropdownItems && (
@@ -27,13 +27,13 @@ const NavItem = ({ name, path, dropdownItems }) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="absolute top-full left-0 w-64 bg-white shadow-2xl border-t border-[#0A4B7A] py-6 z-[100]"
+              className="absolute top-full left-0 w-64 bg-white shadow-2xl border-t border-gold-primary py-6 z-[100]"
             >
               {dropdownItems.map((item, idx) => (
                 <Link 
                   key={idx}
                   to={item.path}
-                  className="block px-8 py-3 text-[10px] font-semibold text-gray-500 hover:text-[#0A4B7A] hover:bg-gray-50 transition-all uppercase tracking-wide"
+                  className="block px-8 py-4 text-[12px] font-bold text-gray-500 hover:text-gold-primary hover:bg-gray-50 transition-all uppercase tracking-widest border-b border-gray-50 last:border-none"
                 >
                   {item.label}
                 </Link>
@@ -72,15 +72,7 @@ const Header = () => {
 
   const navLinks = [
     { name: 'TRANG CHỦ', path: '/' },
-    { 
-      name: 'VỀ CHÚNG TÔI', 
-      path: '/about',
-      dropdown: [
-        { label: 'CÂU CHUYỆN THƯƠNG HIỆU', path: '/about' },
-        { label: 'ĐÁNH GIÁ BÁC SĨ', path: '/about#doctors' },
-        { label: 'CHỨNG NHẬN LÂM SÀNG', path: '/about#certs' }
-      ]
-    },
+    { name: 'VỀ CHÚNG TÔI', path: '/about' },
     { 
       name: 'SẢN PHẨM', 
       path: '/shop',
@@ -112,8 +104,8 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 md:px-8 flex items-center justify-between h-8">
         {/* Logo */}
-        <Link to="/" className="flex items-center">
-          <span className="text-2xl font-bold font-playfair tracking-tighter text-gold-primary uppercase">
+        <Link to="/" className="flex items-center group">
+          <span className="text-3xl font-black font-playfair tracking-tight text-gold-primary uppercase group-hover:text-gray-950 transition-colors">
             DS LUONG
           </span>
         </Link>
@@ -127,25 +119,25 @@ const Header = () => {
 
         {/* Icons */}
         <div className="flex items-center space-x-6 text-gray-900">
-          <button className="hover:text-[#0A4B7A] transition-colors duration-300">
+          <button className="hover:text-gold-primary transition-colors duration-300">
             <FaSearch size={18} />
           </button>
           
           <div className="relative group">
             <button 
               onClick={() => navigate(isLoggedIn ? '/admin/dashboard' : '/admin/login')}
-              className="hover:text-[#0A4B7A] transition-colors duration-300"
+              className="hover:text-gold-primary transition-colors duration-300"
             >
               <FaUser size={18} />
             </button>
             {isLoggedIn && (
-               <div className="absolute top-full right-0 w-48 bg-white shadow-xl py-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all translate-y-2 group-hover:translate-y-0 border-t border-[#0A4B7A]">
+               <div className="absolute top-full right-0 w-48 bg-white shadow-xl py-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all translate-y-2 group-hover:translate-y-0 border-t border-gold-primary">
                   <button onClick={() => { storage.auth.logout(); navigate('/'); }} className="w-full text-left px-6 py-2 text-[10px] font-bold text-red-500 hover:bg-red-50 uppercase tracking-widest">Đăng xuất</button>
                </div>
             )}
           </div>
 
-          <Link to="/cart" className="relative group hover:text-[#0A4B7A] transition-colors duration-300">
+          <Link to="/cart" className="relative group hover:text-gold-primary transition-colors duration-300">
             <FaShoppingCart size={20} />
             <span className="absolute -top-2 -right-2 bg-[#C61A09] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-md">
               {cartCount}
@@ -154,7 +146,7 @@ const Header = () => {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="lg:hidden text-[#0A4B7A]"
+            className="lg:hidden text-gold-primary"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}

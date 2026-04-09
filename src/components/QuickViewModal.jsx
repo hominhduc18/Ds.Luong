@@ -54,7 +54,7 @@ const QuickViewModal = ({ product, onClose }) => {
             
             <div className="flex items-center gap-6 mb-8">
               <span className="text-3xl font-bold text-[#C61A09] font-montserrat tracking-tighter">
-                {product.price}
+                {product.price?.toLocaleString('vi-VN')}đ
               </span>
               <span className="text-xs font-bold text-green-600 uppercase flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-600 rounded-full animate-pulse"></span> Còn hàng
@@ -63,7 +63,7 @@ const QuickViewModal = ({ product, onClose }) => {
 
             <p className="text-gray-600 text-sm leading-relaxed italic mb-8 border-l-2 border-gold-primary pl-4">
               Khám phá giải pháp chăm sóc da chuyên nghiệp từ DS LUONG. Sản phẩm được thiết kế với công thức độc quyền 
-              giúp tối ưu hóa hiệu quả {product.descLine.toLowerCase()}.
+              giúp tối ưu hóa hiệu quả {product.descLine?.toLowerCase() || 'làn da'}.
             </p>
           </div>
 

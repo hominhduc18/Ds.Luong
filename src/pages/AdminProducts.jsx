@@ -84,7 +84,7 @@ const AdminProducts = () => {
       {/* Search & Stats */}
       <div className="flex flex-col md:flex-row gap-6">
          <div className="flex-1 relative group">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-[#0A4B7A] transition-colors" size={20} />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-gold-primary transition-colors" size={20} />
             <input 
               type="text" 
               placeholder="Tên sản phẩm, Mã vạch hoặc Thương hiệu..."
@@ -211,7 +211,7 @@ const AdminProducts = () => {
                 <div className="flex justify-between items-start">
                    <div>
                       <h3 className="text-3xl font-black uppercase italic tracking-tighter mb-2">{editingItem ? 'Sửa' : 'Thêm'} Sản Phẩm</h3>
-                      <p className="text-[10px] font-bold text-[#0A4B7A] uppercase tracking-[0.4em] pl-1">Cấu hình dược/mỹ phẩm chuyên biệt</p>
+                      <p className="text-[10px] font-bold text-gold-primary uppercase tracking-[0.4em] pl-1">Cấu hình dược/mỹ phẩm chuyên biệt</p>
                    </div>
                    <button onClick={() => setIsModalOpen(false)} className="p-3 bg-gray-50 text-gray-400 rounded-full hover:bg-gray-900 hover:text-white transition-all">
                       <X size={24} />
@@ -222,38 +222,38 @@ const AdminProducts = () => {
                    <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-3">
                          <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Tên sản phẩm *</label>
-                         <input name="name" defaultValue={editingItem?.name} required className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black uppercase tracking-tight outline-none focus:ring-4 focus:ring-[#0A4B7A]/5 transition-all" />
+                         <input name="name" defaultValue={editingItem?.name} required className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black uppercase tracking-tight outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all" />
                       </div>
                       <div className="space-y-3">
                          <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Danh mục</label>
-                         <input name="category" defaultValue={editingItem?.category} className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-[#0A4B7A]/5 transition-all uppercase tracking-widest text-[#0A4B7A]" />
+                         <input name="category" defaultValue={editingItem?.category} className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all uppercase tracking-widest text-gold-primary" />
                       </div>
                    </div>
 
                    <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-3">
                          <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Giá bán niêm yết</label>
-                         <input name="price" type="number" defaultValue={editingItem?.price} required className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black outline-none focus:ring-4 focus:ring-[#0A4B7A]/5 transition-all" />
+                         <input name="price" type="number" defaultValue={editingItem?.price} required className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all" />
                       </div>
                       <div className="space-y-3">
                          <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Số lượng trong kho</label>
-                         <input name="stock" type="number" defaultValue={editingItem?.stock} required className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black outline-none focus:ring-4 focus:ring-[#0A4B7A]/5 transition-all" />
+                         <input name="stock" type="number" defaultValue={editingItem?.stock} required className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all" />
                       </div>
                    </div>
 
                    <div className="space-y-3">
                       <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">URL Hình ảnh</label>
-                      <input name="image" defaultValue={editingItem?.image} className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-[#0A4B7A]/5 transition-all lowercase" />
+                      <input name="image" defaultValue={editingItem?.image} className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all lowercase" />
                    </div>
 
                    <div className="space-y-3">
                       <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Badges (phân cách bằng dấu phẩy)</label>
-                      <input name="badge" defaultValue={editingItem?.badge?.join(', ')} placeholder="NEW, SALE, BEST SELLER" className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-[#0A4B7A]/5 transition-all text-emerald-600 uppercase tracking-widest" />
+                      <input name="badge" defaultValue={editingItem?.badge?.join(', ')} placeholder="NEW, SALE, BEST SELLER" className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all text-emerald-600 uppercase tracking-widest" />
                    </div>
 
                    <div className="space-y-3">
                       <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Mô tả sản phẩm</label>
-                      <textarea name="description" defaultValue={editingItem?.description} rows="4" className="w-full bg-gray-50 border-none rounded-3xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-[#0A4B7A]/5 transition-all leading-relaxed" />
+                      <textarea name="description" defaultValue={editingItem?.description} rows="4" className="w-full bg-gray-50 border-none rounded-3xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all leading-relaxed" />
                    </div>
 
                    <div className="flex justify-end gap-6 pt-10 border-t border-gray-50">

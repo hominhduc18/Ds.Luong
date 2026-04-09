@@ -57,7 +57,7 @@ const Blog = () => {
               <div className="lg:w-3/5 relative h-[400px] lg:h-auto overflow-hidden">
                 <img src={featuredPost.image} className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-1000" alt={featuredPost.title} />
                 <div className="absolute top-8 left-8">
-                   <span className="bg-[#0A4B7A] text-white text-[10px] font-bold px-4 py-2 rounded-full tracking-widest uppercase">NỔI BẬT</span>
+                   <span className="bg-gold-primary text-white text-[10px] font-bold px-4 py-2 rounded-full tracking-widest uppercase">NỔI BẬT</span>
                 </div>
               </div>
               <div className="lg:w-2/5 p-12 md:p-16 flex flex-col justify-center">
@@ -66,14 +66,14 @@ const Blog = () => {
                    <span className="w-8 h-px bg-gold-primary/30"></span>
                    <span>{featuredPost.date}</span>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-playfair font-bold text-gray-900 mb-6 leading-tight uppercase italic transition-colors hover:text-[#0A4B7A]">
+                <h2 className="text-2xl md:text-3xl font-playfair font-bold text-gray-900 mb-6 leading-tight uppercase italic transition-colors hover:text-gold-primary">
                   <Link to={`/post/${featuredPost.id}`}>{featuredPost.title}</Link>
                 </h2>
                 <p className="text-gray-500 mb-10 leading-relaxed italic border-l-2 border-gold-primary pl-6 text-sm">
                   "{featuredPost.summary}"
                 </p>
                 <Link to={`/post/${featuredPost.id}`} className="group flex items-center gap-4 text-[10px] font-bold tracking-[0.3em] uppercase text-gray-900">
-                   ĐỌC TIẾP <FaArrowRight className="group-hover:translate-x-2 transition-transform text-[#0A4B7A]" />
+                   ĐỌC TIẾP <FaArrowRight className="group-hover:translate-x-2 transition-transform text-gold-primary" />
                 </Link>
               </div>
             </motion.div>
@@ -101,13 +101,13 @@ const Blog = () => {
                       <div className="flex items-center gap-4 text-[10px] font-bold text-gray-400 mb-4 uppercase tracking-widest">
                          <span className="flex items-center gap-1"><FaRegClock /> {post.date}</span>
                          <span className="w-4 h-px bg-gray-100"></span>
-                         <span className="flex items-center gap-1 hover:text-[#0A4B7A] cursor-pointer"><FaUserCircle /> {post.author}</span>
+                         <span className="flex items-center gap-1 hover:text-gold-primary cursor-pointer"><FaUserCircle /> {post.author}</span>
                       </div>
-                      <h3 className="text-lg font-playfair font-bold text-gray-900 mb-4 leading-snug group-hover:text-[#0A4B7A] transition-colors uppercase italic line-clamp-2">
+                      <h3 className="text-lg font-playfair font-bold text-gray-900 mb-4 leading-snug group-hover:text-gold-primary transition-colors uppercase italic line-clamp-2">
                         <Link to={`/post/${post.id}`}>{post.title}</Link>
                       </h3>
                       <p className="text-gray-500 text-xs mb-6 line-clamp-2 leading-relaxed">{post.summary}</p>
-                      <Link to={`/post/${post.id}`} className="text-[10px] font-bold tracking-[0.2em] text-gray-400 group-hover:text-[#0A4B7A] transition-all flex items-center gap-2 uppercase">
+                      <Link to={`/post/${post.id}`} className="text-[10px] font-bold tracking-[0.2em] text-gray-400 group-hover:text-gold-primary transition-all flex items-center gap-2 uppercase">
                         XEM CHI TIẾT <FaChevronRight size={8} />
                       </Link>
                    </motion.div>
@@ -116,7 +116,7 @@ const Blog = () => {
 
              {/* Pagination */}
              <div className="mt-20 flex items-center justify-center gap-4">
-                <button className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center text-[10px] font-bold">1</button>
+                <button className="w-10 h-10 rounded-full bg-gold-primary text-white flex items-center justify-center text-[10px] font-bold shadow-lg shadow-gold-primary/20">1</button>
              </div>
           </div>
 
@@ -129,7 +129,7 @@ const Blog = () => {
                    <input 
                       type="text" 
                       placeholder="Nhập từ khóa..."
-                      className="w-full bg-white border-none py-4 px-6 rounded-xl text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all pl-12 shadow-inner"
+                      className="w-full bg-white border-none py-4 px-6 rounded-xl text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all pl-12 shadow-inner"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                    />
@@ -142,7 +142,7 @@ const Blog = () => {
                 <h4 className="text-[10px] font-bold tracking-[0.4em] text-gray-400 uppercase mb-8 border-b border-gray-100 pb-2">CHUYÊN MỤC</h4>
                 <div className="flex flex-col gap-4">
                    {categories.map(cat => (
-                      <button key={cat} className="flex items-center justify-between text-[10px] font-bold text-gray-600 hover:text-[#0A4B7A] transition-colors tracking-widest uppercase text-left">
+                      <button key={cat} className="flex items-center justify-between text-[10px] font-bold text-gray-600 hover:text-gold-primary transition-colors tracking-widest uppercase text-left">
                          <span>{cat}</span>
                          <span className="text-[9px] text-gray-300 font-serif italic">#</span>
                       </button>
@@ -157,7 +157,7 @@ const Blog = () => {
                    {tags.map(tag => (
                       <button 
                         key={tag}
-                        className="px-4 py-2 bg-gray-50 text-[9px] font-bold text-gray-400 rounded-lg hover:bg-[#0A4B7A] hover:text-white transition-all flex items-center gap-1 uppercase"
+                        className="px-4 py-2 bg-gray-50 text-[9px] font-bold text-gray-400 rounded-lg hover:bg-gold-primary hover:text-white transition-all flex items-center gap-1 uppercase"
                       >
                          <FaHashtag size={8} /> {tag}
                       </button>
@@ -166,17 +166,18 @@ const Blog = () => {
              </div>
 
              {/* Newsletter */}
-             <div className="bg-[#0A4B7A] p-10 rounded-[3rem] relative overflow-hidden group">
+             <div className="bg-[#D4AF37] p-10 rounded-[3rem] relative overflow-hidden group shadow-xl shadow-gold-primary/20">
+                <div className="absolute inset-0 bg-gradient-to-br from-gold-primary to-gold-dark opacity-90"></div>
                 <div className="relative z-10">
                    <FaEnvelope className="text-white text-3xl mb-6 opacity-30" />
                    <h4 className="text-xl font-playfair font-bold text-white mb-4 uppercase italic">BẢN TIN BEAUTY</h4>
-                   <p className="text-white/50 text-[10px] mb-8 leading-relaxed uppercase tracking-widest">Kiến thức làm đẹp mới nhất mỗi tuần.</p>
+                   <p className="text-white/80 text-[10px] mb-8 leading-relaxed uppercase tracking-widest">Kiến thức làm đẹp mới nhất mỗi tuần.</p>
                    <input 
                       type="email" 
                       placeholder="Email của bạn..."
-                      className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-white text-[10px] mb-4 focus:outline-none focus:border-white transition-all"
+                      className="w-full bg-white/20 border border-white/30 rounded-xl py-4 px-6 text-white text-[10px] mb-4 focus:outline-none focus:bg-white/30 placeholder:text-white/50 transition-all"
                    />
-                   <button className="w-full py-4 bg-white text-[#0A4B7A] text-[10px] font-bold tracking-widest uppercase rounded-xl hover:bg-gray-100 transition-all">ĐĂNG KÝ NGAY</button>
+                   <button className="w-full py-4 bg-gray-900 text-white text-[10px] font-bold tracking-widest uppercase rounded-xl hover:bg-black transition-all">ĐĂNG KÝ NGAY</button>
                 </div>
              </div>
           </aside>

@@ -35,7 +35,7 @@ const Contact = () => {
   const faqs = [
     { q: 'Chính sách đổi trả hàng như thế nào?', a: 'Khách hàng có thể đổi trả sản phẩm trong vòng 7 ngày nếu do lỗi của nhà sản xuất hoặc phát hiện hàng không chính hãng.' },
     { q: 'Thời gian giao hàng mất bao lâu?', a: 'Tại TP.HCM, chúng tôi giao hàng hỏa tốc trong 2h. Các tỉnh thành khác từ 2-4 ngày làm việc.' },
-    { q: 'Tôi có được tư vấn da trước khi mua không?', a: 'Chắc chắn rồi! Đội ngũ chuyên gia của SkinClinic luôn sẵn sàng soi da và tư vấn miễn phí cho bạn.' }
+    { q: 'tư vấn da trước khi mua như thế nào?', a: 'Chắc chắn rồi! Đội ngũ chuyên gia của DS LUONG luôn sẵn sàng soi da và tư vấn miễn phí cho bạn.' }
   ];
 
   return (
@@ -69,7 +69,7 @@ const Contact = () => {
               viewport={{ once: true }}
               className="p-10 bg-gray-50 rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:bg-white hover:shadow-xl transition-all duration-500"
             >
-              <div className="w-14 h-14 bg-white text-gold-primary rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm group-hover:bg-[#0A4B7A] group-hover:text-white transition-all">
+              <div className="w-14 h-14 bg-white text-gold-primary rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm group-hover:bg-gold-primary group-hover:text-white transition-all">
                 {card.icon}
               </div>
               <h4 className="text-[10px] font-bold text-gray-400 tracking-[0.3em] uppercase mb-3">{card.label}</h4>
@@ -106,8 +106,8 @@ const Contact = () => {
                     <FaRegCheckCircle size={40} />
                   </div>
                   <h4 className="text-xl font-bold text-gray-900 mb-2 uppercase tracking-wide">GỬI THÀNH CÔNG!</h4>
-                  <p className="text-gray-500 text-sm italic">Cảm ơn bạn. Chuyên viên SkinClinic sẽ liên hệ lại sớm nhất.</p>
-                  <button onClick={() => setSubmitted(false)} className="mt-8 text-xs font-bold text-[#0A4B7A] underline tracking-widest uppercase">Gửi tin mới</button>
+                  <p className="text-gray-500 text-sm italic">Cảm ơn bạn. Chuyên viên DS LUONG sẽ liên hệ lại sớm nhất.</p>
+                  <button onClick={() => setSubmitted(false)} className="mt-8 text-xs font-bold text-gold-primary underline tracking-widest uppercase">Gửi tin mới</button>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -115,14 +115,14 @@ const Contact = () => {
                     <div className="space-y-2">
                        <input 
                           required type="text" placeholder="HỌ TÊN *" 
-                          className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all uppercase placeholder:text-gray-300"
+                          className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase placeholder:text-gray-300"
                           value={form.name} onChange={(e) => setForm({...form, name: e.target.value})}
                        />
                     </div>
                     <div className="space-y-2">
                        <input 
                           required type="tel" placeholder="SỐ ĐIỆN THOẠI *" 
-                          className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all uppercase placeholder:text-gray-300"
+                          className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase placeholder:text-gray-300"
                           value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})}
                        />
                     </div>
@@ -130,13 +130,13 @@ const Contact = () => {
                   <div className="space-y-2">
                      <input 
                         type="email" placeholder="ĐỊA CHỈ EMAIL" 
-                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all uppercase placeholder:text-gray-300"
+                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase placeholder:text-gray-300"
                         value={form.email} onChange={(e) => setForm({...form, email: e.target.value})}
                      />
                   </div>
                   <div className="space-y-2">
                      <select 
-                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all uppercase appearance-none cursor-pointer"
+                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase appearance-none cursor-pointer"
                         value={form.subject} onChange={(e) => setForm({...form, subject: e.target.value})}
                      >
                         <option>TƯ VẤN SẢN PHẨM</option>
@@ -148,11 +148,11 @@ const Contact = () => {
                   <div className="space-y-2">
                      <textarea 
                         rows="5" placeholder="NỘI DUNG TIN NHẮN..." 
-                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-[#0A4B7A]/20 transition-all uppercase placeholder:text-gray-300"
+                        className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-[10px] font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all uppercase placeholder:text-gray-300"
                         value={form.message} onChange={(e) => setForm({...form, message: e.target.value})}
                      ></textarea>
                   </div>
-                  <button type="submit" className="w-full py-5 bg-[#0A4B7A] text-white rounded-xl font-bold text-xs tracking-[0.4em] shadow-xl shadow-[#0A4B7A]/20 hover:bg-gray-900 hover:-translate-y-1 transition-all flex items-center justify-center gap-4 uppercase">
+                  <button type="submit" className="w-full py-5 bg-gold-primary text-white rounded-xl font-bold text-xs tracking-[0.4em] shadow-xl shadow-gold-primary/20 hover:bg-gray-900 hover:-translate-y-1 transition-all flex items-center justify-center gap-4 uppercase">
                      GỬI TIN NHẮN <FaPaperPlane />
                   </button>
                 </form>
