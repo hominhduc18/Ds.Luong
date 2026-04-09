@@ -4,6 +4,8 @@ import ProductCard from '../components/ProductCard';
 import QuickViewModal from '../components/QuickViewModal';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronRight, FaChevronDown, FaUndo } from 'react-icons/fa';
+import SEO from '../components/SEO/SEO';
+import StructuredData from '../components/SEO/StructuredData';
 
 const CategoryNode = ({ node, level = 0, selectedCategory, onSelect }) => {
   const [isOpen, setIsOpen] = useState(true); 
@@ -78,6 +80,11 @@ const Shop = () => {
 
   return (
     <div className="bg-white pt-32 pb-20">
+      <SEO 
+        title={selectedCategory === 'ALL' ? 'Tất cả dược mỹ phẩm Tây Ban Nha' : `Dược mỹ phẩm ${selectedCategory}`}
+        description={`Khám phá bộ sưu tập ${selectedCategory === 'ALL' ? 'dược mỹ phẩm' : selectedCategory} cao cấp từ Tây Ban Nha tại DS LUONG.`}
+        url={selectedCategory === 'ALL' ? '/shop' : `/shop?cat=${selectedCategory}`}
+      />
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col lg:flex-row gap-12">
           

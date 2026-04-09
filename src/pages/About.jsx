@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { FaMicroscope, FaLeaf, FaUserMd, FaShieldAlt, FaChevronRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { storage } from '../utils/storage';
+import SEO from '../components/SEO/SEO';
+import StructuredData from '../components/SEO/StructuredData';
 
 const About = () => {
   const [data, setData] = useState(storage.contents.get().about);
@@ -40,6 +42,13 @@ const About = () => {
 
   return (
     <div className="bg-white overflow-hidden">
+      <SEO 
+        title="Về DS Luong - Dược sĩ Lương"
+        description="Tìm hiểu về hành trình của Dược sĩ Lương và sứ mệnh mang dược mỹ phẩm cao cấp Tây Ban Nha đến với làn da Việt."
+        url="/about"
+      />
+      <StructuredData type="Person" />
+      
       {/* Hero Section */}
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden pt-20 bg-amber-50">
         <div className="absolute inset-0">

@@ -1,0 +1,31 @@
+{
+  "redirects": [
+    {
+      "source": "/product/:id",
+      "destination": "/shop",
+      "permanent": true
+    },
+    {
+      "source": "/post/:id",
+      "destination": "/blog",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "dsluong.vercel.app"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ]
+}

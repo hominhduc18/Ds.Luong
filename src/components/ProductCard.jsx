@@ -14,10 +14,12 @@ const ProductCard = ({ product, onQuickView }) => {
     >
       {/* Product Image Container */}
       <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 rounded-lg mb-6 shadow-sm group-hover:shadow-md transition-shadow">
-        <Link to={`/product/${product.id}`} className="block w-full h-full">
+        <Link to={`/san-pham/${product.slug}`} className="block w-full h-full">
           <img 
             src={product.image} 
-            alt={product.name} 
+            alt={`${product.name} - Dược mỹ phẩm DS LUONG`} 
+            width={400}
+            height={500}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             onError={(e) => {
               e.target.src = `https://via.placeholder.com/600x600/F5F5F5/D4AF37?text=${product.name.replace(/\s/g, '+')}`;
@@ -57,7 +59,7 @@ const ProductCard = ({ product, onQuickView }) => {
       {/* Product Info */}
       <div className="flex flex-col flex-grow text-center px-4">
         <span className="text-xs font-black text-gold-primary uppercase tracking-[0.3em] mb-3 block">{product.brand}</span>
-        <Link to={`/product/${product.id}`}>
+        <Link to={`/san-pham/${product.slug}`}>
           <h3 className="text-base font-black text-gray-900 mb-4 leading-snug uppercase tracking-tight group-hover:text-gold-primary transition-colors line-clamp-2 min-h-[48px]">
             {product.name}
           </h3>

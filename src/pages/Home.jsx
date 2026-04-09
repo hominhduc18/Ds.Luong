@@ -11,6 +11,8 @@ import QuickViewModal from '../components/QuickViewModal';
 import { storage } from '../utils/storage';
 import { testimonials } from '../data/testimonials';
 import { AnimatePresence } from 'framer-motion';
+import SEO from '../components/SEO/SEO';
+import StructuredData from '../components/SEO/StructuredData';
 
 const Home = () => {
   const [pageData, setPageData] = useState({
@@ -38,6 +40,13 @@ const Home = () => {
 
   return (
     <div className="home-page bg-white overflow-hidden pt-16 md:pt-0">
+      <SEO 
+        title="DS LUONG - Dược Mỹ Phẩm Châu Âu Chinh Phục Làn Da Châu Á"
+        description="Ds Lương chuyên phân phối dược mỹ phẩm cao cấp chuẩn y khoa từ Tây Ban Nha. Giải pháp trị nám, trị mụn và trẻ hóa da chuyên sâu."
+      />
+      <StructuredData type="Organization" />
+      <StructuredData type="Person" />
+      
       <HeroBanner 
         title={pageData.contents.home.heroTitle} 
         subtitle={pageData.contents.home.heroSubtitle} 

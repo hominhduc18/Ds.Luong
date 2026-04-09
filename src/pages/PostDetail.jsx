@@ -2,16 +2,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { storage } from '../utils/storage';
 import { Clock, User, ChevronRight, Facebook, Twitter, MessageCircle, List } from 'lucide-react';
+import SEO from '../components/SEO/SEO';
+import StructuredData from '../components/SEO/StructuredData';
+import { siteConfig } from '../config/siteConfig';
 
 const PostDetail = () => {
-  const { id } = useParams();
+  const { slug, id } = useParams();
   const [post, setPost] = useState(null);
   const [headings, setHeadings] = useState([]);
   const [relatedPosts, setRelatedPosts] = useState([]);
   const contentRef = useRef(null);
 
   useEffect(() => {
-    const p = storage.posts.getById(id);
+    const p = slug ? storage.posts.getBySlug(slug) : storage.posts.getById(id);
     if (p) {
       setPost(p);
       const related = storage.posts.getPublished().filter(item => item.category === p.category && item.id !== p.id).slice(0, 3);
@@ -30,7 +33,7 @@ const PostDetail = () => {
       setHeadings(hTags);
     }
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [slug, id]);
 
   if (!post) return <div className="py-40 text-center">Loading...</div>;
 
@@ -38,6 +41,14 @@ const PostDetail = () => {
 
   return (
     <div className="pt-32 pb-20 bg-white min-h-screen" style={{paddingTop: '128px', paddingBottom: '80px', backgroundColor: 'white', minHeight: '100vh'}}>
+      <SEO 
+        title={post.title}
+        description={post.summary}
+        image={post.image}
+        url={`/blog/${post.slug}`}
+        type="article"
+      />
+      <StructuredData type="Article" data={post} />
       <div className="container">
         {/* Breadcrumb */}
         <div className="text-sm text-gray-500 mb-12" style={{fontSize: '14px', color: '#888', marginBottom: '48px'}}>
@@ -53,7 +64,7 @@ const PostDetail = () => {
              <h1 className="text-4xl md:text-5xl font-bold text-secondary mb-8 leading-tight" style={{fontSize: '48px', fontWeight: 'bold', marginBottom: '32px', lineHeight: 1.2}}>{post.title}</h1>
              
              <div className="flex items-center gap-6 text-gray-400 mb-10 border-b border-gray-100 pb-8" style={{display: 'flex', alignItems: 'center', gap: '24px', fontSize: '14px', color: '#888', marginBottom: '40px', borderBottom: '1px solid #f0f0f0', paddingBottom: '32px'}}>
-                <div className="flex items-center gap-2"><User size={18} /> {post.author}</div>
+                <div className="flex items-center gap-2"><User size={18} /> {siteConfig.author.name}</div>
                 <div className="flex items-center gap-2"><Clock size={18} /> {post.date}</div>
                 <div className="flex gap-4 ml-auto" style={{marginLeft: 'auto', display: 'flex', gap: '16px'}}>
                    <a href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" className="hover:text-primary transition-colors"><Facebook size={20} /></a>
@@ -117,7 +128,7 @@ const PostDetail = () => {
            <h2 className="text-3xl font-bold mb-12" style={{fontSize: '32px', fontWeight: 'bold', marginBottom: '48px'}}>Bài Viết Liên Quan</h2>
            <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px'}}>
               {relatedPosts.map(p => (
-                 <Link to={`/post/${p.id}`} key={p.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all" style={{backgroundColor: 'white', borderRadius: '16px', overflow: 'hidden', display: 'block'}}>
+                 <Link to={`/blog/${p.slug}`} key={p.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all" style={{backgroundColor: 'white', borderRadius: '16px', overflow: 'hidden', display: 'block'}}>
                     <div className="relative h-48 overflow-hidden" style={{position: 'relative', height: '192px', overflow: 'hidden'}}>
                        <img src={p.image} alt={p.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform" style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
                     </div>

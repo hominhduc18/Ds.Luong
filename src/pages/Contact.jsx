@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaFacebookF, FaInstagram, FaYoutube, FaChevronDown, FaPaperPlane, FaRegCheckCircle } from 'react-icons/fa';
 import { storage } from '../utils/storage';
+import SEO from '../components/SEO/SEO';
+import StructuredData from '../components/SEO/StructuredData';
 
 const Contact = () => {
   const [data, setData] = useState(storage.contents.get().contact);
@@ -33,13 +35,34 @@ const Contact = () => {
   ];
 
   const faqs = [
-    { q: 'Chính sách đổi trả hàng như thế nào?', a: 'Khách hàng có thể đổi trả sản phẩm trong vòng 7 ngày nếu do lỗi của nhà sản xuất hoặc phát hiện hàng không chính hãng.' },
-    { q: 'Thời gian giao hàng mất bao lâu?', a: 'Tại TP.HCM, chúng tôi giao hàng hỏa tốc trong 2h. Các tỉnh thành khác từ 2-4 ngày làm việc.' },
-    { q: 'tư vấn da trước khi mua như thế nào?', a: 'Chắc chắn rồi! Đội ngũ chuyên gia của DS LUONG luôn sẵn sàng soi da và tư vấn miễn phí cho bạn.' }
+    { 
+      q: 'Liệu trình trị nám tại DS LUONG có hiệu quả không?', 
+      question: 'Liệu trình trị nám tại DS LUONG có hiệu quả không?',
+      a: 'Với các sản phẩm dược mỹ phẩm chuyên biệt từ Tây Ban Nha như Melanyc, liệu trình trị nám tại DS LUONG giúp giảm sắc tố rõ rệt sau 4-8 tuần sử dụng.',
+      answer: 'Với các sản phẩm dược mỹ phẩm chuyên biệt từ Tây Ban Nha như Melanyc, liệu trình trị nám tại DS LUONG giúp giảm sắc tố rõ rệt sau 4-8 tuần sử dụng.'
+    },
+    { 
+      q: 'Peel da tại nhà có an toàn không?', 
+      question: 'Peel da tại nhà có an toàn không?',
+      a: 'Sản phẩm peel da của DS LUONG được thiết kế nồng độ chuyên gia, an toàn để sử dụng tại nhà dưới sự hướng dẫn của dược sĩ.',
+      answer: 'Sản phẩm peel da của DS LUONG được thiết kế nồng độ chuyên gia, an toàn để sử dụng tại nhà dưới sự hướng dẫn của dược sĩ.'
+    },
+    { 
+      q: 'DS LUONG có tư vấn da miễn phí không?', 
+      question: 'DS LUONG có tư vấn da miễn phí không?',
+      a: 'Chắc chắn rồi! Đội ngũ của Dược sĩ Lương luôn sẵn sàng soi da và tư vấn phác đồ chăm sóc cá nhân hóa hoàn toàn miễn phí.',
+      answer: 'Chắc chắn rồi! Đội ngũ của Dược sĩ Lương luôn sẵn sàng soi da và tư vấn phác đồ chăm sóc cá nhân hóa hoàn toàn miễn phí.'
+    }
   ];
 
   return (
     <div className="bg-white pt-24 pb-20 overflow-hidden">
+      <SEO 
+        title="Liên hệ DS LUONG - Tư vấn Dược mỹ phẩm Trị nám & Peel da"
+        description="Kết nối với Dược sĩ Lương để nhận phác đồ điều trị nám, mụn và trẻ hóa da chuyên sâu. Hỗ trợ tư vấn 24/7."
+        url="/contact"
+      />
+      <StructuredData type="FAQ" data={faqs} />
       {/* Hero Section */}
       <section className="py-20 md:py-32 flex flex-col items-center text-center">
         <motion.div 

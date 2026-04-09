@@ -3,14 +3,16 @@ import { useParams, Link } from 'react-router-dom';
 import { storage } from '../utils/storage';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaCheckCircle, FaChevronRight, FaRegHeart, FaMinus, FaPlus, FaShoppingCart } from 'react-icons/fa';
+import SEO from '../components/SEO/SEO';
+import StructuredData from '../components/SEO/StructuredData';
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { slug, id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
 
-  // Find product from dynamic storage
-  const product = storage.products.getById(id);
+  // Find product from dynamic storage, prioritize slug then id for backward compatibility
+  const product = slug ? storage.products.getBySlug(slug) : storage.products.getById(id);
 
   const highlights = [
     { title: "Chỉ số SPF 50+ PA++++", desc: "Bảo vệ da tối ưu trước tia UVA/UVB toàn diện." },
@@ -110,6 +112,15 @@ const ProductDetail = () => {
 
   return (
     <div className="bg-white pt-24 pb-20">
+      <SEO 
+        title={`${product.name} - ${product.category}`}
+        description={`${product.description}. Phân phối chính hãng bởi DS LUONG.`}
+        image={product.image}
+        url={`/san-pham/${product.slug}`}
+        type="product"
+      />
+      <StructuredData type="Product" data={product} />
+      
       {/* Breadcrumbs */}
       <div className="bg-gray-50 py-4 mb-12 border-y border-gray-100">
         <div className="container mx-auto px-4">
@@ -134,7 +145,9 @@ const ProductDetail = () => {
             <div className="relative group rounded-3xl overflow-hidden bg-gray-50 border border-gray-100 gold-shadow p-8 flex items-center justify-center aspect-square">
               <img 
                 src={product.image} 
-                alt={product.name} 
+                alt={`${product.name} - DS LUONG Dược Mỹ Phẩm Tây Ban Nha`} 
+                width={600}
+                height={600}
                 className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-105"
                 onError={(e) => {
                   e.target.src = `https://via.placeholder.com/600x600/F5F5F5/D4AF37?text=${product.name.replace(/\s/g, '+')}`;
