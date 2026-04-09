@@ -25,6 +25,7 @@ const SEO = ({
       <meta name="description" content={seoDesc} />
       <meta name="keywords" content={seoKeywords} />
       <link rel="canonical" href={seoCanonical} />
+      <meta name="google-site-verification" content="hAPjrgcNLwMuNkV98cQhhzjjNk-29y_LFjMPOhDWrQg" />
 
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />

@@ -113,8 +113,13 @@ export const storage = {
     }
 
     const products = storage.get(KEYS.PRODUCTS);
-    if (products && (JSON.stringify(products).includes('SkinClinic') || JSON.stringify(products).includes('Antigravity'))) {
+    if (products && (JSON.stringify(products).includes('SkinClinic') || JSON.stringify(products).includes('Antigravity') || !JSON.stringify(products).includes('"slug"'))) {
       storage.set(KEYS.PRODUCTS, MOCK_PRODUCTS);
+    }
+    
+    const posts = storage.get(KEYS.POSTS);
+    if (posts && !JSON.stringify(posts).includes('"slug"')) {
+      storage.set(KEYS.POSTS, MOCK_POSTS);
     }
   },
 
