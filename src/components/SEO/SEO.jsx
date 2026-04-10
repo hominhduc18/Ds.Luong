@@ -41,10 +41,6 @@ const SEO = ({
       <meta property="twitter:description" content={seoDesc} />
       <meta property="twitter:image" content={seoImage} />
 
-      {/* Noindex for Vercel preview domains if on client side (optional, handled by vercel.json) */}
-      {window.location.hostname.includes('vercel.app') && (
-        <meta name="robots" content="noindex, nofollow" />
-      )}
     </Helmet>
   );
 };
