@@ -147,7 +147,7 @@ export const storage = {
     }
     
     const posts = storage.get(KEYS.POSTS);
-    if (posts && !JSON.stringify(posts).includes('"slug"')) {
+    if (posts && (!JSON.stringify(posts).includes('"slug"') || !JSON.stringify(posts).includes('Phác đồ Trị Nám'))) {
       storage.set(KEYS.POSTS, MOCK_POSTS);
     }
   },
