@@ -1,4 +1,7 @@
 {
+  "rewrites": [
+    { "source": "/((?!api/|.*\\.).*)", "destination": "/" }
+  ],
   "redirects": [
     {
       "source": "/product/:id",
