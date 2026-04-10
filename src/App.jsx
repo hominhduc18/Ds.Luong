@@ -90,6 +90,7 @@ function App() {
           {/* Legacy Redirects or Fallback */}
           <Route path="/product/:id" element={<Layout><ProductDetail /></Layout>} />
           <Route path="/post/:id" element={<Layout><PostDetail /></Layout>} />
+          <Route path="/kien-thuc/:slug" element={<Layout><PostDetail /></Layout>} />
           
           {/* Fallback */}
           <Route path="*" element={<Layout><Home /></Layout>} />
