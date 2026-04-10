@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dsluong.com/sitemap.xml
+Sitemap: https://dsluong.vercel.app/sitemap.xml
