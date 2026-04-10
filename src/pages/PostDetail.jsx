@@ -17,12 +17,9 @@ const PostDetail = () => {
     const p = slug ? storage.posts.getBySlug(slug) : storage.posts.getById(id);
     if (p) {
       setPost(p);
-      const related = storage.posts.getPublished().filter(item => item.category === p.category && item.id !== p.id).slice(0, 3);
+      const related = storage.posts.getPublished ? storage.posts.getPublished().filter(item => item.category === p.category && item.id !== p.id).slice(0, 3) : storage.posts.getAll().filter(item => item.category === p.category && item.id !== p.id).slice(0, 3);
       setRelatedPosts(related);
       
-      // Auto-generate TOC from content
-      // Note: In real app, we'd use a parser, here we simulate from the content string
-      // For this demo, let's assume we extract h2/h3 from the HTML content
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = p.content;
       const hTags = Array.from(tempDiv.querySelectorAll('h2, h3')).map((tag, index) => ({
@@ -40,7 +37,7 @@ const PostDetail = () => {
   const shareUrl = window.location.href;
 
   return (
-    <div className="pt-32 pb-20 bg-white min-h-screen" style={{paddingTop: '128px', paddingBottom: '80px', backgroundColor: 'white', minHeight: '100vh'}}>
+    <div className="pt-32 pb-20 bg-[#FAFAFA] min-h-screen">
       <SEO 
         title={post.title}
         description={post.summary}
@@ -49,91 +46,167 @@ const PostDetail = () => {
         type="article"
       />
       <StructuredData type="Article" data={post} />
-      <div className="container">
+      
+      <div className="container mx-auto px-4 max-w-7xl">
         {/* Breadcrumb */}
-        <div className="text-sm text-gray-500 mb-12" style={{fontSize: '14px', color: '#888', marginBottom: '48px'}}>
-           <Link to="/" className="hover:text-primary">Trang Chủ</Link> <span className="mx-2">/</span> <Link to="/blog" className="hover:text-primary">Blog</Link> <span className="mx-2">/</span> <span className="text-primary font-bold">{post.title}</span>
+        <div className="text-sm text-gray-400 mb-8 pt-4">
+           <Link to="/" className="hover:text-gold-primary transition-colors">Trang Chủ</Link> 
+           <span className="mx-2 text-gray-300">/</span> 
+           <Link to="/blog" className="hover:text-gold-primary transition-colors">Blog</Link> 
+           <span className="mx-2 text-gray-300">/</span> 
+           <span className="text-gold-primary font-medium">{post.title}</span>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-16" style={{display: 'flex', gap: '64px'}}>
+        <div className="flex flex-col lg:flex-row gap-12">
           {/* Main Article */}
-          <article className="flex-1 max-w-4xl" style={{flex: 1, maxWidth: '800px'}}>
-             <span className="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-bold mb-6 block w-fit" style={{backgroundColor: 'rgba(var(--primary-rgb), 0.1)', color: 'var(--primary)', padding: '4px 16px', borderRadius: '20px', fontSize: '14px', marginBottom: '24px'}}>
-                {post.category}
-             </span>
-             <h1 className="text-4xl md:text-5xl font-bold text-secondary mb-8 leading-tight" style={{fontSize: '48px', fontWeight: 'bold', marginBottom: '32px', lineHeight: 1.2}}>{post.title}</h1>
+          <article className="flex-1 bg-white p-6 md:p-12 rounded-[40px] shadow-sm border border-gray-100">
+             <div className="flex items-center gap-2 mb-6">
+                <span className="bg-gold-primary/10 text-gold-primary px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">
+                  {post.category}
+                </span>
+             </div>
              
-             <div className="flex items-center gap-6 text-gray-400 mb-10 border-b border-gray-100 pb-8" style={{display: 'flex', alignItems: 'center', gap: '24px', fontSize: '14px', color: '#888', marginBottom: '40px', borderBottom: '1px solid #f0f0f0', paddingBottom: '32px'}}>
-                <div className="flex items-center gap-2"><User size={18} /> {siteConfig.author.name}</div>
-                <div className="flex items-center gap-2"><Clock size={18} /> {post.date}</div>
-                <div className="flex gap-4 ml-auto" style={{marginLeft: 'auto', display: 'flex', gap: '16px'}}>
-                   <a href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" className="hover:text-primary transition-colors"><Facebook size={20} /></a>
-                   <a href={`https://twitter.com/intent/tweet?url=${shareUrl}`} target="_blank" className="hover:text-primary transition-colors"><Twitter size={20} /></a>
+             <h1 className="text-3xl md:text-5xl font-playfair font-bold text-gray-900 mb-8 leading-[1.2]">
+                {post.title}
+             </h1>
+             
+             <div className="flex flex-wrap items-center gap-6 text-gray-500 text-sm mb-10 border-b border-gray-50 pb-8">
+                <div className="flex items-center gap-2 font-medium"><User size={16} className="text-gold-primary" /> {post.author || siteConfig.author.name}</div>
+                <div className="flex items-center gap-2 font-medium"><Clock size={16} className="text-gold-primary" /> {post.date}</div>
+                <div className="flex gap-4 ml-auto">
+                   <a href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" className="text-gray-400 hover:text-gold-primary transition-colors"><Facebook size={18} /></a>
+                   <a href={`https://twitter.com/intent/tweet?url=${shareUrl}`} target="_blank" className="text-gray-400 hover:text-gold-primary transition-colors"><Twitter size={18} /></a>
                 </div>
              </div>
 
-             <div className="relative mb-12 rounded-3xl overflow-hidden shadow-sm" style={{position: 'relative', marginBottom: '48px', borderRadius: '24px', overflow: 'hidden'}}>
-                <img src={post.image} alt={post.title} className="w-full h-auto object-cover" style={{width: '100%', height: 'auto'}} />
+             <div className="relative mb-12 rounded-3xl overflow-hidden aspect-[16/9] gold-shadow">
+                <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-3xl"></div>
              </div>
 
              {/* TOC (Mobile) */}
-             <div className="lg:hidden p-6 bg-accent rounded-2xl mb-10" style={{padding: '24px', backgroundColor: 'var(--accent)', borderRadius: '16px', marginBottom: '40px'}}>
-                <h4 className="flex items-center gap-2 font-bold mb-4" style={{fontSize: '18px', fontWeight: 'bold', marginBottom: '16px'}}><List size={20} /> Mục Lục</h4>
-                <ul className="space-y-2" style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
-                   {headings.map(h => (
-                      <li key={h.id} style={{paddingLeft: h.level === 'h3' ? '16px' : '0'}}>
-                         <a href={`#${h.id}`} className="text-gray-600 hover:text-primary">{h.title}</a>
-                      </li>
-                   ))}
-                </ul>
-             </div>
+             {headings.length > 0 && (
+               <div className="lg:hidden p-8 bg-gray-50 rounded-3xl mb-12 border border-gray-100">
+                  <h4 className="flex items-center gap-2 font-playfair font-bold text-gray-900 mb-6 text-xl">
+                    <List size={22} className="text-gold-primary" /> Mục Lục
+                  </h4>
+                  <ul className="space-y-3">
+                     {headings.map(h => (
+                        <li key={h.id} style={{paddingLeft: h.level === 'h3' ? '20px' : '0'}}>
+                           <a href={`#${h.id}`} className="text-gray-600 hover:text-gold-primary flex items-center gap-2 transition-all">
+                             <div className="w-1.5 h-1.5 rounded-full bg-gold-primary/30"></div>
+                             {h.title}
+                           </a>
+                        </li>
+                     ))}
+                  </ul>
+               </div>
+             )}
 
              {/* Post Content */}
              <div 
                ref={contentRef}
-               className="prose prose-lg max-w-none text-gray-700 leading-bold mb-16 blog-content" 
-               style={{fontSize: '18px', color: '#444', lineHeight: 1.8, marginBottom: '64px'}}
+               className="prose prose-lg max-w-none text-gray-700 leading-relaxed mb-16 blog-content-rich" 
                dangerouslySetInnerHTML={{ __html: post.content }}
              ></div>
 
-             {/* Sharing footer */}
-             <div className="p-8 bg-accent rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6" style={{padding: '32px', backgroundColor: 'var(--accent)', borderRadius: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '24px', marginTop: '64px'}}>
-                <h4 className="text-xl font-bold" style={{fontSize: '20px', fontWeight: 'bold'}}>Chia sẻ bài viết này:</h4>
-                <div className="flex gap-4" style={{display: 'flex', gap: '16px'}}>
-                   <a href="#" className="btn btn-primary px-6"><Facebook size={20} /> Facebook</a>
-                   <a href="#" className="btn btn-secondary px-6"><Twitter size={20} /> Twitter</a>
+             {/* Expert CTA - Chat Zalo */}
+             <div className="mt-16 p-8 md:p-12 rounded-[32px] bg-gradient-to-br from-[#122240] to-[#1a2d55] text-white relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gold-primary/10 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-gold-primary/20 transition-all duration-700"></div>
+                
+                <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+                   <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-gold-primary/30 flex-shrink-0">
+                      <img src="/doc-1.png" alt="Dược sĩ Lương" className="w-full h-full object-cover" />
+                   </div>
+                   <div className="flex-1 text-center md:text-left">
+                      <h3 className="text-2xl md:text-3xl font-playfair font-bold mb-4">Bạn cần tư vấn phác đồ riêng?</h3>
+                      <p className="text-gray-300 mb-6 max-w-lg leading-relaxed italic">
+                        "Mỗi làn da là một câu chuyện riêng. Hãy để tôi giúp bạn thiết kế quy trình chăm sóc chuẩn y khoa nhất."
+                      </p>
+                      <a 
+                        href={`https://zalo.me/${siteConfig.social.zalo}`} 
+                        target="_blank" 
+                        className="inline-flex items-center gap-3 bg-white text-[#122240] px-8 py-3.5 rounded-full font-bold hover:bg-gold-primary hover:text-white transition-all duration-300 shadow-xl hover:shadow-gold-primary/20 uppercase text-sm tracking-widest"
+                      >
+                        CHAT ZALO CÙNG DƯỢC SĨ LƯƠNG <MessageCircle size={20} />
+                      </a>
+                   </div>
                 </div>
              </div>
+             
+             {/* Related Products Section */}
+             {post.relatedProducts && post.relatedProducts.length > 0 && (
+               <div className="mt-20 border-t border-gray-100 pt-16">
+                  <div className="flex items-center justify-between mb-10">
+                    <h3 className="text-2xl md:text-3xl font-playfair font-bold text-gray-900 italic underline decoration-gold-primary/30 underline-offset-8">
+                      Sản phẩm được khuyên dùng
+                    </h3>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {post.relatedProducts.map(prod => (
+                      <Link to={`/san-pham/${prod.slug}`} key={prod.id} className="group bg-gray-50 rounded-3xl p-6 hover:bg-white hover:shadow-xl transition-all duration-500 border border-transparent hover:border-gold-primary/10">
+                        <div className="relative aspect-square mb-6 overflow-hidden rounded-2xl bg-white">
+                           <img src={prod.image} alt={prod.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />
+                        </div>
+                        <h4 className="font-bold text-gray-900 group-hover:text-gold-primary transition-colors text-lg mb-2 line-clamp-1">{prod.name}</h4>
+                        <p className="text-gray-500 text-sm mb-4 line-clamp-2 italic">{prod.description}</p>
+                        <div className="flex items-center justify-between">
+                           <span className="text-gold-primary font-bold">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(prod.price)}</span>
+                           <span className="text-xs font-bold text-gray-400 group-hover:text-gold-primary transition-colors uppercase tracking-widest">Xem Chi Tiết →</span>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+               </div>
+             )}
           </article>
 
           {/* Sidebar TOC (Desktop) */}
-          <aside className="hidden lg:block w-80 sticky top-32 h-fit" style={{width: '320px', position: 'sticky', top: '128px', height: 'fit-content'}}>
-             <div className="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm" style={{padding: '32px', backgroundColor: 'white', border: '1px solid #f0f0f0', borderRadius: '24px'}}>
-                <h4 className="flex items-center gap-2 text-xl font-bold mb-6" style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '24px'}}><List size={24} /> Mục Lục</h4>
-                <ul className="space-y-4" style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
+          <aside className="hidden lg:block w-80 sticky top-32 h-fit">
+             <div className="p-8 bg-white border border-gray-100 rounded-[32px] shadow-sm sticky-sidebar">
+                <h4 className="flex items-center gap-2 text-xl font-playfair font-bold text-gray-900 mb-8">
+                  <List size={24} className="text-gold-primary" /> Mục Lục
+                </h4>
+                <ul className="space-y-5">
                    {headings.length > 0 ? headings.map(h => (
-                      <li key={h.id} style={{paddingLeft: h.level === 'h3' ? '16px' : '0'}}>
-                         <a href={`#${h.id}`} className="text-gray-500 hover:text-primary transition-colors block text-sm font-medium leading-relaxed" style={{fontSize: '14px', lineHeight: 1.5}}>
+                      <li key={h.id} style={{paddingLeft: h.level === 'h3' ? '20px' : '0'}}>
+                         <a href={`#${h.id}`} className="text-gray-500 hover:text-gold-primary transition-all block text-sm font-medium leading-relaxed group flex items-center gap-2">
+                            <span className="w-1 h-1 rounded-full bg-gray-200 group-hover:bg-gold-primary group-hover:w-3 transition-all duration-300"></span>
                             {h.title}
                          </a>
                       </li>
-                   )) : <p className="text-gray-400 text-sm">Đang cập nhật...</p>}
+                   )) : <p className="text-gray-400 text-sm italic">Đang cập nhật mục lục...</p>}
                 </ul>
+
+                <div className="mt-12 pt-8 border-t border-gray-50">
+                   <h5 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-widest">Cần hỗ trợ?</h5>
+                   <p className="text-gray-500 text-xs leading-relaxed mb-6">Liên hệ trực tiếp với chuyên gia qua Zalo để được tư vấn miễn phí.</p>
+                   <a href={`https://zalo.me/${siteConfig.social.zalo}`} className="btn-gold-outline w-full py-3 text-xs tracking-widest">DƯỢC SĨ TƯ VẤN</a>
+                </div>
              </div>
           </aside>
         </div>
 
-        {/* Related Posts */}
-        <div style={{marginTop: '120px'}}>
-           <h2 className="text-3xl font-bold mb-12" style={{fontSize: '32px', fontWeight: 'bold', marginBottom: '48px'}}>Bài Viết Liên Quan</h2>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px'}}>
+        {/* Other Related Posts */}
+        <div className="mt-24">
+           <div className="flex items-center gap-4 mb-12">
+              <h2 className="text-2xl md:text-3xl font-playfair font-bold text-gray-900">Bài Viết Khác</h2>
+              <div className="h-px flex-1 bg-gray-100"></div>
+           </div>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {relatedPosts.map(p => (
-                 <Link to={`/blog/${p.slug}`} key={p.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all" style={{backgroundColor: 'white', borderRadius: '16px', overflow: 'hidden', display: 'block'}}>
-                    <div className="relative h-48 overflow-hidden" style={{position: 'relative', height: '192px', overflow: 'hidden'}}>
-                       <img src={p.image} alt={p.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform" style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
+                 <Link to={`/blog/${p.slug}`} key={p.id} className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-50">
+                    <div className="relative h-56 overflow-hidden">
+                       <img src={p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
                     </div>
-                    <div className="p-6" style={{padding: '24px'}}>
-                       <h4 className="text-lg font-bold line-clamp-2 group-hover:text-primary transition-colors" style={{fontSize: '18px', fontWeight: 'bold'}}>{p.title}</h4>
+                    <div className="p-8 flex-1 flex flex-col">
+                       <span className="text-xs font-bold text-gold-primary mb-3 uppercase tracking-widest">{p.category}</span>
+                       <h4 className="text-lg font-bold text-gray-900 group-hover:text-gold-primary transition-colors line-clamp-2 leading-snug mb-4">{p.title}</h4>
+                       <div className="mt-auto flex justify-between items-center text-xs font-bold text-gray-400 uppercase tracking-widest">
+                          <span>{p.date}</span>
+                          <span className="group-hover:text-gold-primary transition-colors">Đọc Thêm →</span>
+                       </div>
                     </div>
                  </Link>
               ))}

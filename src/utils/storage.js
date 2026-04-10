@@ -28,7 +28,36 @@ const MOCK_PRODUCTS = [
 ];
 
 const MOCK_POSTS = [
-  { id: 1, title: "Top 5 thành phần chống lão hóa được bác sĩ khuyên dùng", slug: "top-5-thanh-phan-chong-lao-hoa", summary: "Retinol, Vitamin C, Niacinamide, Peptide, Hyaluronic Acid - những thành phần vàng trong skincare", content: "<p>Nội dung chi tiết đang cập nhật...</p>", category: "CHỐNG LÃO HOÁ", image: "https://placehold.co/600x400?text=AntiAging", date: "2025-01-15", author: "Bác sĩ Nguyễn Thị A" },
+  { 
+    id: 1, 
+    title: "Phác đồ Trị Nám chuẩn Y Khoa: Bí quyết lấy lại làn da trắng sáng", 
+    slug: "phac-do-tri-nam-chuan-y-khoa", 
+    date: "2026-04-10", 
+    author: "Dược sĩ Lương", 
+    summary: "Nám da là nỗi ám ảnh của nhiều phụ nữ Việt. Tại DS LUONG, chúng tôi áp dụng phác đồ kết hợp giữa dược mỹ phẩm cao cấp và quy trình chăm sóc khoa học để xóa nám bền vững.", 
+    image: "/blog-melasma-hero.png", 
+    category: "Kiến thức Da liễu",
+    relatedProductIds: [1, 2, 12], 
+    content: `
+      <h2>Tại sao nám da lại khó điều trị dứt điểm?</h2>
+      <p>Nám da không chỉ là vấn đề thẩm mỹ trên bề mặt mà còn là kết quả của quá trình tăng sinh melanin quá mức từ sâu bên trong. Nhiều người tự ý sử dụng kem trộn hoặc các sản phẩm không rõ nguồn gốc khiến hàng rào bảo vệ da bị phá hủy, dẫn đến nám nặng hơn và khó điều trị.</p>
+      
+      <h3>Phác đồ 3 giai đoạn từ Dược sĩ Lương</h3>
+      <p>Với kinh nghiệm nhiều năm trong ngành dược mỹ phẩm, tôi (Dược sĩ Lương) luôn tư vấn cho khách hàng quy trình 3 bước vàng:</p>
+      <ul>
+        <li><strong>Giai đoạn 1: Chuẩn bị da.</strong> Phục hồi hàng rào bảo vệ da, cung cấp độ ẩm cần thiết.</li>
+        <li><strong>Giai đoạn 2: Điều trị chuyên sâu.</strong> Sử dụng các hoạt chất như Tranexamic Acid, Alpha Arbutin và Retinol nồng độ chuẩn.</li>
+        <li><strong>Giai đoạn 3: Bảo trì và Chống nắng.</strong> Đây là bước quan trọng nhất để nám không quay trở lại.</li>
+      </ul>
+
+      <blockquote>
+        "Trị nám không phải là một cuộc đua tốc độ, mà là sự kiên trì và đúng phương pháp khoa học." - Dược sĩ Lương.
+      </blockquote>
+
+      <h3>Các hoạt chất vàng trong trị nám</h3>
+      <p>Tại DS LUONG, chúng tôi ưu tiên các dòng sản phẩm từ Tây Ban Nha (SkinClinic) vì độ lành tính và hiệu quả vượt trội trên làn da châu Á...</p>
+    ` 
+  },
   { id: 2, title: "Cách chọn kem chống nắng cho da dầu mụn", slug: "cach-chon-kem-chong-nang-da-dau-mun", summary: "Bí quyết chọn kem chống nắng không gây bít tắc lỗ chân lông, kiểm soát dầu hiệu quả", content: "...", category: "CHỐNG NẮNG", image: "https://placehold.co/600x400?text=Sunscreen", date: "2025-01-10", author: "Bác sĩ Trần Văn B" },
   { id: 3, title: "Retinol có thực sự làm mỏng da? Góc nhìn khoa học", slug: "retinol-co-thuc-su-lam-mong-da", summary: "Giải đáp thắc mắc về retinol - liệu có an toàn cho làn da nhạy cảm?", content: "...", category: "CHỐNG LÃO HOÁ", image: "https://placehold.co/600x400?text=Retinol", date: "2025-01-05", author: "Bác sĩ Lê Thị C" },
   { id: 4, title: "Quy trình chăm sóc da cơ bản cho người mới bắt đầu", slug: "quy-trinh-cham-soc-da-co-ban", summary: "4 bước đơn giản để có làn da khỏe đẹp mỗi ngày", content: "...", category: "CHĂM SÓC DA", image: "https://placehold.co/600x400?text=Skincare+Routine", date: "2024-12-28", author: "Bác sĩ Phạm Văn D" },
@@ -147,7 +176,15 @@ export const storage = {
     getAll: () => storage.get(KEYS.POSTS) || [],
     getLatest: (limit = 3) => (storage.get(KEYS.POSTS) || []).slice(0, limit),
     getById: (id) => (storage.get(KEYS.POSTS) || []).find(p => p.id === Number(id)),
-    getBySlug: (slug) => (storage.get(KEYS.POSTS) || []).find(p => p.slug === slug),
+    getBySlug: (slug) => {
+      const posts = storage.get(KEYS.POSTS) || [];
+      const post = posts.find(p => p.slug === slug);
+      if (post && post.relatedProductIds) {
+        const allProducts = storage.products.getAll();
+        post.relatedProducts = post.relatedProductIds.map(pid => allProducts.find(p => p.id === pid)).filter(Boolean);
+      }
+      return post;
+    },
     save: (items) => storage.set(KEYS.POSTS, items)
   },
 
