@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Check, Package, DollarSign, Tag, Info, LayoutGrid } from 'lucide-react';
 import ImageUploader from './ImageUploader';
+import CategorySelect from './CategorySelect';
 
 const ProductForm = ({ initialData, onSave, onCancel }) => {
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
@@ -102,29 +103,10 @@ const ProductForm = ({ initialData, onSave, onCancel }) => {
                 />
               </div>
               <div className="space-y-4">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Danh mục chính</label>
-                <select 
-                  {...register('category')}
-                  className="w-full bg-gray-50 border-none rounded-2xl py-6 px-8 text-xs font-black outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all uppercase tracking-widest text-gold-primary"
-                >
-                  <option value="TẤT CẢ">CHỌN DANH MỤC</option>
-                  <optgroup label="TÌNH TRẠNG DA">
-                    <option>DA LÃO HOÁ</option>
-                    <option>DA MỤN</option>
-                    <option>DA THÂM NÁM</option>
-                    <option>DA THIẾU ẨM</option>
-                    <option>DA MẪN ĐỎ</option>
-                    <option>DA SAU THẨM MỸ</option>
-                  </optgroup>
-                  <optgroup label="DÒNG SẢN PHẨM">
-                    <option>ĐIỆN DI</option>
-                    <option>VIAL</option>
-                    <option>CÔNG NGHỆ MỚI</option>
-                  </optgroup>
-                  <option>CHĂM SÓC MÀN & MÔI</option>
-                  <option>CHĂM SÓC BODY</option>
-                  <option>CHĂM SÓC TÓC</option>
-                </select>
+                 <CategorySelect 
+                    value={watch('category')} 
+                    onChange={(val) => setValue('category', val)} 
+                 />
               </div>
               <div className="space-y-4">
                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Mô tả ngắn</label>

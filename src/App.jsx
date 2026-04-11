@@ -28,6 +28,7 @@ import AdminReviews from './pages/AdminReviews';
 import AdminContacts from './pages/AdminContacts';
 import AdminSettings from './pages/AdminSettings';
 import WarehousePage from './pages/WarehousePage';
+import CategoryManager from './pages/CategoryManager';
 
 const Layout = ({ children }) => (
   <div className="flex flex-col min-h-screen">
@@ -88,6 +89,7 @@ function App() {
           <Route path="/admin/contacts" element={<AdminLayout><AdminContacts /></AdminLayout>} />
           <Route path="/admin/settings" element={<AdminLayout><AdminSettings /></AdminLayout>} />
           <Route path="/admin/warehouse" element={<AdminLayout><WarehousePage /></AdminLayout>} />
+          <Route path="/admin/categories" element={<AdminLayout><CategoryManager /></AdminLayout>} />
 
           {/* Legacy Redirects or Fallback */}
           <Route path="/product/:id" element={<Layout><ProductDetail /></Layout>} />
