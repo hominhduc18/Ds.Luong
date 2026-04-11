@@ -1,26 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { storage } from '../utils/storage';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
-  Plus, Search, Edit3, Trash2, X, Check, 
-  ArrowLeft, Filter, Image as ImageIcon,
-  MoreVertical, ChevronRight, Package, DollarSign,
-  AlertCircle, LayoutGrid
+  Plus, Search, Download, Upload as UploadIcon, 
+  TrendingUp, Package, AlertCircle, FileJson,
+  FilterX, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { productService } from '../services/productService';
+import CategorySidebar from '../components/Admin/CategorySidebar';
+import ProductTable from '../components/Admin/ProductTable';
+import ProductForm from '../components/Admin/ProductForm';
+
+const ITEMS_PER_PAGE = 8;
 
 const AdminProducts = () => {
-  const [products, setProducts] = useState(storage.products.getAll());
+  const [products, setProducts] = useState(productService.getAll());
+  const [activeCategory, setActiveCategory] = useState('TẤT CẢ');
   const [searchTerm, setSearchTerm] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [toast, setToast] = useState(null);
 
+  // Lắng nghe sự thay đổi dữ liệu từ service
   useEffect(() => {
     const handleDataChange = () => {
-      setProducts(storage.products.getAll());
+      setProducts(productService.getAll());
     };
-    window.addEventListener('beauty_data_changed', handleDataChange);
-    return () => window.removeEventListener('beauty_data_changed', handleDataChange);
+    window.addEventListener('ds_luong_data_changed', handleDataChange);
+    return () => window.removeEventListener('ds_luong_data_changed', handleDataChange);
   }, []);
 
   const showToast = (msg) => {
@@ -28,269 +35,233 @@ const AdminProducts = () => {
     setTimeout(() => setToast(null), 3000);
   };
 
+  // Logic lọc và tìm kiếm chuyên sâu
+  const filteredProducts = useMemo(() => {
+    return products.filter(p => {
+      const matchCategory = activeCategory === 'TẤT CẢ' || p.category === activeCategory;
+      const matchSearch = searchTerm === '' || 
+        p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.sku?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.brand?.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchCategory && matchSearch;
+    });
+  }, [products, activeCategory, searchTerm]);
+
+  // Phân trang
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  // Thống kê nhanh
+  const stats = useMemo(() => ({
+    total: products.length,
+    totalValue: products.reduce((acc, p) => acc + (p.sellPrice * p.stock), 0),
+    lowStock: products.filter(p => p.stock < 10).length,
+    outOfStock: products.filter(p => p.stock <= 0).length
+  }), [products]);
+
+  const handleCreate = () => {
+    setEditingProduct(null);
+    setIsFormOpen(true);
+  };
+
+  const handleEdit = (product) => {
+    setEditingProduct(product);
+    setIsFormOpen(true);
+  };
+
+  const handleClone = (product) => {
+    const { id, ...cloneData } = product;
+    cloneData.name = `${product.name} (Bản sao)`;
+    productService.add(cloneData);
+    showToast('Đã nhân bản sản phẩm');
+  };
+
   const handleDelete = (id) => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-      const items = products.filter(p => p.id !== id);
-      storage.products.save(items);
+    if (window.confirm('Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+      productService.delete(id);
       showToast('Đã xóa sản phẩm');
     }
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const productData = Object.fromEntries(formData.entries());
-    
-    productData.id = editingItem ? editingItem.id : Date.now();
-    productData.price = Number(productData.price);
-    productData.stock = Number(productData.stock);
-    productData.badge = productData.badge ? productData.badge.split(',').map(b => b.trim()) : [];
-    
-    const items = [...products];
-    if (editingItem) {
-      const idx = items.findIndex(i => i.id === editingItem.id);
-      items[idx] = productData;
+  const handleSave = (data) => {
+    if (editingProduct) {
+      productService.update(editingProduct.id, data);
+      showToast('Cập nhật thành công');
     } else {
-      items.push(productData);
+      productService.add(data);
+      showToast('Đã thêm sản phẩm mới');
     }
-    
-    storage.products.save(items);
-    setIsModalOpen(false);
-    setEditingItem(null);
-    showToast('Đã lưu thay đổi');
+    setIsFormOpen(false);
   };
 
-  const filteredProducts = products.filter(p =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleImport = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        await productService.importJSON(file);
+        showToast('Nhập dữ liệu thành công');
+      } catch (err) {
+        showToast(err);
+      }
+    }
+  };
 
   return (
-    <div className="space-y-8 pb-20">
-      {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Quản Lý Sản Phẩm</h1>
-          <p className="text-[11px] font-semibold text-gray-400 mt-1 uppercase tracking-wide">Danh mục thuốc & mỹ phẩm chuyên dụng</p>
-        </div>
-        <button 
-          onClick={() => { setEditingItem(null); setIsModalOpen(true); }}
-          className="flex items-center gap-3 bg-gold-primary text-white px-8 py-4 rounded-2xl text-xs font-semibold tracking-wide hover:bg-gray-900 transition-all shadow-xl shadow-gold-primary/20 uppercase"
-        >
-          <Plus size={18} /> Cấp mới sản phẩm
-        </button>
-      </div>
+    <div className="flex h-[calc(100vh-80px)] overflow-hidden bg-[#FDFDFD]">
+      <CategorySidebar 
+        activeCategory={activeCategory} 
+        onSelectCategory={(cat) => { setActiveCategory(cat); setCurrentPage(1); }}
+        totalCount={products.length}
+      />
 
-      {/* Search & Stats */}
-      <div className="flex flex-col md:flex-row gap-6">
-         <div className="flex-1 relative group">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-gold-primary transition-colors" size={20} />
-            <input 
-              type="text" 
-              placeholder="Tên sản phẩm, Mã vạch hoặc Thương hiệu..."
-              className="w-full bg-white border border-gray-100 rounded-[1.5rem] py-5 pl-14 pr-6 text-xs font-semibold focus:ring-4 focus:ring-gold-primary/5 focus:border-gold-primary/20 transition-all shadow-sm outline-none"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-         </div>
-         <div className="bg-white px-8 py-5 border border-gray-100 rounded-[1.5rem] shadow-sm flex items-center gap-6">
-            <div className="text-center border-r border-gray-50 pr-6">
-               <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Tổng kho</span>
-               <p className="text-xl font-bold text-gray-900 tracking-tight">{products.length}</p>
-            </div>
-            <div className="text-center">
-               <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Hết hàng</span>
-               <p className="text-xl font-bold text-red-500 tracking-tight">{products.filter(p => p.stock <= 0).length}</p>
-            </div>
-         </div>
-      </div>
+      <div className="flex-1 overflow-y-auto px-12 py-10 scrollbar-hide">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+          <div>
+            <h1 className="text-4xl font-black text-gray-900 tracking-tighter mb-3 uppercase italic">Quản lý kho hàng</h1>
+            <p className="text-[11px] font-black text-gold-primary uppercase tracking-[0.4em] flex items-center gap-3">
+               <TrendingUp size={16} /> Kết quả: {filteredProducts.length} sản phẩm
+            </p>
+          </div>
 
-      {/* Table Container */}
-      <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto overflow-y-visible">
-          <table className="w-full text-left">
-            <thead className="bg-gold-primary text-[10px] font-semibold text-white uppercase tracking-wider">
-              <tr>
-                <th className="px-10 py-6">Hình ảnh & Tên</th>
-                <th className="px-10 py-6">Danh mục</th>
-                <th className="px-10 py-6">Giá niêm yết</th>
-                <th className="px-10 py-6">Tồn kho</th>
-                <th className="px-10 py-6">Tình trạng</th>
-                <th className="px-10 py-6 text-right">Thao tác</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              <AnimatePresence>
-                {filteredProducts.map((p, idx) => (
-                  <motion.tr 
-                    key={p.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    className="hover:bg-blue-50/20 transition-all group"
-                  >
-                    <td className="px-10 py-6">
-                       <div className="flex items-center gap-6">
-                          <div className="w-14 h-14 bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 flex-shrink-0 group-hover:scale-105 transition-transform duration-500 shadow-sm flex items-center justify-center p-1">
-                             <img src={p.image} className="w-full h-full object-cover rounded-lg" alt={p.name} />
-                          </div>
-                          <div className="flex flex-col gap-1">
-                             <span className="text-sm font-bold text-gray-900 tracking-tight line-clamp-1">{p.name}</span>
-                             <div className="flex gap-2">
-                                {p.badge?.map(b => (
-                                  <span key={b} className="text-[9px] font-bold bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full">{b}</span>
-                                ))}
-                             </div>
-                          </div>
-                       </div>
-                    </td>
-                    <td className="px-10 py-6 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{p.category}</td>
-                    <td className="px-10 py-6 text-[12px] font-bold text-gold-primary">
-                       {p.price?.toLocaleString('vi-VN')}₫
-                    </td>
-                    <td className="px-10 py-6 text-[11px] font-bold text-gray-600">{p.stock || 0}</td>
-                    <td className="px-10 py-6">
-                       <span className={`text-[9px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest ${
-                         (p.stock || 0) > 0 ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'
-                       }`}>
-                          {(p.stock || 0) > 0 ? 'CÒN HÀNG' : 'HẾT HÀNG'}
-                       </span>
-                    </td>
-                    <td className="px-10 py-6 text-right">
-                       <div className="flex justify-end gap-3 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                          <button 
-                            onClick={() => { setEditingItem(p); setIsModalOpen(true); }}
-                            className="w-10 h-10 flex items-center justify-center bg-gold-light text-gold-primary rounded-xl hover:bg-gold-primary hover:text-white transition-all shadow-sm"
-                          >
-                             <Edit3 size={16} />
-                          </button>
-                          <button 
-                            onClick={() => handleDelete(p.id)}
-                            className="w-10 h-10 flex items-center justify-center bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm"
-                          >
-                             <Trash2 size={16} />
-                          </button>
-                       </div>
-                    </td>
-                  </motion.tr>
-                ))}
-              </AnimatePresence>
-              {filteredProducts.length === 0 && (
-                <tr>
-                   <td colSpan="6" className="py-24 text-center">
-                      <div className="flex flex-col items-center gap-4 text-gray-300">
-                         <AlertCircle size={48} strokeWidth={1} />
-                         <p className="text-[11px] font-bold uppercase tracking-[0.3em]">Không tìm thấy sản phẩm nào</p>
-                      </div>
-                   </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Modal - CRUD Form */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 lg:p-12">
-             <motion.div 
-               initial={{ opacity: 0 }} 
-               animate={{ opacity: 1 }} 
-               exit={{ opacity: 0 }}
-               className="absolute inset-0 bg-black/60 backdrop-blur-md" 
-               onClick={() => setIsModalOpen(false)} 
-             />
-             <motion.div 
-               initial={{ opacity: 0, scale: 0.9, y: 30 }}
-               animate={{ opacity: 1, scale: 1, y: 0 }}
-               exit={{ opacity: 0, scale: 0.95, y: 30 }}
-               className="relative bg-white w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-[3rem] p-12 lg:p-16 shadow-2xl space-y-12 scrollbar-hide"
+          <div className="flex items-center gap-4">
+             <div className="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-2">
+                <button 
+                  onClick={() => productService.exportJSON()}
+                  className="flex items-center gap-2 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:bg-gold-light/30 hover:text-gold-primary rounded-xl transition-all"
+                >
+                  <Download size={14} /> Xuất JSON
+                </button>
+                <label className="flex items-center gap-2 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:bg-gold-light/30 hover:text-gold-primary rounded-xl transition-all cursor-pointer">
+                  <UploadIcon size={14} /> Nhập JSON
+                  <input type="file" hidden accept=".json" onChange={handleImport} />
+                </label>
+             </div>
+             
+             <button 
+               onClick={handleCreate}
+               className="flex items-center gap-4 bg-gold-primary text-white px-10 py-5 rounded-[2rem] text-xs font-black tracking-[0.2em] shadow-2xl shadow-gold-primary/30 hover:bg-gray-900 hover:scale-[1.05] transition-all duration-500 uppercase italic"
              >
-                <div className="flex justify-between items-start">
-                   <div>
-                      <h3 className="text-3xl font-black uppercase italic tracking-tighter mb-2">{editingItem ? 'Sửa' : 'Thêm'} Sản Phẩm</h3>
-                      <p className="text-[10px] font-bold text-gold-primary uppercase tracking-[0.4em] pl-1">Cấu hình dược/mỹ phẩm chuyên biệt</p>
-                   </div>
-                   <button onClick={() => setIsModalOpen(false)} className="p-3 bg-gray-50 text-gray-400 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-                      <X size={24} />
-                   </button>
+               <Plus size={20} /> Thêm sản phẩm mới
+             </button>
+          </div>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+           {[
+             { label: 'Tổng sản phẩm', value: stats.total, icon: Package, color: 'text-blue-500' },
+             { label: 'Giá trị tồn kho', value: stats.totalValue.toLocaleString('vi-VN') + '₫', icon: TrendingUp, color: 'text-gold-primary' },
+             { label: 'Sắp hết hàng', value: stats.lowStock, icon: AlertCircle, color: 'text-red-500', alert: stats.lowStock > 0 },
+             { label: 'Ngừng kinh doanh', value: stats.outOfStock, icon: FilterX, color: 'text-gray-400' }
+           ].map((stat, i) => (
+             <div key={i} className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm flex items-center gap-6 group hover:border-gold-primary/30 transition-all">
+                <div className={`w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center ${stat.color} group-hover:scale-110 transition-transform`}>
+                   <stat.icon size={24} />
                 </div>
+                <div>
+                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{stat.label}</p>
+                   <p className={`text-xl font-black tracking-tight ${stat.alert ? 'text-red-600 animate-pulse' : 'text-gray-900'}`}>{stat.value}</p>
+                </div>
+             </div>
+           ))}
+        </div>
 
-                <form onSubmit={handleSave} className="space-y-8">
-                   <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-3">
-                         <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Tên sản phẩm *</label>
-                         <input name="name" defaultValue={editingItem?.name} required className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black uppercase tracking-tight outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all" />
-                      </div>
-                      <div className="space-y-3">
-                         <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Danh mục</label>
-                         <input name="category" defaultValue={editingItem?.category} className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all uppercase tracking-widest text-gold-primary" />
-                      </div>
-                   </div>
+        {/* Search & Actions */}
+        <div className="flex items-center gap-6 mb-8">
+           <div className="flex-1 relative group">
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-gold-primary transition-colors" size={20} />
+              <input 
+                type="text" 
+                placeholder="Tìm kiếm theo Tên, Mã SKU hoặc Thương hiệu..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-white border border-gray-100 rounded-[2rem] py-6 pl-16 pr-8 text-xs font-bold focus:ring-4 focus:ring-gold-primary/5 focus:border-gold-primary/10 transition-all shadow-sm outline-none placeholder:text-gray-300"
+              />
+           </div>
+           
+           {activeCategory !== 'TẤT CẢ' && (
+              <button 
+                onClick={() => setActiveCategory('TẤT CẢ')}
+                className="flex items-center gap-2 text-[10px] font-black text-red-500 uppercase tracking-widest hover:underline"
+              >
+                <FilterX size={14} /> Xóa lọc
+              </button>
+           )}
+        </div>
 
-                   <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-3">
-                         <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Giá bán niêm yết</label>
-                         <input name="price" type="number" defaultValue={editingItem?.price} required className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all" />
-                      </div>
-                      <div className="space-y-3">
-                         <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Số lượng trong kho</label>
-                         <input name="stock" type="number" defaultValue={editingItem?.stock} required className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all" />
-                      </div>
-                   </div>
+        {/* Product Table Components */}
+        <ProductTable 
+          products={paginatedProducts} 
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onClone={handleClone}
+        />
 
-                   <div className="space-y-3">
-                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">URL Hình ảnh</label>
-                      <input name="image" defaultValue={editingItem?.image} className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all lowercase" />
-                   </div>
-
-                   <div className="space-y-3">
-                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Badges (phân cách bằng dấu phẩy)</label>
-                      <input name="badge" defaultValue={editingItem?.badge?.join(', ')} placeholder="NEW, SALE, BEST SELLER" className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all text-emerald-600 uppercase tracking-widest" />
-                   </div>
-
-                   <div className="space-y-3">
-                      <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Mô tả sản phẩm</label>
-                      <textarea name="description" defaultValue={editingItem?.description} rows="4" className="w-full bg-gray-50 border-none rounded-3xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all leading-relaxed" />
-                   </div>
-
-                   <div className="flex justify-end gap-6 pt-10 border-t border-gray-50">
-                      <button 
-                        type="button" 
-                        onClick={() => setIsModalOpen(false)}
-                        className="px-10 py-5 text-[10px] font-bold text-gray-400 hover:text-gray-900 transition-colors uppercase tracking-[0.3em]"
-                      >
-                         Hủy bỏ
-                      </button>
-                      <button 
-                        type="submit"
-                        className="px-14 py-5 bg-gold-primary text-white rounded-2xl text-[11px] font-black tracking-[0.4em] hover:bg-gray-900 transition-all shadow-2xl shadow-gold-primary/20 uppercase"
-                      >
-                         {editingItem ? 'Cập nhật' : 'Khởi tạo'}
-                      </button>
-                   </div>
-                </form>
-             </motion.div>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-12 flex items-center justify-center gap-4 pb-20">
+            <button 
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              className="p-4 rounded-2xl bg-white border border-gray-100 text-gray-400 disabled:opacity-30 hover:text-gold-primary hover:border-gold-primary transition-all shadow-sm"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <div className="flex items-center gap-2">
+              {[...Array(totalPages)].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`w-12 h-12 rounded-2xl text-xs font-black transition-all ${
+                    currentPage === i + 1 
+                      ? 'bg-gold-primary text-white shadow-lg' 
+                      : 'bg-white text-gray-400 hover:bg-gray-50'
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+            <button 
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              className="p-4 rounded-2xl bg-white border border-gray-100 text-gray-400 disabled:opacity-30 hover:text-gold-primary hover:border-gold-primary transition-all shadow-sm"
+            >
+              <ChevronRight size={20} />
+            </button>
           </div>
         )}
-      </AnimatePresence>
 
-      {/* Toast */}
-      <AnimatePresence>
-        {toast && (
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="fixed bottom-12 right-12 bg-gray-900 text-white px-8 py-5 rounded-[2rem] shadow-2xl z-[300] border border-white/10 flex items-center gap-4"
-          >
-             <CheckCircle size={20} className="text-green-400 shadow-glow" />
-             <span className="text-[10px] font-black tracking-[0.3em] uppercase">{toast}</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* Modals */}
+        <AnimatePresence>
+          {isFormOpen && (
+            <ProductForm 
+              initialData={editingProduct}
+              onSave={handleSave}
+              onCancel={() => setIsFormOpen(false)}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Toast Notification */}
+        <AnimatePresence>
+          {toast && (
+            <motion.div 
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="fixed bottom-12 right-12 bg-gray-900 text-white px-10 py-6 rounded-full shadow-2xl z-[500] border border-white/10 flex items-center gap-4"
+            >
+               <FileJson size={20} className="text-gold-primary" />
+               <span className="text-[11px] font-black tracking-[0.3em] uppercase">{toast}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };

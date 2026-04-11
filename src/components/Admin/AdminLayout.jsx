@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, ShoppingBag, BookOpen, 
   MessageSquare, Mail, Settings, LogOut, 
-  Menu, Bell, ChevronRight, Search, Zap
+  Menu, Bell, ChevronRight, Search, Zap, Package
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { storage } from '../../utils/storage';
@@ -40,6 +40,7 @@ const AdminLayout = ({ children }) => {
   const menuItems = [
     { name: 'Dashboard', icon: <LayoutDashboard size={18} />, path: '/admin/dashboard' },
     { name: 'Sản Phẩm', icon: <ShoppingBag size={18} />, path: '/admin/products' },
+    { name: 'Kho Hàng', icon: <Package size={18} />, path: '/admin/warehouse' },
     { name: 'Bài Viết', icon: <BookOpen size={18} />, path: '/admin/posts' },
     { name: 'Tin Nhắn', icon: <Mail size={18} />, path: '/admin/contacts' },
     { name: 'Trang Chủ', icon: <Zap size={18} />, path: '/admin/settings' },

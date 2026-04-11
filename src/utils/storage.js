@@ -24,7 +24,12 @@ const MOCK_PRODUCTS = [
   { id: 9, name: "ANTI DANDRUFF SHAMPOO", slug: "anti-dandruff-shampoo", description: "Dầu gội cho da gàu", descLine: "LOẠI BỎ GÀU", brand: "DS LUONG", price: 1645000, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://skinclinic.vn/storage/products/anti-dandruff-shampoo-1.png", stock: 45 },
   { id: 10, name: "ANTI HAIR LOSS SHAMPOO", slug: "anti-hair-loss-shampoo", description: "Dầu gội chống rụng tóc", descLine: "GIẢM RỤNG TÓC", brand: "DS LUONG", price: 1762500, originalPrice: null, badge: ["BEST SELLER"], category: "CHĂM SÓC TÓC", image: "https://skinclinic.vn/storage/products/anti-hair-loss-shampoo-1.png", stock: 38 },
   { id: 11, name: "GREASY HAIR SHAMPOO", slug: "greasy-hair-shampoo", description: "Dầu gội cho tóc nhờn", descLine: "KIỂM SOÁT DẦU TÓC", brand: "DS LUONG", price: 1645000, originalPrice: null, badge: [], category: "CHĂM SÓC TÓC", image: "https://skinclinic.vn/storage/products/greasy-hair-shampoo-1.png", stock: 42 },
-  { id: 12, name: "ANTIAGING LIPOSOME CREAM", slug: "antiaging-liposome-cream", description: "Kem dưỡng chống lão hóa", descLine: "CHỐNG LÃO HÓA SÂU", brand: "DS LUONG", price: 3188750, originalPrice: 3985000, badge: ["SALE"], category: "CHỐNG LÃO HOÁ", image: "https://skinclinic.vn/storage/products/antiaging-liposome-cream-1.png", stock: 15 }
+  { id: 12, name: "ANTIAGING LIPOSOME CREAM", slug: "antiaging-liposome-cream", description: "Kem dưỡng chống lão hóa", descLine: "CHỐNG LÃO HÓA SÂU", brand: "DS LUONG", price: 3188750, originalPrice: 3985000, badge: ["SALE"], category: "CHỐNG LÃO HOÁ", image: "https://skinclinic.vn/storage/products/antiaging-liposome-cream-1.png", stock: 15 },
+  { id: 13, name: "VITA-C CLEAR SKIN", slug: "vita-c-clear-skin", description: "Dung dịch làm sáng da và mờ vết thâm", descLine: "SÁNG DA TỨC THÌ", brand: "DS LUONG", price: 1850000, originalPrice: null, badge: ["NEW"], category: "LÀM SÁCH DA", image: "https://placehold.co/600x600?text=Vita-C+Skin", stock: 25 },
+  { id: 14, name: "HYALURONIC HYDRA SERUM", slug: "hyaluronic-hydra-serum", description: "Tinh chất cấp ẩm vượt trội", descLine: "CẤP ẨM CHUYÊN SÂU", brand: "DS LUONG", price: 2150000, originalPrice: null, badge: ["BEST SELLER"], category: "DƯỠNG ẨM", image: "https://placehold.co/600x600?text=Hydra+Serum", stock: 40 },
+  { id: 15, name: "RECOVERY CREAM", slug: "recovery-cream", description: "Kem phục hồi da sau liệu trình", descLine: "PHỤC HỒI TỔN THƯƠNG", brand: "DS LUONG", price: 1950000, originalPrice: null, badge: [], category: "DƯỠNG ẨM", image: "https://placehold.co/600x600?text=Recovery+Cream", stock: 30 },
+  { id: 16, name: "PIMPLE REDUCER GEL", slug: "pimple-reducer-gel", description: "Gel chấm mụn và diệt khuẩn", descLine: "GIẢM MỤN HIỆU QUẢ", brand: "DS LUONG", price: 850000, originalPrice: null, badge: ["NEW"], category: "TÌNH TRẠNG DA", image: "https://placehold.co/600x600?text=Pimple+Gel", stock: 55 },
+  { id: 17, name: "EYE CONTOUR CREAM", slug: "eye-contour-cream", description: "Kem dưỡng vùng mắt chống quầng thâm", descLine: "XÓA TAN MỆT MỎI", brand: "DS LUONG", price: 1450000, originalPrice: null, badge: [], category: "CHĂM SÓC MẮT & MÔI", image: "https://placehold.co/600x600?text=Eye+Cream", stock: 20 }
 ];
 
 const MOCK_POSTS = [
@@ -119,37 +124,15 @@ export const storage = {
   },
 
   init: () => {
-    if (!storage.get(KEYS.PRODUCTS)) storage.set(KEYS.PRODUCTS, MOCK_PRODUCTS);
-    if (!storage.get(KEYS.POSTS)) storage.set(KEYS.POSTS, MOCK_POSTS);
-    if (!storage.get(KEYS.CONTENTS)) storage.set(KEYS.CONTENTS, MOCK_PAGE_CONTENTS);
-    if (!storage.get(KEYS.CATEGORIES)) storage.set(KEYS.CATEGORIES, MOCK_CATEGORIES);
-
-    const existingSettings = storage.get(KEYS.SETTINGS);
-    storage.set(KEYS.SETTINGS, { ...MOCK_SETTINGS, ...(existingSettings || {}) });
-
-    if (!storage.get(KEYS.REVIEWS)) storage.set(KEYS.REVIEWS, []);
-    if (!storage.get(KEYS.CONTACTS)) storage.set(KEYS.CONTACTS, []);
-    if (!storage.get(KEYS.EMAILS)) storage.set(KEYS.EMAILS, []);
-    // Force update branding if old name exists in storage
-    const contents = storage.get(KEYS.CONTENTS);
-    if (contents && JSON.stringify(contents).includes('SkinClinic')) {
-      storage.set(KEYS.CONTENTS, MOCK_PAGE_CONTENTS);
-    }
-
-    const settings = storage.get(KEYS.SETTINGS);
-    if (settings && (settings.siteName === 'SkinClinic' || settings.siteName?.includes('Antigravity') || settings.email?.includes('skinclinic'))) {
-      storage.set(KEYS.SETTINGS, { ...settings, ...MOCK_SETTINGS });
-    }
-
-    const products = storage.get(KEYS.PRODUCTS);
-    if (products && (JSON.stringify(products).includes('SkinClinic') || JSON.stringify(products).includes('Antigravity') || !JSON.stringify(products).includes('"slug"'))) {
-      storage.set(KEYS.PRODUCTS, MOCK_PRODUCTS);
-    }
-    
-    const posts = storage.get(KEYS.POSTS);
-    if (posts && (!JSON.stringify(posts).includes('"slug"') || !JSON.stringify(posts).includes('Phác đồ Trị Nám'))) {
-      storage.set(KEYS.POSTS, MOCK_POSTS);
-    }
+    // Only init if key doesn't exist to prevent data loss
+    if (!localStorage.getItem(KEYS.PRODUCTS)) storage.set(KEYS.PRODUCTS, MOCK_PRODUCTS);
+    if (!localStorage.getItem(KEYS.POSTS)) storage.set(KEYS.POSTS, MOCK_POSTS);
+    if (!localStorage.getItem(KEYS.CONTENTS)) storage.set(KEYS.CONTENTS, MOCK_PAGE_CONTENTS);
+    if (!localStorage.getItem(KEYS.CATEGORIES)) storage.set(KEYS.CATEGORIES, MOCK_CATEGORIES);
+    if (!localStorage.getItem(KEYS.SETTINGS)) storage.set(KEYS.SETTINGS, MOCK_SETTINGS);
+    if (!localStorage.getItem(KEYS.REVIEWS)) storage.set(KEYS.REVIEWS, []);
+    if (!localStorage.getItem(KEYS.CONTACTS)) storage.set(KEYS.CONTACTS, []);
+    if (!localStorage.getItem(KEYS.EMAILS)) storage.set(KEYS.EMAILS, []);
   },
 
   auth: {

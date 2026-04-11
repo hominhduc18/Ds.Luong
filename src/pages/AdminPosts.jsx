@@ -36,6 +36,15 @@ const AdminPosts = () => {
     }
   };
 
+  const generateSlug = (name) => {
+    return name?.toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
+
   const handleSave = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -43,6 +52,7 @@ const AdminPosts = () => {
     
     postData.id = editingItem ? editingItem.id : Date.now();
     postData.date = editingItem ? editingItem.date : new Date().toISOString().split('T')[0];
+    postData.slug = editingItem?.slug || generateSlug(postData.title);
     
     const items = [...posts];
     if (editingItem) {
