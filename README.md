@@ -32,22 +32,6 @@ Giao diện Website chuyên nghiệp dành cho hệ thống phân phối Dược
 ### Yêu cầu hệ thống:
 - Đã cài đặt [Node.js](https://nodejs.org/) (Khuyên dùng v18+).
 
-### Các bước thực hiện:
-
-1. **Cài đặt thư viện:**
-   ```bash
-   npm install
-   ```
-
-2. **Chạy ở môi trường phát triển (Development):**
-   ```bash
-   npm run dev
-   ```
-
-3. **Xây dựng bản sản xuất (Build for Production):**
-   ```bash
-   npm run build
-   ```
 
 ## 🔐 Truy Cập Trang Quản Trị
 
