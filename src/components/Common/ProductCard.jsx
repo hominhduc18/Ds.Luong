@@ -60,7 +60,7 @@ const ProductCard = ({ product }) => {
         </div>
 
         <a 
-          href={`https://zalo.me/0901234567`}
+          href={`https://zalo.me/0335046737`}
           target="_blank"
           rel="noreferrer"
           className="btn btn-primary w-full flex justify-center items-center gap-2"

@@ -71,7 +71,7 @@ const Footer = () => {
                 <FaMapMarkerAlt className="mt-1 text-gold-primary" />
                 <div>
                   <p className="font-bold text-white">Địa chỉ:</p>
-                  <p>123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</p>
+                  <p>Hồ Chí Minh</p>
                 </div>
               </li>
             </ul>

@@ -86,9 +86,9 @@ const MOCK_PAGE_CONTENTS = {
     ]
   },
   contact: {
-    address: "123 Đường Sắc Đẹp, Quận 1, TP.HCM",
-    phone: "1900 XXXX",
-    email: "info@dsluong.vn",
+    address: "Hồ Chí Minh",
+    phone: "0335046737",
+    email: "luongho980@gmail.com",
     workingHours: "Thứ 2 - Thứ 7 (8:00 - 20:00)"
   }
 };
@@ -107,12 +107,12 @@ const MOCK_SETTINGS = {
   slogan: 'Khoa học - An toàn - Hiệu quả',
   logo: null,
   favicon: null,
-  email: 'info@dsluong.vn',
-  phone: '1900 XXXX',
-  address: '123 Đường Sắc Đẹp, Quận 1, TP.HCM',
+  email: 'luongho980@gmail.com',
+  phone: '0335046737',
+  address: 'Hồ Chí Minh',
   seoTitle: 'Ds Lương - phân phối dược mỹ phẩm',
   seoDesc: 'Ds Lương - Chuyên phân phối dược mỹ phẩm cao cấp, chính hãng.',
-  socialLinks: { facebook: '#', instagram: '#', tiktok: '#', zalo: '1900 XXXX' }
+  socialLinks: { facebook: '#', instagram: '#', tiktok: '#', zalo: '0335046737' }
 };
 
 // Storage Functions
@@ -127,12 +127,14 @@ export const storage = {
     // Only init if key doesn't exist to prevent data loss
     if (!localStorage.getItem(KEYS.PRODUCTS)) storage.set(KEYS.PRODUCTS, MOCK_PRODUCTS);
     if (!localStorage.getItem(KEYS.POSTS)) storage.set(KEYS.POSTS, MOCK_POSTS);
-    if (!localStorage.getItem(KEYS.CONTENTS)) storage.set(KEYS.CONTENTS, MOCK_PAGE_CONTENTS);
-    if (!localStorage.getItem(KEYS.CATEGORIES)) storage.set(KEYS.CATEGORIES, MOCK_CATEGORIES);
-    if (!localStorage.getItem(KEYS.SETTINGS)) storage.set(KEYS.SETTINGS, MOCK_SETTINGS);
     if (!localStorage.getItem(KEYS.REVIEWS)) storage.set(KEYS.REVIEWS, []);
     if (!localStorage.getItem(KEYS.CONTACTS)) storage.set(KEYS.CONTACTS, []);
     if (!localStorage.getItem(KEYS.EMAILS)) storage.set(KEYS.EMAILS, []);
+    
+    // Luôn ghi đè cấu hình để cập nhật định dạng cứng mới nhất
+    storage.set(KEYS.CONTENTS, MOCK_PAGE_CONTENTS);
+    storage.set(KEYS.CATEGORIES, MOCK_CATEGORIES);
+    storage.set(KEYS.SETTINGS, MOCK_SETTINGS);
   },
 
   auth: {

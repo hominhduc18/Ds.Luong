@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { storage } from '../utils/storage';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaCheckCircle, FaChevronRight, FaRegHeart, FaMinus, FaPlus, FaShoppingCart } from 'react-icons/fa';
+import { FaCheckCircle, FaChevronRight, FaChevronLeft, FaRegHeart, FaMinus, FaPlus, FaShoppingCart } from 'react-icons/fa';
 import SEO from '../components/SEO/SEO';
 import StructuredData from '../components/SEO/StructuredData';
 
@@ -10,6 +10,8 @@ const ProductDetail = () => {
   const { slug, id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showZaloAlert, setShowZaloAlert] = useState(false);
 
   // Find product from dynamic storage, prioritize slug then id for backward compatibility
   const product = slug ? storage.products.getBySlug(slug) : storage.products.getById(id);
@@ -110,8 +112,51 @@ const ProductDetail = () => {
     );
   }
 
+  // Lấy mảng hình ảnh thực tế từ database, không có giới hạn. Nếu không có mảng images thì dùng ảnh chính.
+  const productImages = product ? (product.images?.length > 0 ? product.images : [product.image]) : [];
+
   return (
     <div className="bg-white pt-24 pb-20">
+      {/* Zalo Alert Modal */}
+      <AnimatePresence>
+        {showZaloAlert && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 backdrop-blur-sm"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+              className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl"
+            >
+              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Zalo" className="w-8 h-8 object-contain" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2 font-playfair italic">Đặt mua sản phẩm</h3>
+              <p className="text-gray-500 text-sm mb-8 leading-relaxed">
+                Tính năng thanh toán trực tiếp đang được phát triển. Vui lòng liên hệ qua Zalo để Chuyên viên DS LUONG hỗ trợ đặt hàng nhanh nhất!
+              </p>
+              
+              <div className="flex flex-col gap-3">
+                <a 
+                  href="https://zalo.me/0335046737" 
+                  target="_blank" rel="noreferrer"
+                  onClick={() => setShowZaloAlert(false)}
+                  className="w-full py-4 bg-[#0068FF] text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-blue-500/30 hover:-translate-y-1 transition-all"
+                >
+                  Chat Zalo Mua Hàng
+                </a>
+                <button 
+                  onClick={() => setShowZaloAlert(false)}
+                  className="w-full py-4 text-gray-400 font-bold text-[10px] uppercase tracking-widest hover:text-gray-900 transition-colors"
+                >
+                  Đóng thông báo
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <SEO 
         title={`${product.name} - ${product.category}`}
         description={`${product.description}. Phân phối chính hãng bởi DS LUONG.`}
@@ -142,13 +187,17 @@ const ProductDetail = () => {
             animate={{ opacity: 1, x: 0 }}
             className="lg:w-1/2"
           >
-            <div className="relative group rounded-3xl overflow-hidden bg-gray-50 border border-gray-100 gold-shadow p-8 flex items-center justify-center aspect-square">
-              <img 
-                src={product.image} 
-                alt={`${product.name} - DS LUONG Dược Mỹ Phẩm Tây Ban Nha`} 
+            <div className="relative group rounded-3xl overflow-hidden bg-gray-50 border border-gray-100 gold-shadow p-8 flex items-center justify-center aspect-square mb-4">
+              <motion.img 
+                key={currentImageIndex}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                src={productImages[currentImageIndex]} 
+                alt={`${product.name} - ${currentImageIndex + 1}`} 
                 width={600}
                 height={600}
-                className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-105"
+                className="max-w-full max-h-full object-contain"
                 onError={(e) => {
                   e.target.src = `https://via.placeholder.com/600x600/F5F5F5/D4AF37?text=${product.name.replace(/\s/g, '+')}`;
                 }}
@@ -157,7 +206,40 @@ const ProductDetail = () => {
                  {product.badge && <span className="bg-black text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-lg uppercase tracking-widest">{product.badge}</span>}
                  {product.isNew && <span className="bg-gold-primary text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-lg uppercase tracking-widest">NEW ENTRY</span>}
               </div>
+
+              {/* Navigation Arrows (Only show if > 1 image) */}
+              {productImages.length > 1 && (
+                <>
+                  <button 
+                    onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : productImages.length - 1))}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm border border-gray-100 rounded-full shadow-lg flex items-center justify-center text-gray-500 hover:text-gold-primary opacity-0 group-hover:opacity-100 transition-all z-10 hover:scale-110"
+                  >
+                    <FaChevronLeft size={14} />
+                  </button>
+                  <button 
+                    onClick={() => setCurrentImageIndex((prev) => (prev < productImages.length - 1 ? prev + 1 : 0))}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm border border-gray-100 rounded-full shadow-lg flex items-center justify-center text-gray-500 hover:text-gold-primary opacity-0 group-hover:opacity-100 transition-all z-10 hover:scale-110"
+                  >
+                    <FaChevronRight size={14} />
+                  </button>
+                </>
+              )}
             </div>
+
+            {/* Thumbnails (Only show if > 1 image) */}
+            {productImages.length > 1 && (
+              <div className="flex gap-4 overflow-x-auto no-scrollbar py-2 px-1">
+                {productImages.map((img, idx) => (
+                  <button 
+                    key={idx}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    className={`w-24 h-24 rounded-2xl bg-gray-50 border-2 overflow-hidden flex flex-shrink-0 items-center justify-center transition-all ${currentImageIndex === idx ? 'border-gold-primary shadow-md' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                  >
+                    <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-contain p-2" />
+                  </button>
+                ))}
+              </div>
+            )}
           </motion.div>
 
           {/* Product Info */}
@@ -199,8 +281,11 @@ const ProductDetail = () => {
                   <span className="w-16 text-center font-bold text-xl text-gray-900">{quantity}</span>
                   <button onClick={() => setQuantity(quantity + 1)} className="text-gray-500 hover:text-gold-primary transition-colors p-2"><FaPlus size={14} /></button>
                 </div>
-                <button className="flex-grow btn-gold-solid h-14 flex items-center justify-center gap-3 w-full sm:w-auto shadow-2xl shadow-gold-primary/30 text-base">
-                  <FaShoppingCart /> THÊM VÀO GIỎ HÀNG
+                <button 
+                  onClick={() => setShowZaloAlert(true)}
+                  className="flex-grow btn-gold-solid h-14 flex items-center justify-center gap-3 w-full sm:w-auto shadow-2xl shadow-gold-primary/30 text-base"
+                >
+                  <FaShoppingCart /> MUA HÀNG
                 </button>
                 <button className="w-14 h-14 flex items-center justify-center border-2 border-gray-100 rounded-full text-gray-400 hover:text-red-500 hover:border-red-100 transition-all duration-300">
                   <FaRegHeart size={20} />

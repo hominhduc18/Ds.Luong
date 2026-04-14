@@ -19,9 +19,29 @@ const Contact = () => {
     return () => window.removeEventListener('beauty_data_changed', handleDataChange);
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     storage.contacts.add(form);
+    
+    try {
+      await fetch("https://formsubmit.co/ajax/luongho980@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          "Họ tên": form.name,
+          "Số điện thoại": form.phone,
+          "Email": form.email || "Không có",
+          "Chủ đề": form.subject,
+          "Nội dung": form.message
+        })
+      });
+    } catch (error) {
+      console.log('Form Submit Error', error);
+    }
+
     setSubmitted(true);
     setForm({ name: '', phone: '', email: '', subject: 'TƯ VẤN SẢN PHẨM', message: '' });
     setTimeout(() => setSubmitted(false), 5000);
@@ -183,15 +203,14 @@ const Contact = () => {
             </AnimatePresence>
           </motion.div>
 
-          {/* Right: Map Placeholder */}
-          <motion.div 
+          {/* <motion.div 
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="lg:w-1/2 h-[400px] lg:h-auto overflow-hidden rounded-[3rem] shadow-2xl border-8 border-gray-50 bg-gray-100 flex items-center justify-center italic text-gray-400 text-sm"
           >
              <p className="uppercase tracking-widest">Google Maps Integration Placeholder</p>
-          </motion.div>
+          </motion.div> */}
         </div>
       </section>
 

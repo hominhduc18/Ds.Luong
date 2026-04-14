@@ -100,8 +100,8 @@ const Policies = () => {
         <div className="mt-20 p-10 bg-white rounded-3xl border border-gray-100 text-center" style={{ marginTop: '80px', padding: '40px', backgroundColor: 'white', borderRadius: '24px', border: '1px solid #f0f0f0', textAlign: 'center' }}>
           <p className="text-gray-500 mb-6" style={{ color: '#888', marginBottom: '24px' }}>Nếu quý khách có bất kỳ câu hỏi nào về các chính sách của chúng tôi, vui lòng liên hệ:</p>
           <div className="flex flex-col sm:flex-row justify-center gap-8" style={{ display: 'flex', justifyContent: 'center', gap: '32px' }}>
-            <a href="tel:0901234567" className="text-primary font-bold text-xl" style={{ color: 'var(--primary)', fontWeight: 'bold', fontSize: '20px' }}>Hotline: 0901 234 567</a>
-            <a href="mailto:contact@dsluong.vn" className="text-primary font-bold text-xl" style={{ color: 'var(--primary)', fontWeight: 'bold', fontSize: '20px' }}>Email: contact@dsluong.vn</a>
+            <a href="tel:0335046737" className="text-primary font-bold text-xl" style={{ color: 'var(--primary)', fontWeight: 'bold', fontSize: '20px' }}>Hotline: 0335046737</a>
+            <a href="mailto:luongho980@gmail.com" className="text-primary font-bold text-xl" style={{ color: 'var(--primary)', fontWeight: 'bold', fontSize: '20px' }}>Email: luongho980@gmail.com</a>
           </div>
         </div>
       </div>

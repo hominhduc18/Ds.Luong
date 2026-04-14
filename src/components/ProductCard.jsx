@@ -10,11 +10,15 @@ const ProductCard = ({ product, onQuickView }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="group relative flex flex-col h-full bg-white transition-all duration-300"
+      viewport={{ once: true }}
+      className="group relative flex flex-col h-full bg-white transition-all duration-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl"
     >
       {/* Product Image Container */}
-      <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 rounded-lg mb-6 shadow-sm group-hover:shadow-md transition-shadow">
-        <Link to={`/san-pham/${product.slug}`} className="block w-full h-full">
+      <div 
+        className="relative overflow-hidden bg-gray-50 rounded-lg mb-6 shadow-sm group-hover:shadow-md transition-shadow w-full"
+        style={{ aspectRatio: '4/5' }}
+      >
+        <Link to={`/san-pham/${product.slug}`} className="absolute inset-0 block w-full h-full">
           <img 
             src={product.image} 
             alt={`${product.name} - Dược mỹ phẩm DS LUONG`} 
@@ -22,7 +26,7 @@ const ProductCard = ({ product, onQuickView }) => {
             height={500}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             onError={(e) => {
-              e.target.src = `https://via.placeholder.com/600x600/F5F5F5/D4AF37?text=${product.name.replace(/\s/g, '+')}`;
+              e.target.src = `https://placehold.co/600x600/F5F5F5/D4AF37?text=${product.name.replace(/\s/g, '+')}`;
             }}
           />
         </Link>
@@ -48,16 +52,16 @@ const ProductCard = ({ product, onQuickView }) => {
            </button>
         </div>
 
-        {/* Add to Cart Button (Slide Up) */}
+        {/* Add to Cart Button (Slide Up) - Hidden as per purchase flow update
         <div className="absolute bottom-0 left-0 w-full translate-y-full group-hover:translate-y-0 transition-transform duration-500">
            <button className="w-full py-5 bg-gold-primary text-white text-xs font-black tracking-[0.4em] uppercase flex items-center justify-center gap-3 hover:bg-gray-950 transition-colors shadow-2xl">
              <FaShoppingCart size={16} /> THÊM VÀO GIỎ
            </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Product Info */}
-      <div className="flex flex-col flex-grow text-center px-4">
+      <div className="flex flex-col flex-grow text-center px-4 py-4">
         <span className="text-xs font-black text-gold-primary uppercase tracking-[0.3em] mb-3 block">{product.brand}</span>
         <Link to={`/san-pham/${product.slug}`}>
           <h3 className="text-base font-black text-gray-900 mb-4 leading-snug uppercase tracking-tight group-hover:text-gold-primary transition-colors line-clamp-2 min-h-[48px]">

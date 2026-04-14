@@ -26,9 +26,9 @@ export const siteConfig = {
   },
 
   business: {
-    address: "123 Đường Sắc Đẹp, Quận 1, TP.HCM",
+    address: "Hồ Chí Minh",
     phone: "0335046737",
-    email: "info@dsluong.vn",
+    email: "luongho980@gmail.com",
     openingHours: "Mo-Sa 08:00-20:00"
   }
 };

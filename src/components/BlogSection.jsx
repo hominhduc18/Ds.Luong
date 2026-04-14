@@ -1,6 +1,7 @@
 import React from 'react';
 import BlogCard from './BlogCard';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const BlogSection = ({ title, subtitle, posts }) => {
   return (
@@ -29,9 +30,9 @@ const BlogSection = ({ title, subtitle, posts }) => {
         </div>
         
         <div className="mt-16 text-center">
-          <button className="btn-gold-outline px-12">
+          <Link to="/blog" className="btn-gold-outline px-12 inline-block">
             XEM TẤT CẢ TIN TỨC
-          </button>
+          </Link>
         </div>
       </div>
     </section>

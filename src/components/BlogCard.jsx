@@ -17,7 +17,7 @@ const BlogCard = ({ post }) => {
           <span className="text-[10px] font-semibold border-t border-white/30 pt-1 mt-1 uppercase">THG {post.date.split('-')[1] || '01'}</span>
         </div>
         <img 
-          src={post.image || `https://via.placeholder.com/400x250/F5F5F5/D4AF37?text=Blog+News+${post.id}`} 
+          src={post.image || `https://placehold.co/400x250/F5F5F5/D4AF37?text=Blog+News+${post.id}`} 
           alt={post.title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />

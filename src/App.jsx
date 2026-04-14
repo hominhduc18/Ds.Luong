@@ -50,6 +50,8 @@ const ScrollToTop = () => {
 function App() {
   useEffect(() => {
     storage.init();
+    document.documentElement.classList.remove('dark');
+    localStorage.removeItem('beauty_theme');
 
     // Cập nhật document title theo siteName
     const updateTitle = () => {

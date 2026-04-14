@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const BrandIntro2 = () => {
   return (
@@ -48,9 +49,9 @@ const BrandIntro2 = () => {
                 Các sản phẩm DS Luong được điều chế theo công thức tá dược vừa đủ mang công dụng hiệu quả và tối ưu nhất.
               </p>
             </div>
-            <button className="btn-gold-solid">
+            <Link to="/about" className="btn-gold-solid inline-block shadow-lg shadow-gold-primary/30">
               TÌM HIỂU THÊM
-            </button>
+            </Link>
           </motion.div>
         </div>
       </div>

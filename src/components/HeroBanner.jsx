@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const HeroBanner = ({ title, subtitle }) => {
   return (
@@ -20,13 +21,13 @@ const HeroBanner = ({ title, subtitle }) => {
           <p className="text-gray-600 text-xl mb-12 leading-loose max-w-xl italic border-l-4 border-gold-primary pl-8">
             {subtitle || "Khoa học - An toàn - Hiệu quả. Hơn 30 năm nghiên cứu chuyên sâu vì vẻ đẹp làn da Á Đông."}
           </p>
-          <div className="flex gap-6">
-            <button className="btn-gold-solid px-12 py-5 text-[11px] font-black tracking-[0.4em] uppercase rounded-full shadow-2xl shadow-gold-primary/30">
+          <div className="flex flex-col sm:flex-row gap-6">
+            <Link to="/shop" className="btn-gold-solid px-12 py-5 text-[11px] font-black tracking-[0.4em] uppercase rounded-full shadow-2xl shadow-gold-primary/30 text-center">
               KHÁM PHÁ NGAY
-            </button>
-            <button className="btn-gold-outline px-12 py-5 text-[11px] font-black tracking-[0.4em] uppercase rounded-full">
+            </Link>
+            <Link to="/contact" className="btn-gold-outline px-12 py-5 text-[11px] font-black tracking-[0.4em] uppercase rounded-full text-center">
               DỊCH VỤ
-            </button>
+            </Link>
           </div>
         </motion.div>
 

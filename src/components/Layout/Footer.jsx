@@ -28,7 +28,7 @@ const Footer = () => {
                   key={idx}
                   whileHover={{ y: -3, scale: 1.1 }}
                   href={social.path}
-                  className="w-10 h-10 border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-gold-primary hover:border-gold-primary transition-all"
+                  className="w-10 h-10 border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-gold-primary hover:border-gold-primary transition-all shadow-sm"
                 >
                   {social.icon}
                 </motion.a>
@@ -44,14 +44,14 @@ const Footer = () => {
                 <FaPhoneAlt className="text-gold-primary mt-1" />
                 <div>
                    <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Hotline</span>
-                   <span className="text-sm font-bold">1900 XXXX</span>
+                   <span className="text-sm font-bold">0335046737</span>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <FaEnvelope className="text-gold-primary mt-1" />
                 <div>
                    <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email</span>
-                   <span className="text-sm font-bold">contact@dsluong.vn</span>
+                   <span className="text-sm font-bold">luongho980@gmail.com</span>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -82,7 +82,7 @@ const Footer = () => {
               <input 
                 type="email" 
                 placeholder="Nhập email của bạn..." 
-                className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all pr-12"
+                className="w-full bg-gray-50 border-none rounded-xl py-4 px-6 text-xs font-bold tracking-widest focus:ring-2 focus:ring-gold-primary/20 transition-all pr-12 text-gray-900"
               />
               <button className="absolute right-2 top-1.5 bg-gold-primary hover:bg-gray-900 text-white w-9 h-9 rounded-lg flex items-center justify-center transition-all shadow-lg active:scale-95">
                 <FaPaperPlane size={14} />
