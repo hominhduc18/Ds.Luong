@@ -52,10 +52,8 @@ Giao diện Website chuyên nghiệp dành cho hệ thống phân phối Dược
 ## 🔐 Truy Cập Trang Quản Trị
 
 - **Đường dẫn:** `[Domain-của-bạn]/admin` hoặc `localhost:5173/admin`
-- **Tài khoản mặc định:**
-  - **Username:** `admin`
-  - **Password:** `admin123`
+
 
 ---
 
-*Thiết kế và phát triển bởi Đội ngũ Công nghệ Beauty Digital.* 🐉✨
+*Thiết kế và phát triển bởi DUCDEV* 🐉✨
