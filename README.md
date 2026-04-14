@@ -2,7 +2,8 @@
 
 Giao diện Website chuyên nghiệp dành cho hệ thống phân phối Dược Mỹ Phẩm chính hãng, được thiết kế với phong cách sang trọng, hiện đại và tích hợp hệ thống quản trị nội dung (CMS) mạnh mẽ.
 
-![Demo Image](https://images.unsplash.com/photo-1556228578-0d85b1a4d52d?auto=format&fit=crop&q=80&w=1200)
+![Demo Image](<img width="1903" height="904" alt="image" src="https://github.com/user-attachments/assets/3d9c31e7-0506-4664-ab64-fb57b3e44625" />
+)
 
 ## 🚀 Công Nghệ Sử Dụng
 
