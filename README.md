@@ -2,7 +2,7 @@
 
 Giao diện Website chuyên nghiệp dành cho hệ thống phân phối Dược Mỹ Phẩm chính hãng, được thiết kế với phong cách sang trọng, hiện đại và tích hợp hệ thống quản trị nội dung (CMS) mạnh mẽ.
 
-![Demo Image](https://images.unsplash.com/photo-1556228578-0d85b1a4d52d?auto=format&fit=crop&q=80&w=1200)
+![Demo Image](./public/images/readme_banner.png)
 
 ## 🚀 Công Nghệ Sử Dụng
 
@@ -47,6 +47,21 @@ Giao diện Website chuyên nghiệp dành cho hệ thống phân phối Dược
    ```bash
    npm run build
    ```
+
+## 🐳 Triển Khai Với Docker
+
+Dự án đã được tích hợp sẵn cấu hình Docker để bạn có thể đóng gói và triển khai nhanh chóng:
+
+1. **Xây dựng Image:**
+   ```bash
+   docker build -t dsluong-web .
+   ```
+
+2. **Chạy Container:**
+   ```bash
+   docker run -d -p 8080:80 --name dsluong-app dsluong-web
+   ```
+   *Sau khi chạy, bạn có thể truy cập web tại: `http://localhost:8080`*
 
 ## 🔐 Truy Cập Trang Quản Trị
 
