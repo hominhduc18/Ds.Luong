@@ -91,11 +91,11 @@ const Contact = () => {
           className="container mx-auto px-4"
         >
           <h1 className="text-4xl md:text-6xl font-playfair font-bold text-gray-900 mb-6 uppercase italic tracking-tighter">
-            LIÊN HỆ VỚI <span className="text-gold-primary">CHÚNG TÔI</span>
+            {data.heroTitle || 'LIÊN HỆ VỚI CHÚNG TÔI'}
           </h1>
           <div className="w-20 h-1 bg-gold-primary mx-auto mb-8"></div>
           <p className="text-gray-400 font-bold tracking-[0.4em] uppercase text-[10px] md:text-xs max-w-lg mx-auto leading-relaxed">
-            Chúng tôi luôn sẵn sàng lắng nghe và đồng hành cùng bạn trên hành trình chăm sóc làn da hoàn mỹ.
+            {data.heroSubtitle || 'Chúng tôi luôn sẵn sàng lắng nghe và đồng hành cùng bạn trên hành trình chăm sóc làn da hoàn mỹ.'}
           </p>
         </motion.div>
       </section>

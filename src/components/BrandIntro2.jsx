@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-const BrandIntro2 = () => {
+const BrandIntro2 = ({ title, text, image, cta }) => {
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
@@ -15,12 +15,11 @@ const BrandIntro2 = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="relative">
-              <div className="absolute -top-4 -left-4 w-full h-full border-2 border-gold-primary rounded-lg z-0"></div>
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] shadow-2xl border-8 border-white">
               <img 
-                src="/images/rebranding/skincare_production_standards_gold_1775697722506.png" 
+                src={image || "/images/rebranding/skincare_production_standards_gold_1775697722506.png"} 
                 alt="Production Standards Gold" 
-                className="relative z-10 w-full h-auto rounded-lg shadow-xl"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
               />
             </div>
           </motion.div>
@@ -34,23 +33,25 @@ const BrandIntro2 = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-4xl font-playfair font-bold text-gray-900 mb-6 uppercase tracking-wider">
-              PHÂN PHỐI CHÍNH HÃNG ĐA DẠNG CÁC DÒNG SẢN PHẨM
+              {title || "PHÂN PHỐI CHÍNH HÃNG ĐA DẠNG CÁC DÒNG SẢN PHẨM"}
             </h2>
             <div className="text-gray-600 leading-relaxed text-lg mb-8 space-y-4">
-              <p>
-                DS Luong là thương hiệu dược mỹ phẩm danh tiếng châu Âu, được nghiên cứu và sản xuất tại Tây Ban Nha từ năm 1989. 
-                Tất cả sản phẩm DS Luong được chứng nhận đạt tiêu chuẩn GMP, đạt chất lượng đăng ký và không gây hại cho người dùng.
-              </p>
-              <p>
-                Sản phẩm của DS Luong có mặt tại các nước thuộc liên minh Châu EU. Tại Việt Nam, DS Luong được nhập khẩu và phân phối độc quyền.
-              </p>
-              <p>
-                Không chỉ đa dạng trong bảng thành phần và các sản phẩm chăm sóc da, DS Luong còn cung cấp giải pháp hỗ trợ các vấn đề da. 
-                Các sản phẩm DS Luong được điều chế theo công thức tá dược vừa đủ mang công dụng hiệu quả và tối ưu nhất.
-              </p>
+              {text ? (
+                 <div className="whitespace-pre-line">{text}</div>
+              ) : (
+                <>
+                  <p>
+                    DS Luong là thương hiệu dược mỹ phẩm danh tiếng châu Âu, được nghiên cứu và sản xuất tại Tây Ban Nha từ năm 1989. 
+                    Tất cả sản phẩm DS Luong được chứng nhận đạt tiêu chuẩn GMP, đạt chất lượng đăng ký và không gây hại cho người dùng.
+                  </p>
+                  <p>
+                    Sản phẩm của DS Luong có mặt tại các nước thuộc liên minh Châu EU. Tại Việt Nam, DS Luong được nhập khẩu và phân phối độc quyền.
+                  </p>
+                </>
+              )}
             </div>
             <Link to="/about" className="btn-gold-solid inline-block shadow-lg shadow-gold-primary/30">
-              TÌM HIỂU THÊM
+              {cta || "TÌM HIỂU THÊM"}
             </Link>
           </motion.div>
         </div>

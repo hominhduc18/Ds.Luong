@@ -52,8 +52,17 @@ const Home = () => {
         subtitle={pageData.contents.home.heroSubtitle} 
       />
       <TrustBadges />
-      <BrandIntro1 />
-      <BrandIntro2 />
+      <BrandIntro1 
+        title={pageData.contents.home.introTitle}
+        text={pageData.contents.home.introText}
+        cta={pageData.contents.home.introCta}
+      />
+      <BrandIntro2 
+        title={pageData.contents.home.secondIntroTitle}
+        text={pageData.contents.home.secondIntroText}
+        image={pageData.contents.home.secondIntroImage}
+        cta={pageData.contents.home.secondIntroCta}
+      />
       
       <ProductSection 
         title="SẢN PHẨM NỔI BẬT" 

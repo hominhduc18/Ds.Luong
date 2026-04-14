@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, ShoppingBag, BookOpen, 
   MessageSquare, Mail, Settings, LogOut, 
-  Menu, Bell, ChevronRight, Search, Zap, Package, FolderTree
+  Menu, Bell, ChevronRight, Search, Zap, Package, FolderTree, Layout
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { storage } from '../../utils/storage';
@@ -42,9 +42,10 @@ const AdminLayout = ({ children }) => {
     { name: 'Sản Phẩm', icon: <ShoppingBag size={18} />, path: '/admin/products' },
     { name: 'Danh Mục', icon: <FolderTree size={18} />, path: '/admin/categories' },
     { name: 'Kho Hàng', icon: <Package size={18} />, path: '/admin/warehouse' },
+    { name: 'Nội Dung', icon: <Layout size={18} />, path: '/admin/content' },
     { name: 'Bài Viết', icon: <BookOpen size={18} />, path: '/admin/posts' },
     { name: 'Tin Nhắn', icon: <Mail size={18} />, path: '/admin/contacts' },
-    { name: 'Trang Chủ', icon: <Zap size={18} />, path: '/admin/settings' },
+    { name: 'Cài Đặt', icon: <Settings size={18} />, path: '/admin/settings' },
   ];
 
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const BrandIntro1 = () => {
+const BrandIntro1 = ({ title, text, cta }) => {
   return (
     <section className="py-20 bg-gold-light/30">
       <div className="container mx-auto px-4">
@@ -13,7 +13,7 @@ const BrandIntro1 = () => {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-playfair font-bold text-gray-900 mb-8 uppercase tracking-wider"
           >
-            MỸ PHẨM CHÂU ÂU CHINH PHỤC LÀN DA CHÂU Á
+            {title || "MỸ PHẨM CHÂU ÂU CHINH PHỤC LÀN DA CHÂU Á"}
           </motion.h2>
           <motion.div
             initial={{ opacity: 0 }}
@@ -22,16 +22,15 @@ const BrandIntro1 = () => {
             viewport={{ once: true }}
             className="text-gray-600 leading-loose text-lg text-justify md:text-center mb-10"
           >
-            <p className="mb-6">
-              Hơn 30 năm không ngừng nghiên cứu khoa học chuyên sâu, kiểm nghiệm thực tế của đội ngũ chuyên môn. 
+            <div className="whitespace-pre-line">
+              {text || `Hơn 30 năm không ngừng nghiên cứu khoa học chuyên sâu, kiểm nghiệm thực tế của đội ngũ chuyên môn. 
               DS Luong luôn tự hào với sứ mệnh "lắng nghe" làn da mang đến những giải pháp, những dòng sản phẩm 
               chăm sóc, phục hồi phù hợp cho từng vấn đề của làn da châu Âu cũng như làn da châu Á.
-            </p>
-            <p>
+              
               Và nổi bật tại thị trường Việt Nam, DS Luong đã đẩy mạnh việc nghiên cứu và phát triển các dòng sản phẩm 
               riêng dành cho các vấn đề về mụn, nám, lão hóa da…, phù hợp với cơ địa và tính chất làn da của phụ nữ Việt, 
-              nhằm đem lại những kết quả tích cực và khoa học. Chuẩn mực trong từng công thức và trách nhiệm trong từng sản phẩm được cho ra đời.
-            </p>
+              nhằm đem lại những kết quả tích cực và khoa học.`}
+            </div>
           </motion.div>
           <motion.button 
             initial={{ opacity: 0, scale: 0.9 }}
@@ -40,7 +39,7 @@ const BrandIntro1 = () => {
             viewport={{ once: true }}
             className="btn-gold-outline"
           >
-            XEM THÊM
+            {cta || "XEM THÊM"}
           </motion.button>
         </div>
       </div>

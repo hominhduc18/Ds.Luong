@@ -12,15 +12,21 @@ const AdminLogin = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (storage.auth.login(user, pass)) {
-      navigate('/admin/dashboard');
-    } else {
-      setError('Tên đăng nhập hoặc mật khẩu không đúng!');
+    console.log('Attempting login...', user);
+    try {
+      if (storage.auth.login(user, pass)) {
+        navigate('/admin/dashboard');
+      } else {
+        setError('Tên đăng nhập hoặc mật khẩu không đúng!');
+      }
+    } catch (err) {
+      console.error('Login Error:', err);
+      setError('Lỗi hệ thống đăng nhập!');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[#0A1629] flex items-center justify-center p-6">
       <div className="w-full max-w-md bg-white rounded-[40px] shadow-2xl p-12 border border-gray-100">
         <div className="text-center mb-12">
           <h1 className="text-2xl font-black text-gold-primary mb-3 uppercase tracking-tighter">DS LUONG ADMIN</h1>

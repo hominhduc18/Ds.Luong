@@ -139,8 +139,12 @@ const Shop = () => {
           <main className="lg:w-3/4 flex-grow">
             <div className="flex flex-col sm:flex-row justify-between items-end gap-6 mb-12 border-b border-gray-100 pb-6">
               <div>
-                <h1 className="text-5xl font-black text-gold-primary uppercase tracking-tighter leading-none mb-3">TẤT CẢ SẢN PHẨM</h1>
-                <p className="text-xs font-bold text-gray-400 tracking-[0.3em] uppercase">KẾT QUẢ: {filteredProducts.length} SẢN PHẨM</p>
+                <h1 className="text-5xl font-black text-gold-primary uppercase tracking-tighter leading-none mb-3">
+                  {storage.contents.get().shop?.heroTitle || 'TẤT CẢ SẢN PHẨM'}
+                </h1>
+                <p className="text-xs font-bold text-gray-400 tracking-[0.3em] uppercase">
+                  {storage.contents.get().shop?.heroSubtitle || `KẾT QUẢ: ${filteredProducts.length} SẢN PHẨM`}
+                </p>
               </div>
               
               <div className="flex items-center gap-4">

@@ -37,10 +37,10 @@ const Blog = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="text-5xl md:text-8xl font-playfair font-bold text-gray-900 mb-6 uppercase italic tracking-tighter"
           >
-            BEAUTY <span className="text-gold-primary">MAG</span>
+            {storage.contents.get().blog?.heroTitle || 'BEAUTY MAG'}
           </motion.h1>
           <p className="text-gray-400 font-bold tracking-[0.5em] uppercase text-[10px] md:text-xs">
-            Kiến thức làm đẹp từ chuyên gia da liễu
+            {storage.contents.get().blog?.heroSubtitle || 'Kiến thức làm đẹp từ chuyên gia da liễu'}
           </p>
         </div>
       </section>

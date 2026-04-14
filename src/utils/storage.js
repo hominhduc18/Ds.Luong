@@ -74,18 +74,37 @@ const MOCK_PAGE_CONTENTS = {
   home: {
     heroTitle: "DS LUONG",
     heroSubtitle: "Khoa học - An toàn - Hiệu quả",
-    introText: "DS LUONG mang đến các giải pháp chăm sóc da chuyên nghiệp, kết hợp giữa tinh hoa thiên nhiên và công nghệ tá dược hiện đại."
+    introText: "DS LUONG mang đến các giải pháp chăm sóc da chuyên nghiệp, kết hợp giữa tinh hoa thiên nhiên và công nghệ tá dược hiện đại.",
+    introTitle: "MỸ PHẨM CHÂU ÂU CHINH PHỤC LÀN DA CHÂU Á",
+    introCta: "XEM THÊM",
+    secondIntroTitle: "PHÂN PHỐI CHÍNH HÃNG ĐA DẠNG CÁC DÒNG SẢN PHẨM",
+    secondIntroText: "DS Luong là thương hiệu dược mỹ phẩm danh tiếng châu Âu, được nghiên cứu và sản xuất tại Tây Ban Nha từ năm 1989. Tất cả sản phẩm DS Luong được chứng nhận đạt tiêu chuẩn GMP...",
+    secondIntroImage: "/images/rebranding/skincare_production_standards_gold_1775697722506.png",
+    secondIntroCta: "TÌM HIỂU THÊM"
   },
   about: {
+    heroTitle: "VỀ DS LUONG",
+    heroSubtitle: "HÀNH TRÌNH CHINH PHỤC VẺ ĐẸP ĐẾN TỪ KHOA HỌC",
     mission: "Mang lại làn da khỏe đẹp bền vững cho phụ nữ Việt.",
     vision: "Trở thành dược mỹ phẩm số 1 tại Việt Nam.",
     story: "Khởi đầu từ khát vọng mang đến những sản phẩm skincare chuẩn y khoa...",
+    storyImage: "/images/rebranding/brand_story_gold_serum_lifestyle_1775697449178.png",
     team: [
       { name: "BS Nguyễn Thị A", role: "Chuyên gia Da liễu", image: "https://placehold.co/300x400?text=BS+A" },
       { name: "BS Trần Văn B", role: "Cố vấn chuyên môn", image: "https://placehold.co/300x400?text=BS+B" }
     ]
   },
+  shop: {
+    heroTitle: "SẢN PHẨM",
+    heroSubtitle: "GIẢI PHÁP CHĂM SÓC DA CHUYÊN SÂU CHUẨN Y KHOA"
+  },
+  blog: {
+    heroTitle: "BLOG KIẾN THỨC",
+    heroSubtitle: "CHIA SẺ BÍ QUYẾT CHĂM SÓC DA TỪ CHUYÊN GIA"
+  },
   contact: {
+    heroTitle: "LIÊN HỆ",
+    heroSubtitle: "CHÚNG TÔI LUÔN SẴN SÀNG LẮNG NGHE BẠN",
     address: "Hồ Chí Minh",
     phone: "0335046737",
     email: "luongho980@gmail.com",

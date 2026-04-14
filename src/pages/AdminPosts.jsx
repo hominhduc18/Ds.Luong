@@ -14,6 +14,7 @@ const AdminPosts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [toast, setToast] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
 
   useEffect(() => {
     const handleDataChange = () => {
@@ -36,6 +37,15 @@ const AdminPosts = () => {
     }
   };
 
+  const handleImageUpload = (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const generateSlug = (name) => {
     return name?.toLowerCase()
       .normalize('NFD')
@@ -53,6 +63,7 @@ const AdminPosts = () => {
     postData.id = editingItem ? editingItem.id : Date.now();
     postData.date = editingItem ? editingItem.date : new Date().toISOString().split('T')[0];
     postData.slug = editingItem?.slug || generateSlug(postData.title);
+    postData.image = imagePreview;
     
     const items = [...posts];
     if (editingItem) {
@@ -65,6 +76,7 @@ const AdminPosts = () => {
     storage.posts.save(items);
     setIsModalOpen(false);
     setEditingItem(null);
+    setImagePreview('');
     showToast('Đã xuất bản bài viết');
   };
 
@@ -82,7 +94,11 @@ const AdminPosts = () => {
           <p className="text-[11px] font-semibold text-gray-400 mt-1 uppercase tracking-wide">Biên tập nội dung kiến thức làm đẹp</p>
         </div>
         <button 
-          onClick={() => { setEditingItem(null); setIsModalOpen(true); }}
+          onClick={() => { 
+            setEditingItem(null); 
+            setImagePreview('');
+            setIsModalOpen(true); 
+          }}
           className="flex items-center gap-3 bg-gold-primary text-white px-8 py-4 rounded-2xl text-xs font-semibold tracking-wide hover:bg-gray-900 transition-all shadow-xl shadow-gold-primary/20 uppercase"
         >
           <Plus size={18} /> Soạn thảo bài mới
@@ -124,7 +140,11 @@ const AdminPosts = () => {
                      </div>
                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8 gap-4">
                         <button 
-                          onClick={() => { setEditingItem(p); setIsModalOpen(true); }}
+                          onClick={() => { 
+                            setEditingItem(p); 
+                            setImagePreview(p.image);
+                            setIsModalOpen(true); 
+                          }}
                           className="flex-1 bg-white text-gray-900 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-gold-primary hover:text-white transition-all"
                         >
                            <Edit3 size={14} /> Chỉnh sửa
@@ -158,7 +178,7 @@ const AdminPosts = () => {
                            <div className="w-1.5 h-1.5 bg-gold-primary rounded-full shadow-glow"></div>
                            <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Đã xuất bản</span>
                         </div>
-                        <button onClick={() => { setEditingItem(p); setIsModalOpen(true); }} className="p-2 text-gray-400 hover:text-gold-primary transition-all">
+                        <button onClick={() => { setEditingItem(p); setImagePreview(p.image); setIsModalOpen(true); }} className="p-2 text-gray-400 hover:text-gold-primary transition-all">
                            <MoreVertical size={16} />
                         </button>
                      </div>
@@ -248,17 +268,29 @@ const AdminPosts = () => {
 
                       <div className="space-y-10">
                          <div className="space-y-3">
-                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Ảnh bìa (URL)</label>
+                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Ảnh bìa (Máy tính / URL)</label>
                             <div className="aspect-[16/10] bg-gray-50 rounded-3xl border-2 border-dashed border-gray-100 flex items-center justify-center overflow-hidden mb-4 relative group">
-                               {editingItem?.image && <img src={editingItem.image} className="w-full h-full object-cover" alt="Preview" />}
-                               {!editingItem?.image && <ImageIcon size={48} className="text-gray-200" />}
-                               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                  <span className="text-[10px] font-black text-white uppercase tracking-widest">Xem trước ảnh</span>
-                               </div>
+                               {imagePreview ? (
+                                   <img src={imagePreview} className="w-full h-full object-cover" alt="Preview" />
+                               ) : (
+                                   <ImageIcon size={48} className="text-gray-200" />
+                               )}
+                               <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer">
+                                  <ImageIcon size={24} className="text-white mb-2" />
+                                  <span className="text-[8px] font-black text-white uppercase tracking-widest">Nhấn để tải ảnh lên</span>
+                                  <input 
+                                    type="file" 
+                                    className="hidden" 
+                                    accept="image/*"
+                                    onChange={(e) => handleImageUpload(e.target.files[0])}
+                                  />
+                                </label>
                             </div>
                             <input 
                                name="image" 
-                               defaultValue={editingItem?.image} 
+                               placeholder="Dán URL ảnh nếu có..."
+                               value={imagePreview}
+                               onChange={(e) => setImagePreview(e.target.value)}
                                className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-[10px] font-bold outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all flex items-center gap-3 lowercase"
                             />
                          </div>

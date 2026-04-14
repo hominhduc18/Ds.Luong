@@ -61,7 +61,7 @@ const ProductCard = ({ product, onQuickView }) => {
       </div>
 
       {/* Product Info */}
-      <div className="flex flex-col flex-grow text-center px-4 py-4">
+      <div className="flex flex-col flex-grow text-center px-4 py-4 bg-white">
         <span className="text-xs font-black text-gold-primary uppercase tracking-[0.3em] mb-3 block">{product.brand}</span>
         <Link to={`/san-pham/${product.slug}`}>
           <h3 className="text-base font-black text-gray-900 mb-4 leading-snug uppercase tracking-tight group-hover:text-gold-primary transition-colors line-clamp-2 min-h-[48px]">

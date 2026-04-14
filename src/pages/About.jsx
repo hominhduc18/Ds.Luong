@@ -66,10 +66,10 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-7xl font-playfair font-bold text-white mb-6 uppercase italic tracking-tighter"
           >
-            VỀ <span className="text-gold-primary drop-shadow-2xl">CHÚNG TÔI</span>
+            {data.heroTitle || 'VỀ CHÚNG TÔI'}
           </motion.h1>
           <p className="text-white/80 text-xs md:text-sm font-bold tracking-[0.4em] uppercase">
-            Hành trình kiến tạo làn da khỏe đẹp từ khoa học và tâm huyết
+            {data.heroSubtitle || 'Hành trình kiến tạo làn da khỏe đẹp từ khoa học và tâm huyết'}
           </p>
         </div>
       </section>
@@ -84,9 +84,9 @@ const About = () => {
               className="relative"
             >
               <img 
-                src="/images/rebranding/brand_story_gold_serum_lifestyle_1775697449178.png" 
+                src={data.storyImage || "/images/rebranding/brand_story_gold_serum_lifestyle_1775697449178.png"} 
                 alt="Brand Story Luxury Gold" 
-                className="rounded-3xl shadow-2xl relative z-10"
+                className="w-full h-full object-cover rounded-3xl shadow-2xl relative z-10"
               />
             </motion.div>
 
