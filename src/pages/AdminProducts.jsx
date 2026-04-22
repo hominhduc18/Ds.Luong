@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
-  Plus, Search, Download, Upload as UploadIcon, 
+  Plus, Search, Download, FileSpreadsheet, Upload as UploadIcon, 
   TrendingUp, Package, AlertCircle, FileJson,
   FilterX, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import * as XLSX from 'xlsx';
 import { productService } from '../services/productService';
 import CategorySidebar from '../components/Admin/CategorySidebar';
 import ProductTable from '../components/Admin/ProductTable';
@@ -57,10 +58,30 @@ const AdminProducts = () => {
   // Thống kê nhanh
   const stats = useMemo(() => ({
     total: products.length,
-    totalValue: products.reduce((acc, p) => acc + (p.sellPrice * p.stock), 0),
-    lowStock: products.filter(p => p.stock < 10).length,
+    totalValue: products.reduce((acc, p) => acc + ((p.buyPrice || 0) * (p.stock || 0)), 0),
+    lowStock: products.filter(p => p.stock > 0 && p.stock < 10).length,
     outOfStock: products.filter(p => p.stock <= 0).length
   }), [products]);
+
+  const handleExportExcel = () => {
+    const exportData = filteredProducts.map((p, index) => ({
+      'STT': index + 1,
+      'Tên sản phẩm': p.name,
+      'Mã SKU': p.sku || 'N/A',
+      'Danh mục': p.category,
+      'Thương hiệu': p.brand,
+      'Giá nhập': p.buyPrice,
+      'Giá bán': p.sellPrice,
+      'Tồn kho': p.stock,
+      'Đơn vị': p.unit || 'Cái',
+      'Trạng thái': p.status || (p.stock > 0 ? 'CÒN HÀNG' : 'HẾT HÀNG')
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "KhoHang");
+    XLSX.writeFile(wb, `kho-hang-tong-hop-${new Date().toISOString().split('T')[0]}.xlsx`);
+  };
 
   const handleCreate = () => {
     setEditingProduct(null);
@@ -121,7 +142,7 @@ const AdminProducts = () => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
           <div>
-            <h1 className="text-4xl font-black text-gray-900 tracking-tighter mb-3 uppercase italic">Quản lý kho hàng</h1>
+            <h1 className="text-4xl font-black text-gray-900 tracking-tighter mb-3 uppercase italic">QUẢN LÝ KHO & SẢN PHẨM</h1>
             <p className="text-[11px] font-black text-gold-primary uppercase tracking-[0.4em] flex items-center gap-3">
                <TrendingUp size={16} /> Kết quả: {filteredProducts.length} sản phẩm
             </p>
@@ -133,7 +154,13 @@ const AdminProducts = () => {
                   onClick={() => productService.exportJSON()}
                   className="flex items-center gap-2 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:bg-gold-light/30 hover:text-gold-primary rounded-xl transition-all"
                 >
-                  <Download size={14} /> Xuất JSON
+                  <FileJson size={14} /> Xuất JSON
+                </button>
+                <button 
+                  onClick={handleExportExcel}
+                  className="flex items-center gap-2 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:bg-gold-light/30 hover:text-gold-primary rounded-xl transition-all"
+                >
+                  <FileSpreadsheet size={14} /> Xuất Excel
                 </button>
                 <label className="flex items-center gap-2 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:bg-gold-light/30 hover:text-gold-primary rounded-xl transition-all cursor-pointer">
                   <UploadIcon size={14} /> Nhập JSON

@@ -27,7 +27,6 @@ import AdminPosts from './pages/AdminPosts';
 import AdminReviews from './pages/AdminReviews';
 import AdminContacts from './pages/AdminContacts';
 import AdminSettings from './pages/AdminSettings';
-import WarehousePage from './pages/WarehousePage';
 import CategoryManager from './pages/CategoryManager';
 import AdminContent from './pages/AdminContent';
 
@@ -91,7 +90,6 @@ function App() {
           <Route path="/admin/reviews" element={<AdminLayout><AdminReviews /></AdminLayout>} />
           <Route path="/admin/contacts" element={<AdminLayout><AdminContacts /></AdminLayout>} />
           <Route path="/admin/settings" element={<AdminLayout><AdminSettings /></AdminLayout>} />
-          <Route path="/admin/warehouse" element={<AdminLayout><WarehousePage /></AdminLayout>} />
           <Route path="/admin/categories" element={<AdminLayout><CategoryManager /></AdminLayout>} />
           <Route path="/admin/content" element={<AdminLayout><AdminContent /></AdminLayout>} />
 

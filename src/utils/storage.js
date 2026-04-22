@@ -158,7 +158,7 @@ export const storage = {
 
   auth: {
     login: (u, p) => {
-      if (u === 'admin' && p === 'admin123') {
+      if (u === 'admin' && p === '123') {
         storage.set(KEYS.AUTH, true);
         return true;
       }

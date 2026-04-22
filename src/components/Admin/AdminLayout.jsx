@@ -39,9 +39,8 @@ const AdminLayout = ({ children }) => {
 
   const menuItems = [
     { name: 'Dashboard', icon: <LayoutDashboard size={18} />, path: '/admin/dashboard' },
-    { name: 'Sản Phẩm', icon: <ShoppingBag size={18} />, path: '/admin/products' },
+    { name: 'Kho & Sản Phẩm', icon: <Package size={18} />, path: '/admin/products' },
     { name: 'Danh Mục', icon: <FolderTree size={18} />, path: '/admin/categories' },
-    { name: 'Kho Hàng', icon: <Package size={18} />, path: '/admin/warehouse' },
     { name: 'Nội Dung', icon: <Layout size={18} />, path: '/admin/content' },
     { name: 'Bài Viết', icon: <BookOpen size={18} />, path: '/admin/posts' },
     { name: 'Tin Nhắn', icon: <Mail size={18} />, path: '/admin/contacts' },

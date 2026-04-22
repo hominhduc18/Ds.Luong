@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { HexColorPicker } from 'react-colorful';
-import { X, Check, Info, Palette, Layers, Eye, EyeOff } from 'lucide-react';
+import { X, Check, Palette, Layers, Eye, EyeOff, Tag, GitBranch } from 'lucide-react';
 import { categoryService } from '../../services/categoryService';
 
 const CategoryForm = ({ initialData, onSave, onCancel, parentCategories }) => {
@@ -18,6 +18,8 @@ const CategoryForm = ({ initialData, onSave, onCancel, parentCategories }) => {
 
   const currentColor = watch('color');
   const currentStatus = watch('status');
+  const watchedIcon = watch('icon');
+  const isEditing = !!initialData?.id;
 
   useEffect(() => {
     if (initialData) {
@@ -28,134 +30,218 @@ const CategoryForm = ({ initialData, onSave, onCancel, parentCategories }) => {
   }, [initialData, setValue]);
 
   return (
-    <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-6 lg:p-10 h-full flex flex-col">
-      <div className="flex items-center justify-between mb-10">
-        <div>
-          <h3 className="text-2xl font-black uppercase italic tracking-tighter">
-            {initialData?.id ? 'Chỉnh sửa' : 'Tạo mới'} danh mục
-          </h3>
-          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-1">
-             Thiết lập thuộc tính cho phân loại sản phẩm
-          </p>
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm h-full flex flex-col overflow-hidden">
+      {/* Form Header */}
+      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-shrink-0">
+        <div className="flex items-center gap-3">
+          <div
+            className="w-8 h-8 rounded-xl flex items-center justify-center text-lg shadow-inner"
+            style={{ backgroundColor: `${currentColor}22`, border: `2px solid ${currentColor}44` }}
+          >
+            {watchedIcon || '📁'}
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-gray-800 leading-none">
+              {isEditing ? 'Chỉnh sửa danh mục' : 'Tạo danh mục mới'}
+            </h3>
+            <p className="text-[10px] text-gray-400 font-medium mt-0.5">
+              {isEditing ? `ID: ${initialData.id}` : 'Điền thông tin bên dưới'}
+            </p>
+          </div>
         </div>
         {onCancel && (
-          <button onClick={onCancel} className="p-3 bg-gray-50 text-gray-400 rounded-full hover:bg-gray-900 hover:text-white transition-all duration-500">
-            <X size={20} />
+          <button
+            onClick={onCancel}
+            className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all"
+          >
+            <X size={17} />
           </button>
         )}
       </div>
 
-      <form onSubmit={handleSubmit(onSave)} className="flex-1 space-y-12">
-        {/* Tên & Cha */}
-        <div className="space-y-8">
-           <div className="grid lg:grid-cols-2 gap-8">
-              <div className="space-y-3">
-                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Tên danh mục *</label>
-                 <input 
-                   {...register('name', { required: true })}
-                   placeholder="Vd: Chăm sóc chuyên sâu..."
-                   className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-sm font-black outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all uppercase tracking-tight" 
-                 />
-              </div>
-              <div className="space-y-3">
-                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Danh mục cấp trên</label>
-                 <select 
-                   {...register('parentId')}
-                   className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-black outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all uppercase tracking-widest text-[#B8860B]"
-                 >
-                   <option value="">DANH MỤC GỐC</option>
-                   {parentCategories.map(cat => (
-                     <option key={cat.id} value={cat.id} disabled={cat.id === initialData?.id}>
-                       {cat.label}
-                     </option>
-                   ))}
-                 </select>
-              </div>
-           </div>
+      {/* Scrollable Form Body */}
+      <form onSubmit={handleSubmit(onSave)} className="flex-1 overflow-y-auto flex flex-col">
+        <div className="p-6 space-y-6 flex-1">
 
-           <div className="space-y-3">
-              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Mô tả tóm tắt</label>
-              <textarea 
+          {/* Section A: Thông tin cơ bản */}
+          <div className="space-y-4">
+            <SectionLabel icon={<Tag size={13} />} title="Thông tin cơ bản" />
+
+            {/* Tên danh mục */}
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+                Tên danh mục <span className="text-red-400">*</span>
+              </label>
+              <input
+                {...register('name', { required: true })}
+                placeholder="Vd: Chăm sóc chuyên sâu..."
+                className={`w-full bg-gray-50 border rounded-xl py-3 px-4 text-sm font-medium text-gray-800 placeholder-gray-300 outline-none transition-all ${
+                  errors.name
+                    ? 'border-red-300 focus:ring-2 focus:ring-red-300/30'
+                    : 'border-gray-200 focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400'
+                }`}
+              />
+              {errors.name && (
+                <p className="text-[11px] text-red-400 font-medium">Vui lòng nhập tên danh mục</p>
+              )}
+            </div>
+
+            {/* Danh mục cha */}
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
+                <GitBranch size={11} /> Danh mục cấp trên
+              </label>
+              <select
+                {...register('parentId')}
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 text-sm font-medium text-gray-700 outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all cursor-pointer"
+              >
+                <option value="">— Danh mục gốc —</option>
+                {parentCategories.map(cat => (
+                  <option key={cat.id} value={cat.id} disabled={cat.id === initialData?.id}>
+                    {cat.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Mô tả */}
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Mô tả</label>
+              <textarea
                 {...register('description')}
                 rows={3}
-                placeholder="Mô tả về nhóm sản phẩm này..."
-                className="w-full bg-gray-50 border-none rounded-2xl py-5 px-6 text-xs font-bold outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all italic leading-relaxed" 
+                placeholder="Mô tả ngắn về nhóm sản phẩm này..."
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 text-sm font-medium text-gray-700 placeholder-gray-300 outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all resize-none leading-relaxed"
               />
-           </div>
-        </div>
+            </div>
+          </div>
 
-        {/* Giao diện */}
-        <div className="grid lg:grid-cols-2 gap-12">
-           <div className="space-y-6">
-              <div className="flex items-center gap-3 text-gold-primary border-b border-gray-50 pb-4">
-                 <Palette size={18} />
-                 <span className="text-[10px] font-black uppercase tracking-[0.2em]">Bảng màu đặc trưng</span>
-              </div>
-              <HexColorPicker 
-                color={currentColor} 
-                onChange={(color) => setValue('color', color)} 
-                className="w-full !h-40"
-              />
-              <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-xl">
-                 <div className="w-8 h-8 rounded-lg shadow-inner" style={{ backgroundColor: currentColor }} />
-                 <span className="text-xs font-mono font-bold text-gray-500">{currentColor}</span>
-              </div>
-           </div>
+          {/* Divider */}
+          <div className="border-t border-gray-100" />
 
-           <div className="space-y-8">
-              <div className="space-y-3">
-                 <div className="flex items-center gap-3 text-gold-primary border-b border-gray-50 pb-4">
-                    <Layers size={18} />
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">Icon biểu tượng</span>
-                 </div>
-                 <input 
-                   {...register('icon')}
-                   placeholder="Nhập Emoji hoặc mã Icon..."
-                   className="w-full bg-gray-50 border-none rounded-2xl py-5 px-8 text-2xl text-center outline-none focus:ring-4 focus:ring-gold-primary/5 transition-all" 
-                 />
-              </div>
+          {/* Section B: Giao diện */}
+          <div className="space-y-4">
+            <SectionLabel icon={<Palette size={13} />} title="Giao diện hiển thị" />
 
-              <div className="space-y-4 pt-4">
-                 <label className="flex items-center gap-4 cursor-pointer group">
-                    <div className={`relative w-14 h-8 rounded-full transition-colors ${currentStatus === 'ACTIVE' ? 'bg-emerald-500' : 'bg-gray-200'}`}>
-                       <input 
-                         type="checkbox" 
-                         className="sr-only" 
-                         checked={currentStatus === 'ACTIVE'}
-                         onChange={(e) => setValue('status', e.target.checked ? 'ACTIVE' : 'HIDDEN')}
-                       />
-                       <div className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-transform shadow-md ${currentStatus === 'ACTIVE' ? 'translate-x-6' : ''}`} />
-                    </div>
-                    <div className="flex flex-col">
-                       <span className="text-[11px] font-black uppercase tracking-widest text-gray-400 group-hover:text-gray-900 transition-colors">Trạng thái: {currentStatus === 'ACTIVE' ? 'HIỂN THỊ' : 'ẨN'}</span>
-                       <span className="text-[9px] font-bold text-gray-300 italic">Quyết định việc xuất hiện trên Menu</span>
-                    </div>
-                 </label>
+            {/* Icon Emoji */}
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+                Icon / Emoji
+              </label>
+              <div className="flex gap-3 items-center">
+                <div
+                  className="w-14 h-12 rounded-xl border-2 flex items-center justify-center text-2xl flex-shrink-0 shadow-inner"
+                  style={{ borderColor: `${currentColor}55`, backgroundColor: `${currentColor}11` }}
+                >
+                  {watchedIcon || '📁'}
+                </div>
+                <input
+                  {...register('icon')}
+                  placeholder="Nhập Emoji..."
+                  className="flex-1 bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 text-base text-center outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all"
+                />
               </div>
-           </div>
-        </div>
+            </div>
 
-        <div className="pt-10 border-t border-gray-50 flex justify-end gap-6">
-            {onCancel && (
-              <button 
-                type="button"
-                onClick={onCancel}
-                className="px-10 py-5 text-[11px] font-black text-gray-400 uppercase tracking-[0.4em] hover:text-gray-900 transition-all"
-              >
-                Hủy bỏ
-              </button>
-            )}
-            <button 
-              type="submit"
-              className="flex-1 lg:flex-none px-16 py-5 bg-gold-primary text-white rounded-2xl text-[12px] font-black tracking-[0.4em] uppercase shadow-2xl shadow-gold-primary/30 hover:bg-gray-900 hover:scale-[1.05] transition-all duration-500 flex items-center justify-center gap-4"
+            {/* Color Picker */}
+            <div className="space-y-2">
+              <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+                Màu đặc trưng
+              </label>
+              <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 space-y-3">
+                <HexColorPicker
+                  color={currentColor}
+                  onChange={(color) => setValue('color', color)}
+                  className="!w-full !h-36 rounded-lg overflow-hidden"
+                />
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-8 h-8 rounded-lg shadow-md border-2 border-white flex-shrink-0"
+                    style={{ backgroundColor: currentColor }}
+                  />
+                  <div className="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2">
+                    <span className="text-xs font-mono font-bold text-gray-600">{currentColor}</span>
+                  </div>
+                  {/* Preset Colors */}
+                  <div className="flex gap-2">
+                    {['#D4AF37', '#6366f1', '#10b981', '#f43f5e', '#0ea5e9'].map(c => (
+                      <button
+                        key={c}
+                        type="button"
+                        onClick={() => setValue('color', c)}
+                        className="w-6 h-6 rounded-full border-2 border-white shadow-md hover:scale-110 transition-transform"
+                        style={{ backgroundColor: c }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-gray-100" />
+
+          {/* Section C: Trạng thái */}
+          <div className="space-y-3">
+            <SectionLabel icon={<Eye size={13} />} title="Trạng thái hiển thị" />
+
+            <div
+              onClick={() => setValue('status', currentStatus === 'ACTIVE' ? 'HIDDEN' : 'ACTIVE')}
+              className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                currentStatus === 'ACTIVE'
+                  ? 'bg-emerald-50 border-emerald-200'
+                  : 'bg-gray-50 border-gray-200'
+              }`}
             >
-              <Check size={20} />
-              Lưu cấu hình
+              <div className="flex items-center gap-3">
+                {currentStatus === 'ACTIVE'
+                  ? <Eye size={16} className="text-emerald-500" />
+                  : <EyeOff size={16} className="text-gray-400" />}
+                <div>
+                  <p className={`text-xs font-bold ${currentStatus === 'ACTIVE' ? 'text-emerald-700' : 'text-gray-500'}`}>
+                    {currentStatus === 'ACTIVE' ? 'Đang hiển thị' : 'Đang ẩn'}
+                  </p>
+                  <p className="text-[10px] text-gray-400 mt-0.5">Quyết định xuất hiện trên Menu</p>
+                </div>
+              </div>
+              {/* Toggle Switch */}
+              <div className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${currentStatus === 'ACTIVE' ? 'bg-emerald-500' : 'bg-gray-300'}`}>
+                <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform duration-200 ${currentStatus === 'ACTIVE' ? 'translate-x-5' : ''}`} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Form Footer */}
+        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex-shrink-0">
+          {onCancel && (
+            <button
+              type="button"
+              onClick={onCancel}
+              className="px-5 py-2.5 text-xs font-semibold text-gray-500 hover:text-gray-800 bg-white border border-gray-200 rounded-xl hover:shadow-sm transition-all"
+            >
+              Hủy bỏ
             </button>
+          )}
+          <button
+            type="submit"
+            className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#D4AF37] to-[#B8960C] text-white text-xs font-bold rounded-xl shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.03] transition-all duration-200"
+          >
+            <Check size={15} />
+            {isEditing ? 'Lưu thay đổi' : 'Tạo danh mục'}
+          </button>
         </div>
       </form>
     </div>
   );
 };
+
+const SectionLabel = ({ icon, title }) => (
+  <div className="flex items-center gap-2">
+    <span className="text-amber-500">{icon}</span>
+    <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">{title}</span>
+  </div>
+);
 
 export default CategoryForm;
