@@ -129,7 +129,7 @@ const ProductDetail = () => {
               className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl"
             >
               <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Zalo" className="w-8 h-8 object-contain" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" className="w-8 h-8 object-contain" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2 font-playfair italic">Đặt mua sản phẩm</h3>
               <p className="text-gray-500 text-sm mb-8 leading-relaxed">

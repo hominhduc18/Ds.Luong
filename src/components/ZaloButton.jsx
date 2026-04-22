@@ -29,7 +29,7 @@ const ZaloButton = () => {
       {/* Zalo Icon Button */}
       <div className="w-14 h-14 bg-[#0068FF] rounded-full shadow-2xl flex items-center justify-center overflow-hidden border-2 border-white">
         <img 
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" 
+          src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" 
           alt="Zalo"
           className="w-8 h-8 object-contain"
         />
